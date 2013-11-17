@@ -1,7 +1,7 @@
 // header_main.h
 
-// main �ץ������Τߤ�
-// include ����(multiple definition ���ɤ�����)
+// main プログラムのみで
+// include する(multiple definition を防ぐため)
 
 #ifndef _HEADER_MAIN_H_DEFINED_
 
@@ -10,8 +10,8 @@
 
 
 
-//@@@@@@@@@   Cl�饸����/������ �� flux��   @@@@@@@@@@@
-// (argument �ˤ�ä��ѹ����줦��Τǡ�const �ˤ��ʤ�)
+//@@@@@@@@@   Clラジカル/イオン の flux比   @@@@@@@@@@@
+// (argument によって変更されうるので、const にしない)
 
 double NEUTRAL_ION_RATIO       =  100.0;//50.0;//10.0;//10;//1;//20;//5;// 
 
@@ -20,14 +20,14 @@ double INCIDENT_ENERGY_ION     =  100.0;//200.0;//50.0;//55.0;//150.0;//75.0;//(
 const double INCIDENT_ENERGY_NEUTRAL =   2.0 ; 
 
 
-// yield �η����� = C(��E - ��Eth): C = 0.90537, Eth = 21.719987
-// �����ͥ��ͥ륮���δؿ���
+// yield の係数β = C(√E - √Eth): C = 0.90537, Eth = 21.719987
+// （入射エネルギーの関数）
 // modified on 14 Aug 2004   : C = 0.1 , Eth = 10.0
 // 
-// C���ͤ�ɤ����ꤹ�뤫�ˤĤ��ơ�2004/Sep �˺Ƹ�Ƥ��
-// Chang et al.(1998) ��Fig. 3 �ˤ��ȡ�incident energy: 35eV
-// ��n/��i = 200 , normal incidence �� yield �Ϥۤ� 1.0
-// Eth = 10.0 �Ȥ��� C �����ȡ�C = 0.363 �Ȥʤ롣
+// Cの値をどう決定するかについて、2004/Sep に再検討。
+// Chang et al.(1998) のFig. 3 によると、incident energy: 35eV
+// Γn/Γi = 200 , normal incidence で yield はほぼ 1.0
+// Eth = 10.0 として C を求めると、C = 0.363 となる。
 
 
 double  YIELD_BETA    
@@ -36,53 +36,53 @@ double  YIELD_BETA
 =         0.77 * (sqrt( INCIDENT_ENERGY_ION ) -  sqrt(20.0 )) ;
 
 //==================================================
-//== ���������Ƴ�������ܥ���Ǥξ���Ƚ��ˤ� flag 
+//== 前方散乱の導入（隣接セルでの衝突判定）の flag 
 const bool   FLAG_FORWARD_SCATTER = true;//false;//
 
 //==================================================
-//== �ޥ����ο����� flag 
+//== マスクの浸食の flag 
 const bool   FLAG_MASK_EROSION = true;//false;//
 
 //==================================================
-//== ��¦open space���� flag 
+//== 片側open space条件の flag 
 const bool   FLAG_OPEN_SPACE   = false;//true;//
 
 //==================================================
-//== Chemical etching �� Yield �η׻�    ===========
-//   Sano's master's thesis �˴�Ť���
-//   ��ȿ�� SiCl + Cl(g) -> SiCl2 (g) ��ȿ����Ψ��
-//   ������ Ogryzlo, JAP(1990)���
-//   �¸��Ǥϴ��Ĳ��١��������٤��������Ȥߤʤ��Ƥ褤��
-//   �����Ǥϡ�flux �׻�����Ĳ��٤˴�Ť��ƹԤ���
+//== Chemical etching の Yield の計算    ===========
+//   Sano's master's thesis に基づく。
+//   （反応 SiCl + Cl(g) -> SiCl2 (g) の反応確率）
+//   係数は Ogryzlo, JAP(1990)より
+//   実験では基板温度〜ガス温度が等しいとみなしてよい？
+//   ここでは、flux 計算も基板温度に基づいて行う。
 
-//==== Chemical etching ��Ƴ�����뤫�ɤ�����flag ===
+//==== Chemical etching を導入するかどうかのflag ===
 const bool   FLAG_CHEMICAL_ETCH  = false;//true;// 
 
-const double N_DOPANT    = 1.0e+20; //== �ɡ��ѥ��̩��(cm-3)
-const double T_SUBSTRATE = 0.1;//300.0;//350.0;//== ���Ĳ��� (K)
-const double T_GAS       = 300.0;//== ����β��� (K)
+const double N_DOPANT    = 1.0e+20; //== ドーパント密度(cm-3)
+const double T_SUBSTRATE = 0.1;//300.0;//350.0;//== 基板温度 (K)
+const double T_GAS       = 300.0;//== 気相の温度 (K)
 
 const double YIELD_CHEMICAL  //= 0.01;//0.005 ; 
 = (4.04e-18 * pow(N_DOPANT, 0.39) * sqrt(T_SUBSTRATE) 
-   *  exp( - 4.70 / (K_BOLTZMANN_kcal * T_SUBSTRATE) )) //<- Ogryzlo�μ�
-  *   (1.0e-8 / 60.0) * Si.density_atom * 1.0e+22   //<- ���ҿ��˴���
-/  ( 0.25 * 1.0e+2 *                                //<- �ե�å��� 
+   *  exp( - 4.70 / (K_BOLTZMANN_kcal * T_SUBSTRATE) )) //<- Ogryzloの式
+  *   (1.0e-8 / 60.0) * Si.density_atom * 1.0e+22   //<- 原子数に換算
+/  ( 0.25 * 1.0e+2 *                                //<- フラックス 
      sqrt( 8.0 * K_BOLTZMANN * T_GAS / (PI * CL_MASS ))) ; 
 
-// ==== flux �Υ�����Ȥ�Ԥ����ݤ��� flag��TRUE: ������Ȥ����====
+// ==== flux のカウントを行うか否かの flag（TRUE: カウントする）====
 const bool FLAG_FLUX_COUNT = false;//true;//
 
 //************************************
 //**  standard I/O
 //************************************
-// --- ɸ����Ϥ�������
+// --- 標準出力する頻度
 const int N_COUT_INTERVAL   = 100;// 1;//
 
 //************************************
 //**  file I/O
 //************************************
 
-// === �����ե�������ɤ߹��फ��TRUE: �ɤ߹����=====
+// === 形状ファイルを読み込むか（TRUE: 読み込む）=====
 const bool FLAG_INPUT_PROFILE = false;//true;//
 char CL_INPUT_FILE[50] ; 
 int input_sprintf1 = sprintf(CL_INPUT_FILE , "Cl_bond543950.dat") ;

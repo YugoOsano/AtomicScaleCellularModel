@@ -1,7 +1,7 @@
 // iedf_to_distribution.cc
 
-// Nomura ¤ÎIEDF½ĞÎÏ¤Î¥Õ¥©¡¼¥Ş¥Ã¥È
-/* ¥¨¥Í¥ë¥®¡¼(eV)    ³ÎÎ¨(a.u.) 
+// Nomura ã®IEDFå‡ºåŠ›ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
+/* ã‚¨ãƒãƒ«ã‚®ãƒ¼(eV)    ç¢ºç‡(a.u.) 
 0.000000        0.000000e+000
 0.100000        3.894278e-006
 0.200000        1.559246e-005
@@ -11,9 +11,9 @@
 0.600000        9.140265e-006
 0.700000        2.766339e-006
 
-IADF½ĞÎÏ¤Î¥Õ¥©¡¼¥Ş¥Ã¥È(iadf_angle_to_energy.dat)
+IADFå‡ºåŠ›ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ(iadf_angle_to_energy.dat)
 
-³ÑÅÙ(deg)  ³ÎÎ¨(a.u.)
+è§’åº¦(deg)  ç¢ºç‡(a.u.)
 -90     2
 -89     0
 -88     0
@@ -35,30 +35,30 @@ IADF½ĞÎÏ¤Î¥Õ¥©¡¼¥Ş¥Ã¥È(iadf_angle_to_energy.dat)
 
 
 
-¤ò¤â¤È¤Ë¡¢Ê¬ÉÛ´Ø¿ô ¢é¦Ñ(x)dx ¤òµá¤á¡¢ÇÛÎó¤È¤·¤ÆÍ¿¤¨¤ë¡£
-°ìÍÍÍğ¿ô¤ò¡¢µá¤á¤é¤ì¤¿Ê¬ÉÛ´Ø¿ô¤ÎµÕ´Ø¿ô¤ËÍ¿¤¨¤ë¤³¤È¤Ç
-IEDF ¤Ë½¾¤Ã¤¿Íğ¿ô¤¬ÆÀ¤é¤ì¤ë¡£
+ã‚’ã‚‚ã¨ã«ã€åˆ†å¸ƒé–¢æ•° âˆ«Ï(x)dx ã‚’æ±‚ã‚ã€é…åˆ—ã¨ã—ã¦ä¸ãˆã‚‹ã€‚
+ä¸€æ§˜ä¹±æ•°ã‚’ã€æ±‚ã‚ã‚‰ã‚ŒãŸåˆ†å¸ƒé–¢æ•°ã®é€†é–¢æ•°ã«ä¸ãˆã‚‹ã“ã¨ã§
+IEDF ã«å¾“ã£ãŸä¹±æ•°ãŒå¾—ã‚‰ã‚Œã‚‹ã€‚
 http://hi.sakura.ne.jp/~nmaeda/web/fran.shtml
-¤ò»²¾È
+ã‚’å‚ç…§
  
-Íğ¿ô¤Ï·«¤êÊÖ¤·ºîÀ®¤¹¤ëÉ¬Í×¤¬¤¢¤ë¤Î¤Ç¡¢
-1  IEDF¤Î¥Õ¥¡¥¤¥ëÆÉ¤ß¹ş¤ß -> distribution ¤ÎºîÀ®
+ä¹±æ•°ã¯ç¹°ã‚Šè¿”ã—ä½œæˆã™ã‚‹å¿…è¦ãŒã‚ã‚‹ã®ã§ã€
+1  IEDFã®ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ -> distribution ã®ä½œæˆ
 
-2  distribution ¤ËÂĞ±ş¤·¤¿Íğ¿ôÊ¬ÉÛ¤ÎºîÀ®
+2  distribution ã«å¯¾å¿œã—ãŸä¹±æ•°åˆ†å¸ƒã®ä½œæˆ
 
-¤ÏÊÌ¤Î´Ø¿ô¤Ë¤¹¤ë
+ã¯åˆ¥ã®é–¢æ•°ã«ã™ã‚‹
 
-1  iedf_to_distribution(char[] ¥Õ¥¡¥¤¥ëÌ¾ , int ÇÛÎó¤Î¥µ¥¤¥º,
-                       -> ½ĞÎÏ double[] ¥¨¥Í¥ë¥®¡¼  ,double[] Ê¬ÉÛ)
+1  iedf_to_distribution(char[] ãƒ•ã‚¡ã‚¤ãƒ«å , int é…åˆ—ã®ã‚µã‚¤ã‚º,
+                       -> å‡ºåŠ› double[] ã‚¨ãƒãƒ«ã‚®ãƒ¼  ,double[] åˆ†å¸ƒ)
  
-2  randomized_distribution   (long int Íğ¿ô¤Î¼ï, int ºî¤ê¤À¤¹Íğ¿ô¤Î¿ô,
-                              double[] ¥¨¥Í¥ë¥®¡¼  ,double[] Ê¬ÉÛ,
-                     -> ½ĞÎÏ  double[] (¸µ¤ÎÍğ¿ô), double[] ÆÀ¤é¤ì¤¿Íğ¿ô) 
+2  randomized_distribution   (long int ä¹±æ•°ã®ç¨®, int ä½œã‚Šã ã™ä¹±æ•°ã®æ•°,
+                              double[] ã‚¨ãƒãƒ«ã‚®ãƒ¼  ,double[] åˆ†å¸ƒ,
+                     -> å‡ºåŠ›  double[] (å…ƒã®ä¹±æ•°), double[] å¾—ã‚‰ã‚ŒãŸä¹±æ•°) 
 */
 #ifndef _IEDF_TO_DISTRIBUTION_
  
-#include<iostream.h>
-#include<fstream.h>
+#include<iostream>
+#include<fstream>
 #include<string.h>
 //#include "common_const.h"
 #include "fileio_particle.h"
@@ -76,7 +76,7 @@ http://hi.sakura.ne.jp/~nmaeda/web/fran.shtml
 //			      double[], double[] ) ; 
 
 // test main
-// ²¼¤ÎÄê¿ô¤Ï´Ø¿ô²½¤¹¤ë»ş¤Ë°ú¿ô¤Ë¤¹¤ë
+// ä¸‹ã®å®šæ•°ã¯é–¢æ•°åŒ–ã™ã‚‹æ™‚ã«å¼•æ•°ã«ã™ã‚‹
 /*
 const long int ARRAY_SIZE = 2502 ;
 long int RANDOM_SEED = 2 ;
@@ -88,10 +88,10 @@ void iedf_to_distribution(char file_name[], int array_size,
 			  double distribution[]  	)
 
 {
-  // ---- ÇÛÎó distribution ¤Îindex ¤Ï 0 ¤«¤é array_size - 1 
-  // ---- ¤Ç¤¢¤ë¤³¤È¤ËÃí°Õ 14 Feb 2003
+  // ---- é…åˆ— distribution ã®index ã¯ 0 ã‹ã‚‰ array_size - 1 
+  // ---- ã§ã‚ã‚‹ã“ã¨ã«æ³¨æ„ 14 Feb 2003
 
-  // -- ÇÛÎó¥µ¥¤¥º¤¬variable ¤Ç¤¢¤ë»ş¤Ë¤Ï¡¢Æ°Åª¤Ë³ÎÊİ¤¹¤ë
+  // -- é…åˆ—ã‚µã‚¤ã‚ºãŒvariable ã§ã‚ã‚‹æ™‚ã«ã¯ã€å‹•çš„ã«ç¢ºä¿ã™ã‚‹
   
   double *amount_function;
   amount_function = new double[array_size + 1] ;
@@ -101,7 +101,7 @@ void iedf_to_distribution(char file_name[], int array_size,
 
   distribution[0] = amount_function[0] ;
 
-  for(int i = 0; i < array_size - 1 ; i++) // <- Ãæ¤Ç[i+1] ¤Îindex¤ò»È¤Ã¤Æ¤¤¤ë¡£
+  for(int i = 0; i < array_size - 1 ; i++) // <- ä¸­ã§[i+1] ã®indexã‚’ä½¿ã£ã¦ã„ã‚‹ã€‚
     {
       //cout << energy_in_eV[i] << "\t" << amount_function[i] << 
       //	"\t" << distribution[i] << endl;
@@ -109,8 +109,8 @@ void iedf_to_distribution(char file_name[], int array_size,
       distribution[i+1] = distribution[i] + amount_function[i+1] ;
     }
 
-  // ³ÎÎ¨Ê¬ÉÛ¤Ë¤Ê¤ë¤è¤¦¤ËÀµµ¬²½¤ò¹Ô¤¦
-  // (distribution ¤ÎºÇ¸å¤ÎÃÍ¤¬ 1 ¤È¤Ê¤ë¤è¤¦¤Ë¤¹¤ë)
+  // ç¢ºç‡åˆ†å¸ƒã«ãªã‚‹ã‚ˆã†ã«æ­£è¦åŒ–ã‚’è¡Œã†
+  // (distribution ã®æœ€å¾Œã®å€¤ãŒ 1 ã¨ãªã‚‹ã‚ˆã†ã«ã™ã‚‹)
 
   double normalizer = 1.00 / distribution[array_size - 1] ;
 
@@ -121,15 +121,15 @@ void iedf_to_distribution(char file_name[], int array_size,
       //cout << energy_in_eV[i] << "\t" << amount_function[i] << 
       //"\t" << distribution[i] << endl;
     }
-  distribution[array_size - 1] = 1.00 ; // ºÇ¸å¤Ï1¤Ë¤·¤Æ¤ª¤¯
+  distribution[array_size - 1] = 1.00 ; // æœ€å¾Œã¯1ã«ã—ã¦ãŠã
   
   delete [] amount_function ;
       
 } 
 
 //-------------------------------
-// Íğ¿ôÈ¯À¸(0-1) -> distribution ¤òÁ°¤«¤éÈæ³Ó -> 
-// ¤½¤ì¤ËÂĞ±ş¤¹¤ë energy_in_eV ¤ò½ĞÎÏ
+// ä¹±æ•°ç™ºç”Ÿ(0-1) -> distribution ã‚’å‰ã‹ã‚‰æ¯”è¼ƒ -> 
+// ãã‚Œã«å¯¾å¿œã™ã‚‹ energy_in_eV ã‚’å‡ºåŠ›
 
 void randomized_distribution(long int random_seed, int n_creating_random,
 			     double energy_in_eV[]   ,double energy_threshold,
@@ -151,7 +151,7 @@ void randomized_distribution(long int random_seed, int n_creating_random,
               i += 1 ;
             }
           // distribution[i+1] > random_sample[i_create]
-          // ¤È¤Ê¤Ã¤¿¤é¡¢ i ¤ÎÍ×ÁÇ¤ò¼è¤ê¤À¤¹
+          // ã¨ãªã£ãŸã‚‰ã€ i ã®è¦ç´ ã‚’å–ã‚Šã ã™
           
           // cout << random_sample << "\t" << energy_in_eV[i] << endl ;
           randomized_distribution_array[i_create] = energy_in_eV[i] ;
@@ -171,8 +171,8 @@ double distribution_from_energy(double input_energy_eV,
 	{
 	  i++ ;
 	}
-  cout << input_energy_eV << "\t" << energy_in_eV[i] << "\t"
-       << distribution[i] << endl ;
+  std::cout << input_energy_eV << "\t" << energy_in_eV[i] << "\t"
+	    << distribution[i] << std::endl ;
   return distribution[i] ;
 
 }

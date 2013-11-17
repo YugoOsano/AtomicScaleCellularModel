@@ -1,36 +1,36 @@
 //
-// �ՓˑO�̑��x���������Ƃ������ΓI�ȋ��ʍ��W
-// -> laboratory ���W�ւ̕ϊ����s��
+// 衝突前の速度方向を軸とした相対的な球面座標
+// -> laboratory 座標への変換を行う
 
 /*----------------------------------
-   ���W�̎����i���x�ɂ͋��ʍ��W��p����j
+   座標の取り方（速度には球面座標を用いる）
       y
    \  |  /
     \ | /
-     \|/) ��
+     \|/) ψ
       \--------------------->z
       |\ 
-      | \     z �����:��
+      | \     z 軸回り:θ
           x
 */
 
-//�ՓˑO�̑��x������(v, ��, ��) �Ƃ���B
-// �x�N�g�� (-sin��, cos��, 0) ��ۂϊ��Ƃ������Ƃ���A
+//衝突前の速度方向を(v, θ, ψ) とする。
+// ベクトル (-sinθ, cosθ, 0) を保つ変換ということから、
 
-// a12 = (a11 - 1)tan��
-// a22 = 1 + a21 tan��
-// a31 = a31 tan��
+// a12 = (a11 - 1)tanθ
+// a22 = 1 + a21 tanθ
+// a31 = a31 tanθ
 
-// �܂��A(cos��, sin��, 0)�ƁA�����ϊ������x�N�g��
-// A (cos��, sin��, 0)�@�̂Ȃ��p���Ղł���̂ŁA
+// また、(cosθ, sinθ, 0)と、これを変換したベクトル
+// A (cosθ, sinθ, 0)　のなす角がψであるので、
 //
-// (a11 cos��+ a12 sin��)cos��
-// + (a21 cos��+ a22 sin��)sin��= cos��
+// (a11 cosθ+ a12 sinθ)cosθ
+// + (a21 cosθ+ a22 sinθ)sinθ= cosψ
 
-// �܂��AA�͐��K�����s��ł��邱�Ƃ𗘗p���āA�e�W�������߂�B
+// また、Aは正規直交行列であることを利用して、各係数を求める。
 
-// --------��ӏ�sqrt �̐����ɔC�Ӑ�������̂ŁA
-// TRUE/FALSE �ŏ������򂷂�B
+// --------一箇所sqrt の正負に任意性があるので、
+// TRUE/FALSE で条件分岐する。
 void rotating_matrix(double theta , double psi,
                      bool   sign_flag , 
                      double *a11, double *a12, double *a13,

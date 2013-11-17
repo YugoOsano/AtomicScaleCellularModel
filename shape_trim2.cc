@@ -1,9 +1,9 @@
 // shape_trim2.cc
 //  
-//   shape_trim.cc ¤¬Âç¤­¤¯¤Ê¤Ã¤¿¤Î¤ÇÊ¬³ä
+//   shape_trim.cc ãŒå¤§ãããªã£ãŸã®ã§åˆ†å‰²
 
-#include <iostream.h>
-#include <fstream.h>
+#include <iostream>
+#include <fstream>
 #include <stddef.h>
 #include <math.h>
 
@@ -18,26 +18,26 @@
 void Shape_trim_class::desorb_Si_chemical_etch(int i_x, int i_z)
 {
   if(shape_matrix[i_x][i_z] == SHAPE_Si &&
-     n_Clbond[i_x][i_z]     >= 4        &&//== µÛÃåCl¤¬4°Ê¾å
-     n_oxygen[i_x][i_z]     == 0  )  //== »ÀÁÇ¤ÎµÛÃå¤¬¤Ê¤±¤ì¤Ğ
+     n_Clbond[i_x][i_z]     >= 4        &&//== å¸ç€ClãŒ4ä»¥ä¸Š
+     n_oxygen[i_x][i_z]     == 0  )  //== é…¸ç´ ã®å¸ç€ãŒãªã‘ã‚Œã°
     {
       shape_matrix[i_x][i_z] = SHAPE_SPACE ;
       n_Clbond[i_x][i_z]     = 0 ;
       n_oxygen[i_x][i_z]     = 0 ;
 
-      // Ã¦Î¥Si ¤Î¥«¥¦¥ó¥¿
+      // è„±é›¢Si ã®ã‚«ã‚¦ãƒ³ã‚¿
       cntr_desorbed_Si++ ;
-      //  cout << i_x << "\t" << i_z << "\tchemical_etch!\n" ;
+      //  std::cout << i_x << "\t" << i_z << "\tchemical_etch!\n" ;
     }
 }
 
 //=====================================================
-//==   SiClx(x = 1¡Á4)¤ÎÃ¦Î¥¤Î´Ø¿ô
+//==   SiClx(x = 1ã€œ4)ã®è„±é›¢ã®é–¢æ•°
 
 void Shape_trim_class::
 desorb_SiClx(int i_x, int i_z) 
 {
-  //==  SiClx ¤ÎÃ¦Î¥¤Î³ÎÎ¨¤ÏSiCl4¤Î x/4 ¤È¤¹¤ë
+  //==  SiClx ã®è„±é›¢ã®ç¢ºç‡ã¯SiCl4ã® x/4 ã¨ã™ã‚‹
   if(shape_matrix[i_x][i_z] == SHAPE_Si &&
      RAN0() < double(n_Clbond[i_x][i_z]) / double(NMAX_ADATOM))
     {
@@ -45,15 +45,15 @@ desorb_SiClx(int i_x, int i_z)
       n_Clbond[i_x][i_z]     = 0 ;
       n_oxygen[i_x][i_z]     = 0 ;
 
-      // Ã¦Î¥Si ¤Î¥«¥¦¥ó¥¿
+      // è„±é›¢Si ã®ã‚«ã‚¦ãƒ³ã‚¿
       cntr_desorbed_Si++ ;
            
       if(FLAG_INCIDENT_ANGLE == true)
 	get_surfacenormal_around(i_x, i_z) ;
 
     }
-  // -- domain ¤Î²¼¤«¤é£²ÈÖÌÜ¤Ş¤ÇÅşÃ£¤·¤¿¤é¡¢flag_get_bottom ¤ò
-  //    TRUE ¤Ë¤¹¤ë¡Ê°ìÈÖ²¼¤Ï hard mask ¤Ë¤¹¤ë¡Ë
+  // -- domain ã®ä¸‹ã‹ã‚‰ï¼’ç•ªç›®ã¾ã§åˆ°é”ã—ãŸã‚‰ã€flag_get_bottom ã‚’
+  //    TRUE ã«ã™ã‚‹ï¼ˆä¸€ç•ªä¸‹ã¯ hard mask ã«ã™ã‚‹ï¼‰
   if( i_z >= N_CELL_Z - 1)
     flag_get_bottom  =  true  ;
   
@@ -63,9 +63,9 @@ double etch_yield_disperse_oxidation(double theta, int n_oxygen )
 {
   double tmp_coef = 0.0; 
 
-  //===»À²½Ëì¤Î¾ì¹ç¡§Mahorowala, Sawin JVST 20, 1064 (2002)
-  //   paper ¤Ç¤ÏºÇÂçÃÍ¤ò¸µ¤ËÀµµ¬²½¤µ¤ì¤Æ¤¤¤ë¤¬¡¢
-  //   ¤³¤³¤Ç¤Ï ¦È=0 ¤ò´ğ½à¤Ë¤¹¤ë¤¿¤á¡¢0.24 ¤ò³ä¤ë
+  //===é…¸åŒ–è†œã®å ´åˆï¼šMahorowala, Sawin JVST 20, 1064 (2002)
+  //   paper ã§ã¯æœ€å¤§å€¤ã‚’å…ƒã«æ­£è¦åŒ–ã•ã‚Œã¦ã„ã‚‹ãŒã€
+  //   ã“ã“ã§ã¯ Î¸=0 ã‚’åŸºæº–ã«ã™ã‚‹ãŸã‚ã€0.24 ã‚’å‰²ã‚‹
   if(n_oxygen >= 1)
     {
       tmp_coef = 
@@ -81,9 +81,9 @@ double etch_yield_disperse_oxidation(double theta, int n_oxygen )
       tmp_coef = ( n_oxygen / 6.0 ) * tmp_coef * SELECTIVITY_SiO2 
 	+        ( 1.0 - n_oxygen / 6.0 ) ;
 
-      //std::cout << theta << "\tCoef: " << tmp_coef << "\n" ;
+      //std::std::cout << theta << "\tCoef: " << tmp_coef << "\n" ;
     }
-  else //== poly-Si¤Î¾ì¹ç ==
+  else //== poly-Siã®å ´åˆ ==
     {
       tmp_coef = 1.0 ;
     }
@@ -93,20 +93,20 @@ double etch_yield_disperse_oxidation(double theta, int n_oxygen )
 
 
 //***************************************
-// Cl density distribution - depth¤ÎÅı·×¤ò¤È¤ë¡£
+// Cl density distribution - depthã®çµ±è¨ˆã‚’ã¨ã‚‹ã€‚
 
 void Shape_trim_class::output_Cl_density_depth(char file_name[],
 					       int  time_step)
 {
-  //-- Åı·×¤ò¤È¤ë¤¿¤á¤Î¥«¥¦¥ó¥¿¡ÊÀõ¤¤½ç¤Ë 0 - CL_DEPTH_RANGE¡Ë
+  //-- çµ±è¨ˆã‚’ã¨ã‚‹ãŸã‚ã®ã‚«ã‚¦ãƒ³ã‚¿ï¼ˆæµ…ã„é †ã« 0 - CL_DEPTH_RANGEï¼‰
   int *counter_Cl ;
   counter_Cl = new int[CL_DEPTH_RANGE] ;
  
   for (int i = 0 ; i < CL_DEPTH_RANGE ; i++)
-    counter_Cl[i] = 0 ; //-- ½é´ü²½
+    counter_Cl[i] = 0 ; //-- åˆæœŸåŒ–
 
-  bool flag_below_surface ; // ºÇÉ½ÌÌ¤è¤ê¤â²¼¤Ç¤¢¤ë¤«¤É¤¦¤«¤Îflag
-  int  tmp_depth ;          // ºÇÉ½ÌÌ¤«¤é¤Î¿¼¤µ
+  bool flag_below_surface ; // æœ€è¡¨é¢ã‚ˆã‚Šã‚‚ä¸‹ã§ã‚ã‚‹ã‹ã©ã†ã‹ã®flag
+  int  tmp_depth ;          // æœ€è¡¨é¢ã‹ã‚‰ã®æ·±ã•
 
   for(int i_x = 0; i_x < N_CELL_X ; i_x++)
     {
@@ -126,19 +126,19 @@ void Shape_trim_class::output_Cl_density_depth(char file_name[],
 	    }
 	}
     }
-  // -- ¥Õ¥¡¥¤¥ë½ĞÎÏ
+  // -- ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›
   char OUT1[50] ; 
   sprintf( OUT1, "%s%d.dat", file_name, time_step);
-  ofstream  cl_density_depth_file(OUT1) ;
+  std::ofstream  cl_density_depth_file(OUT1) ;
   for(int i = 0 ; i < CL_DEPTH_RANGE ; i++)
     cl_density_depth_file << i << "\t" 
-			  << counter_Cl[i] << endl ;
+			  << counter_Cl[i] << std::endl ;
 
   delete [] counter_Cl ;
 }
 
-//--- ·Á¾õ¥Õ¥¡¥¤¥ë¤ÎÆÉ¤ß¹ş¤ß
-//    ÆşÎÏ¡§file name(Si, Cl)
+//--- å½¢çŠ¶ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿
+//    å…¥åŠ›ï¼šfile name(Si, Cl)
 void Shape_trim_class::
 input_profile(char file_Si[],char file_Cl[]) 
 {
@@ -159,11 +159,11 @@ void  Shape_trim_class::remove_isolated_Si()
     {
       for( i_x = 1; i_x < N_CELL_X - 1; i_x++ )
 	{
-	  //-- ¤½¤Î¥»¥ë¤ÏSi ¸¶»Ò¤¬¤¢¤ë¤«¡©
+	  //-- ãã®ã‚»ãƒ«ã¯Si åŸå­ãŒã‚ã‚‹ã‹ï¼Ÿ
 	  if(shape_matrix[i_x][i_z] == SHAPE_Si)
 	    {
-	      //-- ¼ş°Ï¤Î£¸¥»¥ë¤¬¤¹¤Ù¤Æ¶õÇò¤Ç¤¢¤ì¤Ğ¡¢
-	      //    Si¸¶»Ò¤ò¼è¤ê½ü¤¯
+	      //-- å‘¨å›²ã®ï¼˜ã‚»ãƒ«ãŒã™ã¹ã¦ç©ºç™½ã§ã‚ã‚Œã°ã€
+	      //    SiåŸå­ã‚’å–ã‚Šé™¤ã
 	      if(shape_matrix[i_x - 1][i_z - 1] == SHAPE_SPACE &&
 		 shape_matrix[i_x - 1][i_z    ] == SHAPE_SPACE &&
 		 shape_matrix[i_x - 1][i_z + 1] == SHAPE_SPACE &&
@@ -175,7 +175,7 @@ void  Shape_trim_class::remove_isolated_Si()
 		{
 		  shape_matrix[i_x][i_z] = SHAPE_SPACE ;
 		  n_Clbond[i_x][i_z]     = 0 ;
-		  cout << i_x << "\t" << i_z << "\n" ;
+		  std::cout << i_x << "\t" << i_z << "\n" ;
 		}
 	    }
 	}

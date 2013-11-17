@@ -6,7 +6,7 @@ void input_array(char file_name[],
 		 double  array1[] ,  double array2[],
 		 long int  array_size );
 //---------------------------------------------------
-// ½ĞÎÏ
+// å‡ºåŠ›
 void output_array(char file_name[], double  array1[] , 
 		  long int  array_size );
 void output_array(char file_name[], double  array1[] , double  array2[] ,
@@ -15,9 +15,9 @@ void output_array(char file_name[], double  array1[] , double  array2[] ,
 		  double  array3[] , double  array4[] ,
 		  long int  array_size );
 // ****************************************************
-// n_per_grid ¤Î¤è¤¦¤Ê£²¼¡¸µÇÛÎó¤òsplot ¤¹¤ë¤¿¤á¤Î
-// ´Ø¿ô¤âºîÀ®
-// array1[][] ¤È½ñ¤±¤Ê¤¤¡£²¼µ­¤Î¤è¤¦¤Ë¤·¤Ê¤¤¤È¥¨¥é¡¼¡£
+// n_per_grid ã®ã‚ˆã†ãªï¼’æ¬¡å…ƒé…åˆ—ã‚’splot ã™ã‚‹ãŸã‚ã®
+// é–¢æ•°ã‚‚ä½œæˆ
+// array1[][] ã¨æ›¸ã‘ãªã„ã€‚ä¸‹è¨˜ã®ã‚ˆã†ã«ã—ãªã„ã¨ã‚¨ãƒ©ãƒ¼ã€‚
 
 
 void input_array_splot(char file_name[], 
@@ -37,8 +37,8 @@ void output_array_splot(char file_name[],
 			int  array_size_x, int  array_size_y,
                         double cell_size );
 
-//--- 09/Sep/2004 HDD¤ÎÀáÌó¤Î¤¿¤á x,y ºÂÉ¸¤ò¥×¥í¥Ã¥È¤·¤Ê¤¤´Ø¿ô¤âÍÑ°Õ
-//     ¡Ê¥Ç¡¼¥¿¥µ¥¤¥º¤ÏÌó 1/10 ¤Ë¤Ê¤ë¡Ë
+//--- 09/Sep/2004 HDDã®ç¯€ç´„ã®ãŸã‚ x,y åº§æ¨™ã‚’ãƒ—ãƒ­ãƒƒãƒˆã—ãªã„é–¢æ•°ã‚‚ç”¨æ„
+//     ï¼ˆãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚ºã¯ç´„ 1/10 ã«ãªã‚‹ï¼‰
 void  output_array_splot(char file_name[], 
 			 int **array1 , 
 			 int  array_size_x, int  array_size_y ) ;

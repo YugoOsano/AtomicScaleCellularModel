@@ -26,19 +26,19 @@ Particle_class::~Particle_class()
   delete [] angle_array_degree ;
 }
 
-//== ³ÑÅÙÊ¬ÉÛ¤ò¥Õ¥¡¥¤¥ë¤«¤é¼èÆÀ¤¹¤ë =====
-//   ²¼µ­¤ÎÍıÍ³¤Ë¤è¤ê¡¢flux_model ¤«¤é½¤Àµ¤¬É¬Í×
+//== è§’åº¦åˆ†å¸ƒã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰å–å¾—ã™ã‚‹ =====
+//   ä¸‹è¨˜ã®ç†ç”±ã«ã‚ˆã‚Šã€flux_model ã‹ã‚‰ä¿®æ­£ãŒå¿…è¦
 void Particle_class::read_angular_df(char filename[])
 {
-  //== microstructure ¤ÈÆ±¤¸¤¯¡¢
-  // distribution ¤ËÊÑ´¹¤¹¤ëÉ¬Í×¤¬¤¢¤ë¡£
+  //== microstructure ã¨åŒã˜ãã€
+  // distribution ã«å¤‰æ›ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ã€‚
   iedf_to_distribution(filename , n_adf_array ,
 		       angle_array_degree , 
 		       angular_df  	) ;
   /*
     input_array(filename ,angle_array_degree , angular_df,
     n_adf_array ) ;
-    // (Àµµ¬²½¤ÏÉ¬Í×!)
+    // (æ­£è¦åŒ–ã¯å¿…è¦!)
     double tmp_summation = 0.0 ;
     for(int i = 0; i < n_adf_array; i++)
     {
@@ -78,7 +78,7 @@ void Particle_class::inject_from_top(double v_z)
 
   pos_v.y = 0.0 ;
   pos_v.z = CELL_SIZE * RAN0() ; 
-  // <- 0.0 ¤Ë¤¹¤ë¤È¡¢¤¢¤ë¥»¥ë¤ò¡ÖÈô¤Ó¤³¤¨¤Æ¡×¤·¤Ş¤¦
+  // <- 0.0 ã«ã™ã‚‹ã¨ã€ã‚ã‚‹ã‚»ãƒ«ã‚’ã€Œé£›ã³ã“ãˆã¦ã€ã—ã¾ã†
 
   pos_v.v_x = 0.0 ;
   pos_v.v_y = 0.0 ;
@@ -91,7 +91,7 @@ void Particle_class::inject_from_top(double v_z)
   flag_contact  = false ; 
 }
 
-//-- Î³»ÒÆş¼Í¡§¼Ğ¤áÊı¸ş¤Ë½é´üÂ®ÅÙ¤òÍ¿¤¨¤ë
+//-- ç²’å­å…¥å°„ï¼šæ–œã‚æ–¹å‘ã«åˆæœŸé€Ÿåº¦ã‚’ä¸ãˆã‚‹
 void Particle_class::
 inject_oblique(double x, double psi, double v ) 
 {
@@ -154,41 +154,41 @@ void  Particle_class::move_trans(double  l )
 	    pos_v.v_y * pos_v.v_y + 
 	    pos_v.v_z * pos_v.v_z) ;
   //--------------------
-  //== ¶­³¦¾ò·ï¤Î½èÍı ==
-  if(flag_boundary == NO_PERIODIC)//--¶­³¦¾ò·ï¤Ê¤·
+  //== å¢ƒç•Œæ¡ä»¶ã®å‡¦ç† ==
+  if(flag_boundary == NO_PERIODIC)//--å¢ƒç•Œæ¡ä»¶ãªã—
     {
       if(pos_v.x < 0 || pos_v.x > SYSTEM_WIDTH_X)
 	flag_inside = false ;
     }
-  else if(flag_boundary == SPECULAR_REFLECT)//--¶­³¦¤Ç¶ÀÌÌÈ¿¼Í
+  else if(flag_boundary == SPECULAR_REFLECT)//--å¢ƒç•Œã§é¡é¢åå°„
     {
-      if(pos_v.x < 0) // º¸¤«¤é½Ğ¤¿¾ì¹ç
+      if(pos_v.x < 0) // å·¦ã‹ã‚‰å‡ºãŸå ´åˆ
 	{
 	  pos_v.x   = - pos_v.x ;
 	  pos_v.v_x = - pos_v.v_x ;
 	}
-      if(pos_v.x > SYSTEM_WIDTH_X ) // ±¦¤«¤é½Ğ¤¿¾ì¹ç
+      if(pos_v.x > SYSTEM_WIDTH_X ) // å³ã‹ã‚‰å‡ºãŸå ´åˆ
 	{
 	  pos_v.x   = 2.0 * SYSTEM_WIDTH_X - pos_v.x ;
 	  pos_v.v_x = - pos_v.v_x ;
 	}
     }
-  else // -- ¼ş´ü¶­³¦¾ò·ï
+  else // -- å‘¨æœŸå¢ƒç•Œæ¡ä»¶
     {
-      if(pos_v.x < 0) // º¸¤«¤é½Ğ¤¿¾ì¹ç
+      if(pos_v.x < 0) // å·¦ã‹ã‚‰å‡ºãŸå ´åˆ
 	pos_v.x = SYSTEM_WIDTH_X - fabs(pos_v.x) ;
       
-      if(pos_v.x > SYSTEM_WIDTH_X ) // ±¦¤«¤é½Ğ¤¿¾ì¹ç
+      if(pos_v.x > SYSTEM_WIDTH_X ) // å³ã‹ã‚‰å‡ºãŸå ´åˆ
 	pos_v.x = pos_v.x - SYSTEM_WIDTH_X ;
     }
-  //-- ±ü¹Ô¤­Êı¸ş
+  //-- å¥¥è¡Œãæ–¹å‘
   if(pos_v.y < 0)
     pos_v.y = L_INTER_ATOMIC + pos_v.y ;
 
   if(pos_v.y > L_INTER_ATOMIC)
     pos_v.y = pos_v.y - L_INTER_ATOMIC ;
     
-  // -- ¾å²¼¤Ë½Ğ¤¿¤éflag¤òfalse¤Ë¤¹¤ë
+  // -- ä¸Šä¸‹ã«å‡ºãŸã‚‰flagã‚’falseã«ã™ã‚‹
   if(pos_v.z < 0 || 
      pos_v.z > SYSTEM_HEIGHT_Z )
     flag_inside = false ;
@@ -196,7 +196,7 @@ void  Particle_class::move_trans(double  l )
     flag_inside = true ;
 }
 
-// -- pos_v_togo ¤òµá¤á¤ë
+// -- pos_v_togo ã‚’æ±‚ã‚ã‚‹
 void  Particle_class::move_trans_togo(double  l )
 {
   pos_v_togo.x = pos_v.x + l * pos_v.v_x
@@ -214,14 +214,14 @@ void  Particle_class::move_trans_togo(double  l )
 	    pos_v.v_y * pos_v.v_y + 
 	    pos_v.v_z * pos_v.v_z) ;
   //------------------
-  // -- ¼ş´ü¶­³¦¾ò·ï¤ò¹ÍÎ¸
-  if(pos_v_togo.x < 0) // º¸¤«¤é½Ğ¤¿¾ì¹ç
+  // -- å‘¨æœŸå¢ƒç•Œæ¡ä»¶ã‚’è€ƒæ…®
+  if(pos_v_togo.x < 0) // å·¦ã‹ã‚‰å‡ºãŸå ´åˆ
     pos_v_togo.x = SYSTEM_WIDTH_X - fabs(pos_v_togo.x) ;
 
-  if(pos_v_togo.x > SYSTEM_WIDTH_X ) // ±¦¤«¤é½Ğ¤¿¾ì¹ç
+  if(pos_v_togo.x > SYSTEM_WIDTH_X ) // å³ã‹ã‚‰å‡ºãŸå ´åˆ
     pos_v_togo.x = pos_v_togo.x - SYSTEM_WIDTH_X ;
     
-  // -- ¾å¤Ë½Ğ¤¿¤éFALSE¤òÊÖ¤¹
+  // -- ä¸Šã«å‡ºãŸã‚‰FALSEã‚’è¿”ã™
   if(pos_v_togo.z < 0 || 
      pos_v_togo.z > SYSTEM_HEIGHT_Z )
     flag_inside_togo = false ;
@@ -229,15 +229,15 @@ void  Particle_class::move_trans_togo(double  l )
     flag_inside_togo =  true ;
 }
 
-//-- Â®ÅÙ¤ÎÊÑ¹¹ (x, z Êı¸şÀ®Ê¬¤Î¤ß¡Ë
+//-- é€Ÿåº¦ã®å¤‰æ›´ (x, z æ–¹å‘æˆåˆ†ã®ã¿ï¼‰
 void Particle_class::random_reflection(bool flag_cosine_dist ,
 			 double normal_x, double normal_z)
 {
   double theta ;
   if (flag_cosine_dist  == true )
     {
-      // ¦Èn + ¦Á ¡§¦Èn¤ÏË¡ÀşÊı¸ş¡¢¦Á¤Ï cosine distribution
-      // normal: ¶õ´Ö -> ¸ÇÂÎÆâÉô¤ÎÊı¸ş ¤Ç¤¢¤ë¤³¤È¤ËÃí°Õ
+      // Î¸n + Î± ï¼šÎ¸nã¯æ³•ç·šæ–¹å‘ã€Î±ã¯ cosine distribution
+      // normal: ç©ºé–“ -> å›ºä½“å†…éƒ¨ã®æ–¹å‘ ã§ã‚ã‚‹ã“ã¨ã«æ³¨æ„
       theta = rotating_angle(- normal_x, - normal_z) 
 	+ asin(2.0 * RAN0() - 1.0) ;
       /*	cout << rotating_angle(- normal_x, - normal_z)   << "\t" 
@@ -254,7 +254,7 @@ void Particle_class::random_reflection(bool flag_cosine_dist ,
   pos_v.v_x = v * cos(theta) ;
   pos_v.v_z = v * sin(theta) ;
   
-  //-- Â®ÅÙ¡§¥Ç¥«¥ë¥ÈºÂÉ¸¢ªµåÌÌºÂÉ¸
+  //-- é€Ÿåº¦ï¼šãƒ‡ã‚«ãƒ«ãƒˆåº§æ¨™â†’çƒé¢åº§æ¨™
   
   pos_v.v_r = sqrt(pos_v.v_x * pos_v.v_x + 
 		   pos_v.v_y * pos_v.v_y + 
@@ -272,13 +272,13 @@ double Particle_class::put_energy_loss(Atom_struct  Ion,
 				       double  *psi_scattering )
 {
  
-  //double theta_c ; // ½Å¿´ºÂÉ¸¤Ë¤ª¤±¤ëÄ·¤ÍÊÖ¤ê³Ñ
+  //double theta_c ; // é‡å¿ƒåº§æ¨™ã«ãŠã‘ã‚‹è·³ã­è¿”ã‚Šè§’
 
   *theta_c = theta_integrate_NC(b_impact_para,
 				energy_i ) ;
 
-  // scattering angle ¦× (4-15)
-  // ¦× = arctan{sin¦È / [cos¦È + (M1/M2)]}
+  // scattering angle Ïˆ (4-15)
+  // Ïˆ = arctan{sinÎ¸ / [cosÎ¸ + (M1/M2)]}
   
   *psi_scattering = atan( sin(*theta_c) / 
 			  (cos(*theta_c) 
@@ -299,20 +299,20 @@ collision_with_solid_atom(double p_impact_parameter )
   double psi_c, psi ,theta  ;
   double tmp_energy_loss ;
 
-  // psi_c : ½Å¿´Ãæ¿´ºÂÉ¸¤Ë¤ª¤±¤ëscattering angle
-  // psi   : laboratory¤ÎºÂÉ¸¤Ë¤ª¤±¤ëscattering angle
-  // theta : scattering ¤Î²óÅ¾³Ñ¡Ê¥é¥ó¥À¥à¤Ë·èÄê¡Ë
+  // psi_c : é‡å¿ƒä¸­å¿ƒåº§æ¨™ã«ãŠã‘ã‚‹scattering angle
+  // psi   : laboratoryã®åº§æ¨™ã«ãŠã‘ã‚‹scattering angle
+  // theta : scattering ã®å›è»¢è§’ï¼ˆãƒ©ãƒ³ãƒ€ãƒ ã«æ±ºå®šï¼‰
 
-  // -- ¾×ÆÍÁ°¤Î¿Ê¹ÔÊı¸ş¼´¤«¤é¤ÎÁêÂĞÅª¤ÊÂ®ÅÙ
+  // -- è¡çªå‰ã®é€²è¡Œæ–¹å‘è»¸ã‹ã‚‰ã®ç›¸å¯¾çš„ãªé€Ÿåº¦
   double tmp_v_x, tmp_v_y, tmp_v_z , tmp_v_r ;  
 
-  // ÊÑ´¹¤Î¤¿¤á¤ÎÄ¾¸ò¹ÔÎó
+  // å¤‰æ›ã®ãŸã‚ã®ç›´äº¤è¡Œåˆ—
   double a11, a12, a13 ;
   double a21, a22, a23 ;
   double a31, a32, a33 ;
-  bool    sign_flag ;  //  sqrt¤ÎÀµÉé
+  bool    sign_flag ;  //  sqrtã®æ­£è² 
 
-  // -- ¾×ÆÍÁ°¤Î¿Ê¹ÔÊı¸ş¼´¤Ë¤è¤Ã¤ÆÊÑ´¹¤ò»Ü¤·¤¿Â®ÅÙ
+  // -- è¡çªå‰ã®é€²è¡Œæ–¹å‘è»¸ã«ã‚ˆã£ã¦å¤‰æ›ã‚’æ–½ã—ãŸé€Ÿåº¦
   //  double v_x, v_y, v_z ;
 
   energy_k = mass * pos_v.v_r * pos_v.v_r 	      
@@ -323,16 +323,16 @@ collision_with_solid_atom(double p_impact_parameter )
 				    p_impact_parameter,
 				    &psi_c, &psi ) ;
           
-  // ¥¨¥Í¥ë¥®¡¼¾Ã¼º
+  // ã‚¨ãƒãƒ«ã‚®ãƒ¼æ¶ˆå¤±
   energy_k -= tmp_energy_loss ;
           
-  //-- Â®ÅÙÊÑ²½¡§¾×ÆÍÁ°¤ÎÂ®ÅÙÊı¸ş¤Î¼´²ó¤ê¤Î
-  //¡¡¡¡¡¡¡¡¡¡¡¡¾×ÆÍ³Ñ¤ò¥é¥ó¥À¥à¤Ë·èÄê(2 * PI * RAN0() )
-  // ¤³¤ì¤ò¤â¤È¤ËÂ®ÅÙ¤Î x, y, z À®Ê¬¤òµá¤á¤Æ¡¢¤µ¤é¤Ë
-  // ¾×ÆÍÁ°¤ÎÂ®ÅÙ¥Ù¥¯¥È¥ë¤ò¸µ¤ËºÂÉ¸ÊÑ´¹¤ò¹Ô¤¦¡£
+  //-- é€Ÿåº¦å¤‰åŒ–ï¼šè¡çªå‰ã®é€Ÿåº¦æ–¹å‘ã®è»¸å›ã‚Šã®
+  //ã€€ã€€ã€€ã€€ã€€ã€€è¡çªè§’ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã«æ±ºå®š(2 * PI * RAN0() )
+  // ã“ã‚Œã‚’ã‚‚ã¨ã«é€Ÿåº¦ã® x, y, z æˆåˆ†ã‚’æ±‚ã‚ã¦ã€ã•ã‚‰ã«
+  // è¡çªå‰ã®é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’å…ƒã«åº§æ¨™å¤‰æ›ã‚’è¡Œã†ã€‚
   
-  //  ºÂÉ¸ÊÑ´¹¤ÎÊÑ´¹¹ÔÎó¤Î·èÄê
-  //  (sqrt¤ÎÀµÉé-> Íğ¿ô¤Ç¡¢0.5°Ê¾å¤Ê¤éÀµ¡¢0.5Ì¤Ëş¤ÏÉé
+  //  åº§æ¨™å¤‰æ›ã®å¤‰æ›è¡Œåˆ—ã®æ±ºå®š
+  //  (sqrtã®æ­£è² -> ä¹±æ•°ã§ã€0.5ä»¥ä¸Šãªã‚‰æ­£ã€0.5æœªæº€ã¯è² 
   if(RAN0() >= 0.5)
     sign_flag = true  ;
   else
@@ -347,7 +347,7 @@ collision_with_solid_atom(double p_impact_parameter )
   theta = 2.0 * PI * RAN0() ;
   tmp_v_r = sqrt(2.0 * energy_k * Q_ELEMENTAL / mass) ;
           
-  //-- Â®ÅÙ¡§µåÌÌºÂÉ¸¢ª¥Ç¥«¥ë¥ÈºÂÉ¸
+  //-- é€Ÿåº¦ï¼šçƒé¢åº§æ¨™â†’ãƒ‡ã‚«ãƒ«ãƒˆåº§æ¨™
   tmp_v_x = tmp_v_r * cos(theta) * sin(psi) ;
   tmp_v_y = tmp_v_r * sin(theta) * sin(psi) ;
   tmp_v_z = tmp_v_r * cos(psi) ;
@@ -358,20 +358,20 @@ collision_with_solid_atom(double p_impact_parameter )
     cout << a31 << "\t" << a32 << "\t" << a33 << endl ;
   */
 
-  //-- ºÂÉ¸ÊÑ´¹
+  //-- åº§æ¨™å¤‰æ›
   pos_v.v_x = a11 * tmp_v_x + a12 * tmp_v_y  + a13 * tmp_v_z ;
   pos_v.v_y = a21 * tmp_v_x + a22 * tmp_v_y  + a23 * tmp_v_z ;
   pos_v.v_z = a31 * tmp_v_x + a32 * tmp_v_y  + a33 * tmp_v_z ;
 
-  //-- Â®ÅÙ¡§¥Ç¥«¥ë¥ÈºÂÉ¸¢ªµåÌÌºÂÉ¸
+  //-- é€Ÿåº¦ï¼šãƒ‡ã‚«ãƒ«ãƒˆåº§æ¨™â†’çƒé¢åº§æ¨™
   pos_v.v_r = sqrt(pos_v.v_x * pos_v.v_x + 
 		   pos_v.v_y * pos_v.v_y + 
 		   pos_v.v_z * pos_v.v_z) ;
   pos_v.v_theta = atan(pos_v.v_y / pos_v.v_x) ;
   pos_v.v_psi   = acos(pos_v.v_z / pos_v.v_r) ;
 
-  //-- Îã³°½èÍı¡ÊºÂÉ¸ÊÑ´¹¸å¡¢Â®ÅÙ¤¬°ÊÁ°¤Î¤â¤Î¤òÄ¶¤¨¤¿¾ì¹ç¡¢
-  //   °ÊÁ°¤ÎÂ®ÅÙ¤È¤¹¤ë¡Ë
+  //-- ä¾‹å¤–å‡¦ç†ï¼ˆåº§æ¨™å¤‰æ›å¾Œã€é€Ÿåº¦ãŒä»¥å‰ã®ã‚‚ã®ã‚’è¶…ãˆãŸå ´åˆã€
+  //   ä»¥å‰ã®é€Ÿåº¦ã¨ã™ã‚‹ï¼‰
   if( pos_v.v_r > tmp_v_r )
     {
       pos_v.v_r = tmp_v_r ;
@@ -382,7 +382,7 @@ collision_with_solid_atom(double p_impact_parameter )
 }
 
 
-// ¥¤¥ª¥ó¡¿¸¶»Ò¤Î¾×ÆÍ: impact parameter¤òÎ³»Ò¤Î°ÌÃÖ¡¢Â®ÅÙ¤«¤é·×»»¤·¤Æµá¤á¤ë¡£
+// ã‚¤ã‚ªãƒ³ï¼åŸå­ã®è¡çª: impact parameterã‚’ç²’å­ã®ä½ç½®ã€é€Ÿåº¦ã‹ã‚‰è¨ˆç®—ã—ã¦æ±‚ã‚ã‚‹ã€‚
 void  Particle_class::
 collision_accurate(double x_solid, double z_solid,
 		   double *tmp_energy ) 
@@ -391,20 +391,20 @@ collision_accurate(double x_solid, double z_solid,
   double tmp_energy_loss ;
   struct Particle_location_velocity_struct tmp_pos_v ;
 
-  // psi_c : ½Å¿´Ãæ¿´ºÂÉ¸¤Ë¤ª¤±¤ëscattering angle
-  // psi   : laboratory¤ÎºÂÉ¸¤Ë¤ª¤±¤ëscattering angle
-  // theta : scattering ¤Î²óÅ¾³Ñ
+  // psi_c : é‡å¿ƒä¸­å¿ƒåº§æ¨™ã«ãŠã‘ã‚‹scattering angle
+  // psi   : laboratoryã®åº§æ¨™ã«ãŠã‘ã‚‹scattering angle
+  // theta : scattering ã®å›è»¢è§’
 
-  // -- ¾×ÆÍÁ°¤Î¿Ê¹ÔÊı¸ş¼´¤«¤é¤ÎÁêÂĞÅª¤ÊÂ®ÅÙ
+  // -- è¡çªå‰ã®é€²è¡Œæ–¹å‘è»¸ã‹ã‚‰ã®ç›¸å¯¾çš„ãªé€Ÿåº¦
   //double tmp_v_x, tmp_v_y, tmp_v_z , tmp_v_r ;  
 
-  // -- impact parameter ¤Î·×»»
-  // µ¤ÂÎÎ³»Ò¤Î°ÌÃÖ¡¢Â®ÅÙ¤ò(x, z, vx, vz)¡¢
-  // ¸ÇÂÎ¸¶»Ò¤Î°ÌÃÖ¤ò      (X, Z) ¤È¤¹¤ë¤È
-  // impact parameter ¤Ï
-  // p = [(x - X)vz - (z - Z)vx]/¢å(vx^2 + vy^2)
+  // -- impact parameter ã®è¨ˆç®—
+  // æ°—ä½“ç²’å­ã®ä½ç½®ã€é€Ÿåº¦ã‚’(x, z, vx, vz)ã€
+  // å›ºä½“åŸå­ã®ä½ç½®ã‚’      (X, Z) ã¨ã™ã‚‹ã¨
+  // impact parameter ã¯
+  // p = [(x - X)vz - (z - Z)vx]/âˆš(vx^2 + vy^2)
 
-  // ¤³¤³¤Ç¤ÏºÇ½é¤ËÌµ¼¡¸µ¤Îparameter ¤òÍÑ°Õ¤¹¤ë¡Ê¸å¤ÇÍÑ¤¤¤ë¡Ë
+  // ã“ã“ã§ã¯æœ€åˆã«ç„¡æ¬¡å…ƒã®parameter ã‚’ç”¨æ„ã™ã‚‹ï¼ˆå¾Œã§ç”¨ã„ã‚‹ï¼‰
 
   double p_no_dimension = 
     ((pos_v.x - x_solid) * pos_v.v_z - 
@@ -415,29 +415,29 @@ collision_accurate(double x_solid, double z_solid,
     p_no_dimension * 
     sqrt( pos_v.v_x * pos_v.v_x + pos_v.v_z * pos_v.v_z)  ;
 
-  // -- collision: S-W potential ¤Ç¡¢ÀÍÎÏ¤¬Æ¯¤¯¾ì¹ç¤Î¤ß
+  // -- collision: S-W potential ã§ã€æ–¥åŠ›ãŒåƒãå ´åˆã®ã¿
   if(fabs(p_impact_parameter) <= LENGTH_SW_MINIMUM)
     {
       tmp_energy_loss = put_energy_loss(Cl, Si, *tmp_energy ,
 					fabs(p_impact_parameter),
 					&psi_c, &psi ) ;
           
-      // -- ¾åµ­¤Î p ¤ÎÀµÉé¤Ë¤è¤Ã¤Æ¡¢µ¤ÂÎÎ³»Ò¤Î°ÌÃÖ¡¿Â®ÅÙ
-      //    ¥Ù¥¯¥È¥ë¤Î¤É¤Á¤éÂ¦¤Ë¸ÇÂÎ¸¶»Ò¤¬°ÌÃÖ¤·¤Æ¤¤¤ë¤«È½ÃÇ¤Ç¤­¤ë
-      //    ¡Ê r > 0 : º¸Â¦¡§¤³¤ÎºÂÉ¸·Ï¤ÇÉé¤Î²óÅ¾Êı¸ş
-      //       r < 0 : ±¦Â¦¡§¤³¤ÎºÂÉ¸·Ï¤ÇÀµ¤Î²óÅ¾Êı¸ş¡Ë
-      //    ¤³¤ì¤Ë±ş¤¸¤Æ²óÅ¾ÊÑ´¹¤ò¹Ô¤¦¡£
+      // -- ä¸Šè¨˜ã® p ã®æ­£è² ã«ã‚ˆã£ã¦ã€æ°—ä½“ç²’å­ã®ä½ç½®ï¼é€Ÿåº¦
+      //    ãƒ™ã‚¯ãƒˆãƒ«ã®ã©ã¡ã‚‰å´ã«å›ºä½“åŸå­ãŒä½ç½®ã—ã¦ã„ã‚‹ã‹åˆ¤æ–­ã§ãã‚‹
+      //    ï¼ˆ r > 0 : å·¦å´ï¼šã“ã®åº§æ¨™ç³»ã§è² ã®å›è»¢æ–¹å‘
+      //       r < 0 : å³å´ï¼šã“ã®åº§æ¨™ç³»ã§æ­£ã®å›è»¢æ–¹å‘ï¼‰
+      //    ã“ã‚Œã«å¿œã˜ã¦å›è»¢å¤‰æ›ã‚’è¡Œã†ã€‚
       
       tmp_pos_v = pos_v ;
-      psi       = fabs(psi) ; //== ÀäÂĞÃÍ¤Ë¤·¤Æ¤ª¤¯ ==
+      psi       = fabs(psi) ; //== çµ¶å¯¾å€¤ã«ã—ã¦ãŠã ==
 
-      //=== ¥¨¥Í¥ë¥®¡¼ÊÑ²½ -> Â®ÅÙÊÑ²½¤Ø¤ÎÊÑ´¹ ===
+      //=== ã‚¨ãƒãƒ«ã‚®ãƒ¼å¤‰åŒ– -> é€Ÿåº¦å¤‰åŒ–ã¸ã®å¤‰æ› ===
       tmp_pos_v.v_x = 
  	sqrt(fabs(*tmp_energy - tmp_energy_loss)/(*tmp_energy)) * pos_v.v_x ;
       tmp_pos_v.v_z = 
  	sqrt(fabs(*tmp_energy - tmp_energy_loss)/(*tmp_energy)) * pos_v.v_z ;
         
-      //--- ¥¨¥Í¥ë¥®¡¼¾Ã¼º
+      //--- ã‚¨ãƒãƒ«ã‚®ãƒ¼æ¶ˆå¤±
       *tmp_energy -= tmp_energy_loss ;
 
       if(p_impact_parameter > 0)
@@ -454,22 +454,22 @@ collision_accurate(double x_solid, double z_solid,
       pos_v.x = x_solid +   pos_v.v_z * p_no_dimension ; 
       pos_v.z = z_solid +(- pos_v.v_x)* p_no_dimension ; 
 
-      //-- Â®ÅÙ¡§¥Ç¥«¥ë¥ÈºÂÉ¸¢ªµåÌÌºÂÉ¸
+      //-- é€Ÿåº¦ï¼šãƒ‡ã‚«ãƒ«ãƒˆåº§æ¨™â†’çƒé¢åº§æ¨™
       pos_v.v_r = sqrt(pos_v.v_x * pos_v.v_x + 
 		       pos_v.v_y * pos_v.v_y + 
 		       pos_v.v_z * pos_v.v_z) ;
       pos_v.v_theta = atan(pos_v.v_y / pos_v.v_x) ;
       pos_v.v_psi   = acos(pos_v.v_z / pos_v.v_r) ;
       
-      //-- ¿·¤¿¤ËÇÛÃÖ¤¹¤ë¤Î¤ÏSi¸¶»Ò¤«¤ép¤À¤±Î¥¤ì¤¿ÃÏÅÀ 
-      //   ÊÂ¿Ê±¿Æ°¤µ¤»¤Ê¤¤¤È¾×ÆÍ¤Î½èÍı¤¬¤¦¤Ş¤¯¤¤¤«¤Ê¤¤¤Î¤Ç
-      //   CELL_SIZE ¤À¤±¿Ê¤Ş¤»¤ë
+      //-- æ–°ãŸã«é…ç½®ã™ã‚‹ã®ã¯SiåŸå­ã‹ã‚‰pã ã‘é›¢ã‚ŒãŸåœ°ç‚¹ 
+      //   ä¸¦é€²é‹å‹•ã•ã›ãªã„ã¨è¡çªã®å‡¦ç†ãŒã†ã¾ãã„ã‹ãªã„ã®ã§
+      //   CELL_SIZE ã ã‘é€²ã¾ã›ã‚‹
       move_trans(CELL_SIZE);
     }
   
 }
 
-// ¥¤¥ª¥ó¡¿¸¶»Ò¤Î¾×ÆÍ¡§3¼¡¸µ·×»»
+// ã‚¤ã‚ªãƒ³ï¼åŸå­ã®è¡çªï¼š3æ¬¡å…ƒè¨ˆç®—
 void  Particle_class::
 collision_accurate3D(double x_solid, double y_solid,
 		     double z_solid, double *tmp_energy ) 
@@ -477,16 +477,16 @@ collision_accurate3D(double x_solid, double y_solid,
   double psi_c, psi ;
   double tmp_energy_loss ;
  
-  double uv_x, uv_y, uv_z ; //== Â®ÅÙÊı¸ş¤ÎÃ±°Ì¥Ù¥¯¥È¥ë ==
-  double lambda ;  // ¥Ñ¥é¥á¡¼¥¿¦Ë (particle.h»²¾È)
+  double uv_x, uv_y, uv_z ; //== é€Ÿåº¦æ–¹å‘ã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ« ==
+  double lambda ;  // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿Î» (particle.hå‚ç…§)
 
-  double  r_x,  r_y,  r_z ; //== Si¸¶»Ò -> impact Êı¸ş¤Î¥Ù¥¯¥È¥ë
-  double ur_x, ur_y, ur_z ; //== Si¸¶»Ò -> impact Êı¸ş¤ÎÃ±°Ì¥Ù¥¯¥È¥ë
+  double  r_x,  r_y,  r_z ; //== SiåŸå­ -> impact æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«
+  double ur_x, ur_y, ur_z ; //== SiåŸå­ -> impact æ–¹å‘ã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ«
 
-  // -- impact parameter ¤Î·×»»
-  // µ¤ÂÎÎ³»Ò¤Î°ÌÃÖ¡¢Â®ÅÙ¤ò(x, y, z, vx, vy, vz)¡¢
-  // ¸ÇÂÎ¸¶»Ò¤Î°ÌÃÖ¤ò      (X, Y, Z) ¤È¤¹¤ë¤È
-  // impact parameter ¤Ï
+  // -- impact parameter ã®è¨ˆç®—
+  // æ°—ä½“ç²’å­ã®ä½ç½®ã€é€Ÿåº¦ã‚’(x, y, z, vx, vy, vz)ã€
+  // å›ºä½“åŸå­ã®ä½ç½®ã‚’      (X, Y, Z) ã¨ã™ã‚‹ã¨
+  // impact parameter ã¯
   // p = [(x - X)^2 + (y - Y)^2 + (z - Z)^2
   //     - [(X - x)vx + (Y - y)vy + (Z - z)vz]^2/(vx^2 + vy^2 + vz^2)]^(-1/2)
 
@@ -504,24 +504,24 @@ collision_accurate3D(double x_solid, double y_solid,
 	     pos_v.v_y * pos_v.v_y +
 	     pos_v.v_z * pos_v.v_z ) );
 
-  // -- collision: S-W potential ¤Ç¡¢ÀÍÎÏ¤¬Æ¯¤¯¾ì¹ç¤Î¤ß
+  // -- collision: S-W potential ã§ã€æ–¥åŠ›ãŒåƒãå ´åˆã®ã¿
   if(fabs(p_impact) <= LENGTH_SW_MINIMUM)
     {
-      //== 2005/12/11 debugged: Ä¾¸òºÂÉ¸->¶ËºÂÉ¸¤ÎÊÑ´¹¤ËÌäÂê¤¬¤¢¤Ã¤¿¡ÊÎã³°½èÍı¤ÎÉôÊ¬¡Ë
-      double tmp_v_before, tmp_v_after ; //== ¾×ÆÍÁ°¸å¤ÎÂ®ÅÙ ==
+      //== 2005/12/11 debugged: ç›´äº¤åº§æ¨™->æ¥µåº§æ¨™ã®å¤‰æ›ã«å•é¡ŒãŒã‚ã£ãŸï¼ˆä¾‹å¤–å‡¦ç†ã®éƒ¨åˆ†ï¼‰
+      double tmp_v_before, tmp_v_after ; //== è¡çªå‰å¾Œã®é€Ÿåº¦ ==
       tmp_v_before = sqrt(2.0 * (*tmp_energy) * Q_ELEMENTAL / mass) ; 
 
       tmp_energy_loss = put_energy_loss(Cl, Si, *tmp_energy ,
 					fabs(p_impact),
 					&psi_c, &psi ) ;
           
-      //--- ¥¨¥Í¥ë¥®¡¼¾Ã¼º
+      //--- ã‚¨ãƒãƒ«ã‚®ãƒ¼æ¶ˆå¤±
       *tmp_energy -= tmp_energy_loss ;
 
       tmp_v_after = sqrt(2.0 * (*tmp_energy) * Q_ELEMENTAL / mass) ; 
-      psi         = fabs(psi) ; //== ÀäÂĞÃÍ¤Ë¤·¤Æ¤ª¤¯ ==
+      psi         = fabs(psi) ; //== çµ¶å¯¾å€¤ã«ã—ã¦ãŠã ==
 
-      //--- Ã±°Ì¥Ù¥¯¥È¥ë·×»»
+      //--- å˜ä½ãƒ™ã‚¯ãƒˆãƒ«è¨ˆç®—
       uv_x = pos_v.v_x / sqrt(pos_v.v_x * pos_v.v_x +
 			      pos_v.v_y * pos_v.v_y +
 			      pos_v.v_z * pos_v.v_z ) ;
@@ -551,7 +551,7 @@ collision_accurate3D(double x_solid, double y_solid,
       pos_v.v_y = tmp_v_after * (uv_y * cos(psi) + ur_y * sin(psi)) ;
       pos_v.v_z = tmp_v_after * (uv_z * cos(psi) + ur_z * sin(psi)) ;
      
-      //== ¿·¤¿¤Ê°ÌÃÖ¤Î·èÄê ===
+      //== æ–°ãŸãªä½ç½®ã®æ±ºå®š ===
       pos_v.x = x_solid 
 	+   p_impact * (uv_x * (-sin(psi)) + ur_x * cos(psi)); 
       pos_v.y = y_solid 
@@ -559,15 +559,15 @@ collision_accurate3D(double x_solid, double y_solid,
       pos_v.z = z_solid 
 	+   p_impact * (uv_z * (-sin(psi)) + ur_z * cos(psi));       
 
-      //-- Â®ÅÙ¡§¥Ç¥«¥ë¥ÈºÂÉ¸¢ªµåÌÌºÂÉ¸ : ÌäÂê¤¢¤ê¡§atan¤Ï1ÂĞ1¤Î´Ø¿ô¤Ç¤Ê¤¤¡©
+      //-- é€Ÿåº¦ï¼šãƒ‡ã‚«ãƒ«ãƒˆåº§æ¨™â†’çƒé¢åº§æ¨™ : å•é¡Œã‚ã‚Šï¼šatanã¯1å¯¾1ã®é–¢æ•°ã§ãªã„ï¼Ÿ
       pos_v.v_r = sqrt(pos_v.v_x * pos_v.v_x + 
 		       pos_v.v_y * pos_v.v_y + 
 		       pos_v.v_z * pos_v.v_z) ;
       pos_v.v_theta = atan(pos_v.v_y / pos_v.v_x) ;
       pos_v.v_psi   = acos(pos_v.v_z / pos_v.v_r) ;
       
-      //-- Îã³°½èÍı¡ÊºÂÉ¸ÊÑ´¹¸å¡¢Â®ÅÙ¤¬°ÊÁ°¤Î¤â¤Î¤òÄ¶¤¨¤¿¾ì¹ç¡¢
-      //   °ÊÁ°¤ÎÂ®ÅÙ¤È¤¹¤ë¡Ë
+      //-- ä¾‹å¤–å‡¦ç†ï¼ˆåº§æ¨™å¤‰æ›å¾Œã€é€Ÿåº¦ãŒä»¥å‰ã®ã‚‚ã®ã‚’è¶…ãˆãŸå ´åˆã€
+      //   ä»¥å‰ã®é€Ÿåº¦ã¨ã™ã‚‹ï¼‰
       if( pos_v.v_r > tmp_v_before )
 	{
 	  pos_v.v_x = tmp_v_before * (pos_v.v_x / pos_v.v_r);
@@ -576,9 +576,9 @@ collision_accurate3D(double x_solid, double y_solid,
 	  pos_v.v_r = tmp_v_before ;
 	  std::cout << "caution!\n";
 	}
-      //-- ¿·¤¿¤ËÇÛÃÖ¤¹¤ë¤Î¤ÏSi¸¶»Ò¤«¤ép¤À¤±Î¥¤ì¤¿ÃÏÅÀ 
-      //   ÊÂ¿Ê±¿Æ°¤µ¤»¤Ê¤¤¤È¾×ÆÍ¤Î½èÍı¤¬¤¦¤Ş¤¯¤¤¤«¤Ê¤¤¤Î¤Ç
-      //   CELL_SIZE ¤À¤±¿Ê¤Ş¤»¤ë
+      //-- æ–°ãŸã«é…ç½®ã™ã‚‹ã®ã¯SiåŸå­ã‹ã‚‰pã ã‘é›¢ã‚ŒãŸåœ°ç‚¹ 
+      //   ä¸¦é€²é‹å‹•ã•ã›ãªã„ã¨è¡çªã®å‡¦ç†ãŒã†ã¾ãã„ã‹ãªã„ã®ã§
+      //   CELL_SIZE ã ã‘é€²ã¾ã›ã‚‹
       move_trans(CELL_SIZE);
     }
   

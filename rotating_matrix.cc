@@ -1,6 +1,6 @@
 
 #include <math.h>
-#include <iostream.h>
+#include <iostream>
 #include "atom_struct.h"
 #include "rotating_matrix.h"
 
@@ -35,7 +35,7 @@ void rotating_matrix(double theta , double psi,
     }
   //cout << a21_min << "\t" << f_minimum << endl ;
 
-  //---- s—ñŒˆ’è
+  //---- 
   *a21 = a21_min ;
   
   *a11 = cos(psi) - (*a21) * tan(theta) ;
@@ -43,7 +43,7 @@ void rotating_matrix(double theta , double psi,
   *a12 = ((*a11) - 1.0) * tan(theta) ;
   *a22 = 1.0 + (*a21) * tan(theta) ;
 
-  //-- ˆÈ‰ºsqrt‚ÉŠÖ‚µ‚Ä³•‰‚Ì”CˆÓ«—L‚è
+  //-- sqrt
   if( 1.0 - (*a11) * (*a11) -  (*a12) * (*a12) <= 0.0 )
     *a13 = 0.0 ;
   else if(sign_flag == true)
@@ -95,7 +95,7 @@ int main()
   cout << a21 << "\t" << a22 << "\t" << a23 << endl ;
   cout << a31 << "\t" << a32 << "\t" << a33 << "\n\n" ;
 
-  // -- ŒŸŽZ
+  // -- ãƒ¬
   cout << a11 * a11 + a12 * a12 + a13 * a13 << "\t"
   << a11 * a21 + a12 * a22 + a13 * a23 << "\t"
   << a11 * a31 + a12 * a32 + a13 * a33 << "\n"

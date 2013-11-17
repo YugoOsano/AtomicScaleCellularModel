@@ -4,7 +4,7 @@
 #include "shape_trim.h"
 
 
-// --- µ­Ï¿ÍÑ¤Ë°ÌÃÖ(x,z)¤âÆþÎÏÃÍ¤Ë¤¹¤ë¤è¤¦¤Ê´Ø¿ô¤âºîÀ®
+// --- è¨˜éŒ²ç”¨ã«ä½ç½®(x,z)ã‚‚å…¥åŠ›å€¤ã«ã™ã‚‹ã‚ˆã†ãªé–¢æ•°ã‚‚ä½œæˆ
 // ---> (shape_stickingCl.cc)
 void Shape_trim_class::adsorb_Cl(int i_x, int i_z, 
 				 double x, double z) 
@@ -29,7 +29,7 @@ void Shape_trim_class::desorb_Si(int i_x, int i_z, int dummy)
 {
   desorb_Si(i_x, i_z) ;
 
-  //--- Á´¤Æ¤Îsticking_Cl ¤ËÂÐ¤·¤Æ¡¢i_x, i_z ¤Î¥»¥ëÆâ¤Ë¤¤¤ë¤«¥Á¥§¥Ã¥¯
+  //--- å…¨ã¦ã®sticking_Cl ã«å¯¾ã—ã¦ã€i_x, i_z ã®ã‚»ãƒ«å†…ã«ã„ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
   //______________________________
   Sticking_Cl_class *tmp_ptr ;  
   Sticking_Cl_class *tmp_ptr2 ; Sticking_Cl_class *tmp_first_ptr ;
@@ -51,7 +51,7 @@ void Shape_trim_class::desorb_Si(int i_x, int i_z, int dummy)
        i_z == int( tmp_ptr->next_ptr->z / CELL_SIZE ) &&
        tmp_ptr->next_ptr != NULL )
       {
-	//-- ¾Ãµî¤¹¤ë
+	//-- æ¶ˆåŽ»ã™ã‚‹
 	tmp_ptr2 = tmp_ptr->next_ptr ;
 	tmp_ptr->next_ptr = tmp_ptr->next_ptr->next_ptr ;
 

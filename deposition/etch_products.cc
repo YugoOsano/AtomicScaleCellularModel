@@ -41,41 +41,41 @@ void Etch_product_class::get_previous_cell()
   //(1) v_x > 0 
   if(pos_v.v_x > 0.0 )
     {
-      //-- ¦¤z - (v_z/v_x)¦¤x(0ÀÚÊÒ) < 0 ¤Ê¤é¤Ğ 
-      //      ¾å¡Êz¤ÎÉé¤ÎÊı¸ş¡Ë¤«¤é¤ÎÆş¼Í
+      //-- Î”z - (v_z/v_x)Î”x(0åˆ‡ç‰‡) < 0 ãªã‚‰ã° 
+      //      ä¸Šï¼ˆzã®è² ã®æ–¹å‘ï¼‰ã‹ã‚‰ã®å…¥å°„
       if( dz_cell - ( pos_v.v_z / pos_v.v_x ) * dx_cell < 0.0 )
 	{
 	  i_previous_x = i_cell_x ;
 	  i_previous_z = i_cell_z - 1 ;
 	}
-      //-- ¦¤z - (v_z/v_x)¦¤x(0ÀÚÊÒ) > cell size ¤Ê¤é¤Ğ 
-      //      ²¼¡Êz¤ÎÀµ¤ÎÊı¸ş¡Ë¤«¤é¤ÎÆş¼Í
+      //-- Î”z - (v_z/v_x)Î”x(0åˆ‡ç‰‡) > cell size ãªã‚‰ã° 
+      //      ä¸‹ï¼ˆzã®æ­£ã®æ–¹å‘ï¼‰ã‹ã‚‰ã®å…¥å°„
       else if(dz_cell - ( pos_v.v_z / pos_v.v_x ) * dx_cell >
 	      CELL_SIZE)
 	{
 	  i_previous_x = i_cell_x ;
 	  i_previous_z = i_cell_z + 1 ;
 	}
-      else // ²£¡Êx¤ÎÉé¤ÎÊı¸ş¡Ë¤«¤é¤ÎÆş¼Í
+      else // æ¨ªï¼ˆxã®è² ã®æ–¹å‘ï¼‰ã‹ã‚‰ã®å…¥å°„
 	{
 	  i_previous_x = i_cell_x - 1 ;
 	  i_previous_z = i_cell_z  ;
 	}
     }
-  // v_x < 0 ¤Ç¤Ï¡¢x = CELL_SIZE ¤ÎÀÚÊÒ
-  // ¦¤z + (v_z/v_x)( CELL_SIZE - ¦¤x)
+  // v_x < 0 ã§ã¯ã€x = CELL_SIZE ã®åˆ‡ç‰‡
+  // Î”z + (v_z/v_x)( CELL_SIZE - Î”x)
   else if(pos_v.v_x < 0.0) 
     {
-      //-- (ÀÚÊÒ) < 0 ¤Ê¤é¤Ğ 
-      //      ¾å¡Êz¤ÎÉé¤ÎÊı¸ş¡Ë¤«¤é¤ÎÆş¼Í
+      //-- (åˆ‡ç‰‡) < 0 ãªã‚‰ã° 
+      //      ä¸Šï¼ˆzã®è² ã®æ–¹å‘ï¼‰ã‹ã‚‰ã®å…¥å°„
       if( dz_cell + 
 	  ( pos_v.v_z / pos_v.v_x ) * (CELL_SIZE - dx_cell) < 0.0 )
 	{
 	  i_previous_x = i_cell_x ;
 	  i_previous_z = i_cell_z - 1 ;
 	}
-      //-- (ÀÚÊÒ) > cell size ¤Ê¤é¤Ğ 
-      //      ²¼¡Êz¤ÎÀµ¤ÎÊı¸ş¡Ë¤«¤é¤ÎÆş¼Í
+      //-- (åˆ‡ç‰‡) > cell size ãªã‚‰ã° 
+      //      ä¸‹ï¼ˆzã®æ­£ã®æ–¹å‘ï¼‰ã‹ã‚‰ã®å…¥å°„
       else if(dz_cell +
 	      ( pos_v.v_z / pos_v.v_x ) * (CELL_SIZE - dx_cell) >
 	      CELL_SIZE)
@@ -83,7 +83,7 @@ void Etch_product_class::get_previous_cell()
 	  i_previous_x = i_cell_x ;
 	  i_previous_z = i_cell_z + 1 ;
 	}
-       else // ²£¡Êx¤ÎÀµ¤ÎÊı¸ş¡Ë¤«¤é¤ÎÆş¼Í
+       else // æ¨ªï¼ˆxã®æ­£ã®æ–¹å‘ï¼‰ã‹ã‚‰ã®å…¥å°„
 	{
 	  i_previous_x = i_cell_x + 1 ;
 	  i_previous_z = i_cell_z  ;
@@ -92,7 +92,7 @@ void Etch_product_class::get_previous_cell()
 
     }
 
-  //=== Îã³°½èÍı¡Êdomain ¤«¤é½Ğ¤Æ¤¤¤Ê¤¤¤«¡©¡Ë
+  //=== ä¾‹å¤–å‡¦ç†ï¼ˆdomain ã‹ã‚‰å‡ºã¦ã„ãªã„ã‹ï¼Ÿï¼‰
   if     ( i_previous_x < 0 )
     i_previous_x = 0 ;
   else if( i_previous_x > N_CELL_X - 1)
@@ -106,14 +106,14 @@ void Etch_product_class::get_previous_cell()
 }
 
 //========================================
-// SiÉ½ÌÌ¤ËÎ³»Ò¤òÇÛÃÖ¤·½éÂ®¤òÍ¿¤¨¤ë
+// Siè¡¨é¢ã«ç²’å­ã‚’é…ç½®ã—åˆé€Ÿã‚’ä¸ãˆã‚‹
 bool Etch_product_class::
 allocate_on_surface(Shape_trim_class *Shape_pointer,
 		    Particle_location_velocity_struct  pos_v_input,
 		    double v )
 {
-  // random_reflection ´Ø¿ô¤ÏÈ¿¼Í¤·¤Æ¤âÆ±¤¸Â®ÅÙ¤ò
-  // Êİ¤Ä¤Î¤ÇºÇ½é¤ËÅ¬ÀÚ¤ÊÂ®ÅÙ¤òÍ¿¤¨¤ë ¡Ê¸å¤Ç°ÌÃÖ¤Î¤ßÇÛÃÖ¡Ë
+  // random_reflection é–¢æ•°ã¯åå°„ã—ã¦ã‚‚åŒã˜é€Ÿåº¦ã‚’
+  // ä¿ã¤ã®ã§æœ€åˆã«é©åˆ‡ãªé€Ÿåº¦ã‚’ä¸ãˆã‚‹ ï¼ˆå¾Œã§ä½ç½®ã®ã¿é…ç½®ï¼‰
 
   inject_from_top( v ) ;
 
@@ -121,15 +121,15 @@ allocate_on_surface(Shape_trim_class *Shape_pointer,
   pos_v.y = pos_v_input.y ;
   pos_v.z = pos_v_input.z ;
 
-  // -- Î³»Ò¤Î¤¤¤ë¾ì½ê¤Îphase¤ò¼èÆÀ
-  //¡Ê¥»¥ëÈÖ¹æ i_cell_x, i_cell_z¤â¼èÆÀ¡Ë
+  // -- ç²’å­ã®ã„ã‚‹å ´æ‰€ã®phaseã‚’å–å¾—
+  //ï¼ˆã‚»ãƒ«ç•ªå· i_cell_x, i_cell_zã‚‚å–å¾—ï¼‰
   get_position() ;
 
-  //É½ÌÌ¤«¤é¤Î³È»¶ : 
-  // Ìµ¸Â¥ë¡¼¥×¤ò¤µ¤±¤ë¤¿¤á¤Ë¡¢¥«¥¦¥ó¥¿¤òÍÑ°Õ¤¹¤ë¡£
-  // Î³»Ò¤ò²¾¤Ë¿Ê¤Ş¤»¤Æ¤ß¤Æ¡¢(pos_v_togo)
-  // ¤â¤·¿Ê¤ó¤ÀÀè¤¬¶õÇòÉôÊ¬¤Ç¤Ê¤±¤ì¤Ğ¡¢¸µ¤ËÌá¤Ã¤Æ
-  //     ¤ä¤êÄ¾¤·(50²ó¤Ë¤Ê¤Ã¤¿¤é¤â¤¦¤ä¤á¤ë)
+  //è¡¨é¢ã‹ã‚‰ã®æ‹¡æ•£ : 
+  // ç„¡é™ãƒ«ãƒ¼ãƒ—ã‚’ã•ã‘ã‚‹ãŸã‚ã«ã€ã‚«ã‚¦ãƒ³ã‚¿ã‚’ç”¨æ„ã™ã‚‹ã€‚
+  // ç²’å­ã‚’ä»®ã«é€²ã¾ã›ã¦ã¿ã¦ã€(pos_v_togo)
+  // ã‚‚ã—é€²ã‚“ã å…ˆãŒç©ºç™½éƒ¨åˆ†ã§ãªã‘ã‚Œã°ã€å…ƒã«æˆ»ã£ã¦
+  //     ã‚„ã‚Šç›´ã—(50å›ã«ãªã£ãŸã‚‰ã‚‚ã†ã‚„ã‚ã‚‹)
  
   int i_x, i_z ;
  
@@ -142,7 +142,7 @@ allocate_on_surface(Shape_trim_class *Shape_pointer,
     return false ;
   
   random_reflection 
-    (true,  // ÍğÈ¿¼Í
+    (true,  // ä¹±åå°„
      Shape_pointer->surfacenormal_x[i_cell_x][i_cell_z],
      Shape_pointer->surfacenormal_z[i_cell_x][i_cell_z]) ;
   
@@ -160,7 +160,7 @@ allocate_on_surface(Shape_trim_class *Shape_pointer,
 }
 
 //=======================================================
-// Î³»Ò¤ÎÆş¼Í°Ê¹ß¤Î½èÍı¤ò´Ø¿ô²½¤¹¤ë
+// ç²’å­ã®å…¥å°„ä»¥é™ã®å‡¦ç†ã‚’é–¢æ•°åŒ–ã™ã‚‹
 void Etch_product_class::
 whole_flight(Shape_trim_class *Shape_pointer,
 	     bool flag_inject_from_side) 
@@ -171,12 +171,12 @@ whole_flight(Shape_trim_class *Shape_pointer,
 
   i_exception_move = 0 ;
 
-  //== ²£Êı¸ş¤«¤é¤ÎÆş¼Í : neutral_particle.cc ¤Îall_process´Ø¿ô¤È¤Û¤ÜÆ±¤¸
+  //== æ¨ªæ–¹å‘ã‹ã‚‰ã®å…¥å°„ : neutral_particle.cc ã®all_processé–¢æ•°ã¨ã»ã¼åŒã˜
   if(flag_inject_from_side == true)
     {
       inject_from_right_side(pos_v.v_r);
-      //== Æş¼Í¤Î°ÌÃÖ¤¬¶õ´Ö¤ÇÌµ¤±¤ì¤Ğ i_exception_move ¤ËÂç¤­¤¤
-      //   ÃÍ¤òÂåÆş¤·¤Æ while loop ¤òskip ¤¹¤ë
+      //== å…¥å°„ã®ä½ç½®ãŒç©ºé–“ã§ç„¡ã‘ã‚Œã° i_exception_move ã«å¤§ãã„
+      //   å€¤ã‚’ä»£å…¥ã—ã¦ while loop ã‚’skip ã™ã‚‹
       if(Shape_pointer->put_shape_matrix(pos_v.x - 0.5 * CELL_SIZE, pos_v.z ,
 					 &i_x, &i_z ) != SHAPE_SPACE )
 	i_exception_move = N_CELL_Z * 200 + 1 ;
@@ -184,26 +184,26 @@ whole_flight(Shape_trim_class *Shape_pointer,
   
   while(1) 
     {
-      //--- ÎÎ°èÆâÉô¤Ë¤¢¤Ş¤êÄ¹¤¯¤È¤É¤Ş¤Ã¤Æ¤¤¤ë¾ì¹ç¡¢
-      //    Îã³°½èÍı¡ÊÎ³»Ò¤ò¾Ãµî¡Ë
+      //--- é ˜åŸŸå†…éƒ¨ã«ã‚ã¾ã‚Šé•·ãã¨ã©ã¾ã£ã¦ã„ã‚‹å ´åˆã€
+      //    ä¾‹å¤–å‡¦ç†ï¼ˆç²’å­ã‚’æ¶ˆå»ï¼‰
       i_exception_move++ ;
       if( i_exception_move > N_CELL_Z * 200 )
 	break ;
       
-      // -- ÊÂ¿Ê±¿Æ°
+      // -- ä¸¦é€²é‹å‹•
       move_trans(FREE_FLIGHT_PATH_Si) ;
       
-      if (flag_inside == false) // -- ³°¤Ë½Ğ¤¿¡©
+      if (flag_inside == false) // -- å¤–ã«å‡ºãŸï¼Ÿ
 	break ;
       
-      // -- Î³»Ò¤Î¤¤¤ë¾ì½ê¤Îphase¤ò¼èÆÀ
+      // -- ç²’å­ã®ã„ã‚‹å ´æ‰€ã®phaseã‚’å–å¾—
       get_position() ;
 	      
-      // -- ¸ÇÁê¤Ç¤¢¤ì¤Ğ¡¢°ì¤ÄÁ°¤Î¥»¥ëÈÖ¹æ¤ò¼èÆÀ -> deposit
+      // -- å›ºç›¸ã§ã‚ã‚Œã°ã€ä¸€ã¤å‰ã®ã‚»ãƒ«ç•ªå·ã‚’å–å¾— -> deposit
       if(Shape_pointer->shape_matrix
 	 [i_cell_x][i_cell_z] != SHAPE_SPACE )
 	{
-	  get_previous_cell() ; // ¥»¥ëÈÖ¹æ¼èÆÀ
+	  get_previous_cell() ; // ã‚»ãƒ«ç•ªå·å–å¾—
 	  flag_deposition = 
 	    Shape_pointer->deposit_Si(i_previous_x,     // deposit
 				      i_previous_z,
@@ -216,11 +216,11 @@ whole_flight(Shape_trim_class *Shape_pointer,
 	     //<< "\t" << i_previous_z << endl ;
 	    break ;  // get out of the loop if deposited
 	  }
-	  //ÍğÈ¿¼Í : 
-	  // Ìµ¸Â¥ë¡¼¥×¤ò¤µ¤±¤ë¤¿¤á¤Ë¡¢¥«¥¦¥ó¥¿¤òÍÑ°Õ¤¹¤ë¡£
-	  // Î³»Ò¤ò²¾¤Ë¿Ê¤Ş¤»¤Æ¤ß¤Æ¡¢(pos_v_togo)
-	  // ¤â¤·¿Ê¤ó¤ÀÀè¤¬¶õÇòÉôÊ¬¤Ç¤Ê¤±¤ì¤Ğ¡¢¸µ¤ËÌá¤Ã¤Æ
-	  //     ¤ä¤êÄ¾¤·(50²ó¤Ë¤Ê¤Ã¤¿¤é¤â¤¦¤ä¤á¤ë)
+	  //ä¹±åå°„ : 
+	  // ç„¡é™ãƒ«ãƒ¼ãƒ—ã‚’ã•ã‘ã‚‹ãŸã‚ã«ã€ã‚«ã‚¦ãƒ³ã‚¿ã‚’ç”¨æ„ã™ã‚‹ã€‚
+	  // ç²’å­ã‚’ä»®ã«é€²ã¾ã›ã¦ã¿ã¦ã€(pos_v_togo)
+	  // ã‚‚ã—é€²ã‚“ã å…ˆãŒç©ºç™½éƒ¨åˆ†ã§ãªã‘ã‚Œã°ã€å…ƒã«æˆ»ã£ã¦
+	  //     ã‚„ã‚Šç›´ã—(50å›ã«ãªã£ãŸã‚‰ã‚‚ã†ã‚„ã‚ã‚‹)
 	  i_exception_reflect = 0;
 	  Shape_pointer->get_surfacenormal(i_cell_x, 
 					   i_cell_z) ;
@@ -229,7 +229,7 @@ whole_flight(Shape_trim_class *Shape_pointer,
 	    break ;
 	  
 	  random_reflection //(FALSE, 0.0, 0.0 ) ;
-	    (true,  // ÍğÈ¿¼Í
+	    (true,  // ä¹±åå°„
 	     Shape_pointer->surfacenormal_x[i_cell_x][i_cell_z],
 	     Shape_pointer->surfacenormal_z[i_cell_x][i_cell_z]) ;
 	  
@@ -243,5 +243,5 @@ whole_flight(Shape_trim_class *Shape_pointer,
 	      goto reflection_SiClx ;
 	    }
 	} 
-    } //=== while loop ½ªÎ»¡Ê£±Î³»Ò¤Îtrajectory¡Ë
+    } //=== while loop çµ‚äº†ï¼ˆï¼‘ç²’å­ã®trajectoryï¼‰
 }

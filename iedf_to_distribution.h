@@ -7,8 +7,8 @@ void iedf_to_distribution(char file_name[], int array_size,
 			  double distribution[]  	);
 
 //-------------------------------
-// Íğ¿ôÈ¯À¸(0-1) -> distribution ¤òÁ°¤«¤éÈæ³Ó -> 
-// ¤½¤ì¤ËÂĞ±ş¤¹¤ë energy_in_eV ¤ò½ĞÎÏ
+// ä¹±æ•°ç™ºç”Ÿ(0-1) -> distribution ã‚’å‰ã‹ã‚‰æ¯”è¼ƒ -> 
+// ãã‚Œã«å¯¾å¿œã™ã‚‹ energy_in_eV ã‚’å‡ºåŠ›
 //
 // append the (energy) threshold to promote the simulation efficiency
 
@@ -19,9 +19,9 @@ void randomized_distribution(long int random_seed, int n_creating_random,
 			     double randomized_distribution_array[] ) ; 
 
 // =======================
-// iedf_to_distribution ¤ÇÆÀ¤é¤ì¤¿ energy_in_eV / distribution
-// ¤Î¥»¥Ã¥È¤Ë¤ª¤¤¤Æ¡¢
-// ¥¨¥Í¥ë¥®¡¼¤òÆşÎÏ -> ÂĞ±ş¤¹¤ëdistribution ¤òÊÖ¤¹´Ø¿ô
+// iedf_to_distribution ã§å¾—ã‚‰ã‚ŒãŸ energy_in_eV / distribution
+// ã®ã‚»ãƒƒãƒˆã«ãŠã„ã¦ã€
+// ã‚¨ãƒãƒ«ã‚®ãƒ¼ã‚’å…¥åŠ› -> å¯¾å¿œã™ã‚‹distribution ã‚’è¿”ã™é–¢æ•°
 
 double distribution_from_energy(double input_energy_eV,
                                 double energy_in_eV[] , 

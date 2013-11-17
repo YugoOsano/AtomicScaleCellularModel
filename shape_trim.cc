@@ -1,7 +1,7 @@
 // shape_trim.cc
 
 #include <iostream>
-#include <fstream.h>
+#include <fstream>
 #include <stddef.h>
 #include <math.h>
 
@@ -16,12 +16,12 @@ Shape_trim_class::Shape_trim_class()
 
 Shape_trim_class::Shape_trim_class(bool flag_open_space)
 {
-  //-- ¥á¥â¥ê³ÎÊİ
+  //-- ãƒ¡ãƒ¢ãƒªç¢ºä¿
   p_shape_matrix = new int[N_CELL_X * N_CELL_Z] ;
   p_n_Clbond     = new int[N_CELL_X * N_CELL_Z] ;
   p_n_oxygen     = new int[N_CELL_X * N_CELL_Z] ;
 
-  //-- ¥«¥¦¥ó¥¿¥ê¥»¥Ã¥È
+  //-- ã‚«ã‚¦ãƒ³ã‚¿ãƒªã‚»ãƒƒãƒˆ
   cntr_desorbed_Si   = 0 ;
   cntr_deposited_Si  = 0 ;
   cntr_desorbed_mask = 0 ;
@@ -35,25 +35,25 @@ Shape_trim_class::Shape_trim_class(bool flag_open_space)
     }
 
 
-  //--- ³Æ¥»¥ë¤Î¾õÂÖ¤òÄê¤á¤Æ¤¤¤¯
+  //--- å„ã‚»ãƒ«ã®çŠ¶æ…‹ã‚’å®šã‚ã¦ã„ã
   for(int i_z = 0; i_z < N_CELL_Z ; i_z++)
     {
       if(i_z < N_TOP_Si ) // marginal space beyond the surface 
 	{
 	  for(int i_x = 0; i_x < N_CELL_X ; i_x++)
             {
-	      // -- ¥Ş¥¹¥¯ÉôÊ¬
+	      // -- ãƒã‚¹ã‚¯éƒ¨åˆ†
 	      if( i_z >= N_TOP_MASK &&
 		  (i_x <  N_LEFT_MASK ||
 		   i_x >= N_RIGHT_MASK ) )
 		{
 		  shape_matrix[i_x][i_z] = HARD_MASK ;
-		  //== ¥Ş¥¹¥¯Â¦ÊÉ¤Ë·¹¼Ğ³Ñ¤¬¤¢¤ë¾ì¹ç ==
+		  //== ãƒã‚¹ã‚¯å´å£ã«å‚¾æ–œè§’ãŒã‚ã‚‹å ´åˆ ==
 		  if( i_x >= N_LEFT_MASK - ((N_TOP_Si - i_z) * tan(SLOPE_ANGLE_SIDEWALL)) &&
 		      i_x <  N_RIGHT_MASK+ ((N_TOP_Si - i_z) * tan(SLOPE_ANGLE_SIDEWALL)) )
 		    shape_matrix[i_x][i_z] = SHAPE_SPACE ;
 		  
-		  //== ÊÒÂ¦ open space ¤Î¾ì¹ç¡§±¦Â¦¤Î¥Ş¥¹¥¯¤Ï¤Ê¤·
+		  //== ç‰‡å´ open space ã®å ´åˆï¼šå³å´ã®ãƒã‚¹ã‚¯ã¯ãªã—
 		  if( flag_open_space == true &&
 		      i_x >= N_RIGHT_MASK  )
 		    shape_matrix[i_x][i_z] = SHAPE_SPACE ;
@@ -66,7 +66,7 @@ Shape_trim_class::Shape_trim_class(bool flag_open_space)
 #endif
             }
         }
-      else if(i_z < N_BOTTOM_Si)// ¥Ñ¥¿¡¼¥óÄìÌÌ¤è¤ê²¼Éô
+      else if(i_z < N_BOTTOM_Si)// ãƒ‘ã‚¿ãƒ¼ãƒ³åº•é¢ã‚ˆã‚Šä¸‹éƒ¨
 	{ 
 	  for(int i_x = 0; i_x < N_CELL_X ; i_x++)
 	    shape_matrix[i_x][i_z] = SHAPE_Si ;
@@ -85,7 +85,7 @@ Shape_trim_class::Shape_trim_class(bool flag_open_space)
 	  n_oxygen[i_x][i_z] = 0 ;
 	}
     }
-  // -- ¥á¥â¥ê³ÎÊİ ¡ÊÆş¼Í³Ñ°ÍÂ¸¡Ë
+  // -- ãƒ¡ãƒ¢ãƒªç¢ºä¿ ï¼ˆå…¥å°„è§’ä¾å­˜ï¼‰
 
   p_surfacenormal_x = new double[N_CELL_X * N_CELL_Z] ;
   p_surfacenormal_z = new double[N_CELL_X * N_CELL_Z] ;
@@ -144,26 +144,26 @@ find_solid_nearest_neighbor(double x, double z,
 			    int *i_x, int *i_z  ,
 			    int *i_x_particle, int *i_z_particle) 
 {
-  //---- ÄÉ²Ã¡§Î³»Ò¤Î°ÌÃÖ(x, z)¤Î¥»¥ë¤Îindex¤âÊÖ¤¹
+  //---- è¿½åŠ ï¼šç²’å­ã®ä½ç½®(x, z)ã®ã‚»ãƒ«ã®indexã‚‚è¿”ã™
   put_shape_matrix(x, z , i_x_particle, i_z_particle );
 
-  // (1)¤Ş¤º¤½¤ÎÅÀ
+  // (1)ã¾ãšãã®ç‚¹
   if(put_shape_matrix(x, z , i_x, i_z ) != SHAPE_SPACE)
     return shape_matrix[*i_x][*i_z];
 
   else if(put_shape_matrix(x, z , i_x, i_z ) == SHAPE_SPACE &&
 	  z >= 0.0 + CELL_SIZE  &&  z < SYSTEM_HEIGHT_Z - CELL_SIZE)
     {
-      //==(2)ÎÙÀÜÅÀ¤Î¤¦¤Á¡¢Â®ÅÙ¥Ù¥¯¥È¥ë¤ÎÊı¸ş¤Ë¶á¤¤ÅÀ
-      //   Â®ÅÙ(v_x, v_z) ¤ÎÀµÉé¤Ë¹ç¤ï¤»¤Æ¡¢-1, 1 ¤È¤Ê¤ë¤è¤¦¤Ê
-      //   ÊÑ¿ô¤òÍÑ°Õ
+      //==(2)éš£æ¥ç‚¹ã®ã†ã¡ã€é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã®æ–¹å‘ã«è¿‘ã„ç‚¹
+      //   é€Ÿåº¦(v_x, v_z) ã®æ­£è² ã«åˆã‚ã›ã¦ã€-1, 1 ã¨ãªã‚‹ã‚ˆã†ãª
+      //   å¤‰æ•°ã‚’ç”¨æ„
       int  flag_x = 0, flag_z = 0;
       if(v_x != 0.0)
 	flag_x = int(v_x / fabs(v_x)) ;
       if(v_z != 0.0)
 	flag_z = int(v_z / fabs(v_z)) ;
 
-      //== xÊı¸ş¤Î¼ş´ü¶­³¦¾ò·ï¤ò¹ÍÎ¸
+      //== xæ–¹å‘ã®å‘¨æœŸå¢ƒç•Œæ¡ä»¶ã‚’è€ƒæ…®
       double x_left, x_right ;
       if(x < 0.0 + CELL_SIZE )
 	{
@@ -181,8 +181,8 @@ find_solid_nearest_neighbor(double x, double z,
 	  x_right = x + flag_x * CELL_SIZE ;
 	}
 
-      // xÊı¸ş¡¢zÊı¸ş¤Î¤É¤Á¤é¤ÎÀ®Ê¬¤¬Âç¤­¤¤¤«È½Äê¤·¡¢¤½¤ì¤Ë±ş¤¸¤¿
-      // ½ç¤Ë½èÍı¤ò¤¹¤ë
+      // xæ–¹å‘ã€zæ–¹å‘ã®ã©ã¡ã‚‰ã®æˆåˆ†ãŒå¤§ãã„ã‹åˆ¤å®šã—ã€ãã‚Œã«å¿œã˜ãŸ
+      // é †ã«å‡¦ç†ã‚’ã™ã‚‹
       if(fabs(v_x) >= fabs(v_z))
 	{
 	  if(put_shape_matrix(x_right, z, 
@@ -217,15 +217,15 @@ find_solid_nearest_neighbor(double x, double z,
   return SHAPE_SPACE ;
 }
 
-// --- ÄêÃå¡§ (bare) Si ¤ÎCl bond ¤ò°ì¤ÄÁı¤ä¤¹
+// --- å®šç€ï¼š (bare) Si ã®Cl bond ã‚’ä¸€ã¤å¢—ã‚„ã™
 bool Shape_trim_class::
 settle_Cl_into_bareSi(int i_x, int i_z, 
 		      double adsorption_probability) 
 {
-  // -- µÛÃå¤Ï£³¸Ä¤Ş¤Ç / ¡Êhard mask ¤Ç¤Ê¤¯¡ËSi ¤Ç¤¢¤ë¤«¤ÎÈ½Äê
+  // -- å¸ç€ã¯ï¼“å€‹ã¾ã§ / ï¼ˆhard mask ã§ãªãï¼‰Si ã§ã‚ã‚‹ã‹ã®åˆ¤å®š
   //if( n_Clbond[i_x][i_z] < NMAX_ADATOM &&
   //  adsorption_probability > RAN0()  ) 
-  // oxidation ¤ò¹ÍÎ¸¤·¤Æ½ñ¤­´¹¤¨¡ÊÈ¿±ş¤·¤¿»ÀÁÇ¤ò²¡¤·Âà¤±¤ÆµÛÃå¤¹¤ë¤³¤È¤Ï¤Ê¤¤¡Ë
+  // oxidation ã‚’è€ƒæ…®ã—ã¦æ›¸ãæ›ãˆï¼ˆåå¿œã—ãŸé…¸ç´ ã‚’æŠ¼ã—é€€ã‘ã¦å¸ç€ã™ã‚‹ã“ã¨ã¯ãªã„ï¼‰
   if( n_Clbond[i_x][i_z] + n_oxygen[i_x][i_z] * 2  
       < NMAX_ADATOM                        && 
       shape_matrix[i_x][i_z] == SHAPE_Si   &&
@@ -234,11 +234,11 @@ settle_Cl_into_bareSi(int i_x, int i_z,
       n_Clbond[i_x][i_z]++ ;
       return true ;
     }
-  //== ¢­ÃæÀ­Î³»ÒCl¤Îflux count ¤ò¤¹¤ë¾ì¹ç¤ÏTRUE ===
+  //== â†“ä¸­æ€§ç²’å­Clã®flux count ã‚’ã™ã‚‹å ´åˆã¯TRUE ===
   return false;//TRUE;//
 }
 
-// --- ÄêÃå¡§ Si ¤ÎCl bond ¤ò°ì¤ÄÁı¤ä¤·¡¢NMAX_ADATOM + 1 ¤Ë¤Ê¤Ã¤¿¤éÃ¦Î¥
+// --- å®šç€ï¼š Si ã®Cl bond ã‚’ä¸€ã¤å¢—ã‚„ã—ã€NMAX_ADATOM + 1 ã«ãªã£ãŸã‚‰è„±é›¢
 //void Shape_trim_class::settle_Cl_and_desorption(int i_x, int i_z) 
 //{
 //  n_Clbond[i_x][i_z]++ ;
@@ -250,7 +250,7 @@ settle_Cl_into_bareSi(int i_x, int i_z,
 //}
 //******** 02 Dec 2003 ******************
 // --- have a Cl atom adsorbed
-// --- µ­Ï¿ÍÑ¤Ë°ÌÃÖ(x,z)¤âÆşÎÏÃÍ¤Ë¤¹¤ë¤è¤¦¤Ê´Ø¿ô¤âºîÀ®
+// --- è¨˜éŒ²ç”¨ã«ä½ç½®(x,z)ã‚‚å…¥åŠ›å€¤ã«ã™ã‚‹ã‚ˆã†ãªé–¢æ•°ã‚‚ä½œæˆ
 // ---> (shape_stickingCl.cc)
 void Shape_trim_class::adsorb_Cl(int i_x, int i_z) 
 {
@@ -268,20 +268,20 @@ void Shape_trim_class::desorb_Si(int i_x, int i_z)
       n_Clbond[i_x][i_z]     = 0 ;
       n_oxygen[i_x][i_z]     = 0 ;
 
-      // Ã¦Î¥Si ¤Î¥«¥¦¥ó¥¿
+      // è„±é›¢Si ã®ã‚«ã‚¦ãƒ³ã‚¿
       cntr_desorbed_Si++ ;
       
       if(FLAG_INCIDENT_ANGLE == true)
 	get_surfacenormal_around(i_x, i_z) ;
 
     }
-  // -- domain ¤Î²¼¤«¤é£²ÈÖÌÜ¤Ş¤ÇÅşÃ£¤·¤¿¤é¡¢flag_get_bottom ¤ò
-  //    TRUE ¤Ë¤¹¤ë¡Ê°ìÈÖ²¼¤Ï hard mask ¤Ë¤¹¤ë¡Ë
+  // -- domain ã®ä¸‹ã‹ã‚‰ï¼’ç•ªç›®ã¾ã§åˆ°é”ã—ãŸã‚‰ã€flag_get_bottom ã‚’
+  //    TRUE ã«ã™ã‚‹ï¼ˆä¸€ç•ªä¸‹ã¯ hard mask ã«ã™ã‚‹ï¼‰
   if( i_z >= N_CELL_Z - 1)
     flag_get_bottom  =  true  ;
 }
 
-//== ¥Ï¡¼¥É¥Ş¥¹¥¯¤Î¿»¿© ==
+//== ãƒãƒ¼ãƒ‰ãƒã‚¹ã‚¯ã®æµ¸é£Ÿ ==
 void Shape_trim_class::desorb_mask(int i_x, int i_z) 
 {
   if(shape_matrix[i_x][i_z] == HARD_MASK)
@@ -303,8 +303,8 @@ deposit_Si(int i_deposit_x, int i_deposit_z,
 	   int n_Cl,  int n_O,
 	   double deposition_probability)
 {
-  // -- µÛÃå¤Ï£³¸Ä¤Ş¤Ç / ÎÙÀÜ¥»¥ë¤¬Si or ¥Ï¡¼¥É¥Ş¥¹¥¯¤Ç¤¢¤ë¤«¡©
-  // --  i_z = 0,1 ¤Ë¤ª¤±¤ëÂÏÀÑ¤ÏÌµ¤¤¤â¤Î¤È¤¹¤ë
+  // -- å¸ç€ã¯ï¼“å€‹ã¾ã§ / éš£æ¥ã‚»ãƒ«ãŒSi or ãƒãƒ¼ãƒ‰ãƒã‚¹ã‚¯ã§ã‚ã‚‹ã‹ï¼Ÿ
+  // --  i_z = 0,1 ã«ãŠã‘ã‚‹å †ç©ã¯ç„¡ã„ã‚‚ã®ã¨ã™ã‚‹
   if( deposition_probability > RAN0() &&
       i_deposit_z > 1  &&
       shape_matrix[i_deposit_x][i_deposit_z]    == SHAPE_SPACE &&
@@ -327,11 +327,11 @@ deposit_Si(int i_deposit_x, int i_deposit_z,
 bool Shape_trim_class::oxidation_Si(int i_x, int i_z, 
 				   double reaction_probability ) 
 {
-	// -- ¥»¥ë¤¬Si ¤Ç¤¢¤ë¤«¡©
+	// -- ã‚»ãƒ«ãŒSi ã§ã‚ã‚‹ã‹ï¼Ÿ
   if(  reaction_probability  > RAN0() && //(1)
        n_oxygen[i_x][i_z] < 2 && // (2)
 		 shape_matrix[i_x][i_z] == SHAPE_Si  )
-    { // n_oxygen < 2 ¤Ç¤¢¤ì¤Ğ¡¢È¿±ş¤¹¤ë(n_oxygen++)
+    { // n_oxygen < 2 ã§ã‚ã‚Œã°ã€åå¿œã™ã‚‹(n_oxygen++)
       
       n_oxygen[i_x][i_z]++ ;
       
@@ -351,22 +351,22 @@ bool Shape_trim_class::oxidation_Si(int i_x, int i_z,
 
 
 
-// Four point calculation ¤Ë¤è¤Ã¤ÆÉ½ÌÌ¤ÎË¡ÀşÊı¸ş¤ò·èÄê¤¹¤ë¡£
+// Four point calculation ã«ã‚ˆã£ã¦è¡¨é¢ã®æ³•ç·šæ–¹å‘ã‚’æ±ºå®šã™ã‚‹ã€‚
 void  Shape_trim_class::get_surfacenormal(int i_x, int i_z)
 {
-  double tmp_nx = 0.0 ;//--- Ë¡Àş¥Ù¥¯¥È¥ë
+  double tmp_nx = 0.0 ;//--- æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
   double tmp_nz = 0.0 ;
  
-  //-- ¥»¥ë¤ÎÈÖ¹æ¤òÈ½Äê¡ÊÎÎ°è¤Î¶ù¤Ë¤¢¤ë¥»¥ë¤Ç¤¢¤ì¤Ğ 0,0 ¤È¤¹¤ë¡Ë
+  //-- ã‚»ãƒ«ã®ç•ªå·ã‚’åˆ¤å®šï¼ˆé ˜åŸŸã®éš…ã«ã‚ã‚‹ã‚»ãƒ«ã§ã‚ã‚Œã° 0,0 ã¨ã™ã‚‹ï¼‰
   if( i_z > 0  &&  i_z < N_CELL_Z - 1   )
     {
-      //--¾å²¼¤Î¥»¥ë¤ÎÈ½Äê
-      if(shape_matrix[i_x    ][i_z - 1] != SHAPE_SPACE) //-- ¶õ´Ö¤Ç¤Ê¤±¤ì¤Ğ
+      //--ä¸Šä¸‹ã®ã‚»ãƒ«ã®åˆ¤å®š
+      if(shape_matrix[i_x    ][i_z - 1] != SHAPE_SPACE) //-- ç©ºé–“ã§ãªã‘ã‚Œã°
 	tmp_nz  +=  - 1.0 ;
       if(shape_matrix[i_x    ][i_z + 1] != SHAPE_SPACE)
 	tmp_nz  +=  + 1.0 ;
       
-      //--º¸±¦¤Î¥»¥ë¤ÎÈ½Äê¡Ê¼ş´ü¶­³¦¾ò·ï¤ò¹ÍÎ¸¡Ë
+      //--å·¦å³ã®ã‚»ãƒ«ã®åˆ¤å®šï¼ˆå‘¨æœŸå¢ƒç•Œæ¡ä»¶ã‚’è€ƒæ…®ï¼‰
       if( i_x > 0  &&  i_x < N_CELL_X - 1)
 	{
 	  if(shape_matrix[i_x - 1][i_z] != SHAPE_SPACE)
@@ -429,19 +429,19 @@ void Shape_trim_class::get_surfacenormal_all()
     }
 }
 
-// === ¥¤¥ª¥ó¤ÎÂ®ÅÙÀ®Ê¬¤«¤é¡¢Æş¼Í³Ñ¤òµá¤á¤ë(rad)
+// === ã‚¤ã‚ªãƒ³ã®é€Ÿåº¦æˆåˆ†ã‹ã‚‰ã€å…¥å°„è§’ã‚’æ±‚ã‚ã‚‹(rad)
 double Shape_trim_class::get_incident_angle(int i_x, int i_z,
 					    double v_x, double v_z) 
 {
-  //== Ë¡Àş¥Ù¥¯¥È¥ë¡Ê¤â¤·¤¯¤ÏÂ®ÅÙ¡Ë¤¬ 0,0 ¤Î¾ì¹ç¡¢0 rad ¤òÊÖ¤¹
+  //== æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ï¼ˆã‚‚ã—ãã¯é€Ÿåº¦ï¼‰ãŒ 0,0 ã®å ´åˆã€0 rad ã‚’è¿”ã™
   if( surfacenormal_x[i_x][i_z] * surfacenormal_x[i_x][i_z] +
       surfacenormal_z[i_x][i_z] * surfacenormal_z[i_x][i_z] <= 0.0 ||
       v_x * v_x + v_z * v_z <= 0.0   )
     {
       return 0.0 ;
     }
-  //== ÆâÀÑ¤Î¼° |n||v| cos¦È = n_x v_x + n_z v_z
-  //  ¤è¤ê¦È¤òµá¤á¤ë
+  //== å†…ç©ã®å¼ |n||v| cosÎ¸ = n_x v_x + n_z v_z
+  //  ã‚ˆã‚ŠÎ¸ã‚’æ±‚ã‚ã‚‹
   double tmp_cos = ( surfacenormal_x[i_x][i_z] * v_x + 
 		     surfacenormal_z[i_x][i_z] * v_z ) 
     / ( sqrt(surfacenormal_x[i_x][i_z] * surfacenormal_x[i_x][i_z] +
@@ -452,14 +452,14 @@ double Shape_trim_class::get_incident_angle(int i_x, int i_z,
 
 }
   
-//=== Y(¦È) : etching yield¤Î³ÑÅÙ°ÍÂ¸À­
+//=== Y(Î¸) : etching yieldã®è§’åº¦ä¾å­˜æ€§
 double etch_yield_angle(double theta, int n_oxygen ) 
 {
   double tmp_coef = 0.0; 
 
-  //===»À²½Ëì¤Î¾ì¹ç¡§Mahorowala, Sawin JVST 20, 1064 (2002)
-  //   paper ¤Ç¤ÏºÇÂçÃÍ¤ò¸µ¤ËÀµµ¬²½¤µ¤ì¤Æ¤¤¤ë¤¬¡¢
-  //   ¤³¤³¤Ç¤Ï ¦È=0 ¤ò´ğ½à¤Ë¤¹¤ë¤¿¤á¡¢0.24 ¤ò³ä¤ë
+  //===é…¸åŒ–è†œã®å ´åˆï¼šMahorowala, Sawin JVST 20, 1064 (2002)
+  //   paper ã§ã¯æœ€å¤§å€¤ã‚’å…ƒã«æ­£è¦åŒ–ã•ã‚Œã¦ã„ã‚‹ãŒã€
+  //   ã“ã“ã§ã¯ Î¸=0 ã‚’åŸºæº–ã«ã™ã‚‹ãŸã‚ã€0.24 ã‚’å‰²ã‚‹
   if(n_oxygen >= 1)
     {
       tmp_coef = 
@@ -469,7 +469,7 @@ double etch_yield_angle(double theta, int n_oxygen )
 
       if(tmp_coef < 0.0)
 	tmp_coef = 0.0 ;
-      //== »ÀÁÇ¤Î¿ô¤Ë¤è¤ë¶èÊÌ ==
+      //== é…¸ç´ ã®æ•°ã«ã‚ˆã‚‹åŒºåˆ¥ ==
       if( n_oxygen == 1 )
 	tmp_coef *= SELECTIVITY_SiO ;
       else 
@@ -477,7 +477,7 @@ double etch_yield_angle(double theta, int n_oxygen )
 
       //std::cout << theta << "\tCoef: " << tmp_coef << "\n" ;
     }
-  else //== poly-Si¤Î¾ì¹ç ==
+  else //== poly-Siã®å ´åˆ ==
     {
       if(fabs(theta) < PI / 4.0 )
 	{

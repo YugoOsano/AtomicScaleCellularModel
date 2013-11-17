@@ -3,7 +3,7 @@
 #include <math.h>
 #include "atom_struct.h"
 
-// max, min ´Ø¿ô
+// max, min é–¢æ•°
 #define max(a,b) (((a)>(b))?(a):(b))
 #define min(a,b) (((a)<(b))?(a):(b))
 
@@ -11,10 +11,10 @@
 
 
 //----------------------------------------------------
-// proton electronic stopping powers (RPSTOP´Ø¿ô/p-230)
+// proton electronic stopping powers (RPSTOPé–¢æ•°/p-230)
 
-// ÆşÎÏ¡§¸ÇÂÎ¸¶»Ò¤Î¸¶»ÒÈÖ¹æ¡¢Æş¼Í¥¨¥Í¥ë¥®¡¼¡¢struct
-// ½ĞÎÏ¡§stopping power
+// å…¥åŠ›ï¼šå›ºä½“åŸå­ã®åŸå­ç•ªå·ã€å…¥å°„ã‚¨ãƒãƒ«ã‚®ãƒ¼ã€struct
+// å‡ºåŠ›ï¼šstopping power
 
 double range_proton_stop(int z2, double energy_i,
 			 Atom_struct Atom )
@@ -42,10 +42,10 @@ double range_proton_stop(int z2, double energy_i,
 // -- Ion stopping cross-section function used in TRIM85
 //  (RSTOP/p-228)
 //
-// ÆşÎÏ¡§ ion (struct), target (struct), Æş¼Í¥¨¥Í¥ë¥®¡¼¡¢
+// å…¥åŠ›ï¼š ion (struct), target (struct), å…¥å°„ã‚¨ãƒãƒ«ã‚®ãƒ¼ã€
 //      lambda screening factor for ions, Fermi velocity of solid/v0 (?)
 
-// ½ĞÎÏ¡§ electronic stopping (get 1000 values)
+// å‡ºåŠ›ï¼š electronic stopping (get 1000 values)
 
 void range_stop(Atom_struct  Ion, Atom_struct Target_solid,
 		double energy_i,  double lambda_screening,
@@ -57,7 +57,7 @@ void range_stop(Atom_struct  Ion, Atom_struct Target_solid,
   double tmp_energy ;
   double tmp_v , tmp_vr, v_effective ;
 
-  double tmp_a , tmp_b  ; // -- ionization level ¤òÉ½¤¹»ş¤Î»Ø¿ô¤ËÉÕ¤¯·¸¿ô
+  double tmp_a , tmp_b  ; // -- ionization level ã‚’è¡¨ã™æ™‚ã®æŒ‡æ•°ã«ä»˜ãä¿‚æ•°
   double tmp_l0, tmp_l1, tmp_l ;
   double tmp_zeta , tmp_power ;
 
@@ -67,10 +67,10 @@ void range_stop(Atom_struct  Ion, Atom_struct Target_solid,
   for(int i = 1; i <= 1000; i++)
     {
       vr_min = 1.0  ;
-      // 0 ¡Á energy_i ¤Ş¤Ç¤ò1000ÃÊ³¬¤ËÊ¬¤±¤ë
+      // 0 ã€œ energy_i ã¾ã§ã‚’1000æ®µéšã«åˆ†ã‘ã‚‹
       tmp_energy = i * 0.001 * energy_i / Ion.atomic_weight ;
 
-      //--- heavy ion ¤Î¤¿¤á¤Î´¹»»
+      //--- heavy ion ã®ãŸã‚ã®æ›ç®—
       tmp_v = sqrt( tmp_energy / 25.0) / v_fermi ;
       
       if (tmp_v < 1.0)
@@ -87,7 +87,7 @@ void range_stop(Atom_struct  Ion, Atom_struct Target_solid,
 
       q_ionization_level = min( 1.0, max (0.0, - exp( - min (tmp_a, 50.0)))) ;
 
-      // -- 'effective charge' ¤ËÊÑ´¹
+      // -- 'effective charge' ã«å¤‰æ›
       tmp_b = (min (0.43, max(0.32, 0.12 + 0.025 * Ion.atomic_n ))) 
 	/   pow( Ion.atomic_n, 0.3333 ) ;
 

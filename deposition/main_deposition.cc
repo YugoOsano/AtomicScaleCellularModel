@@ -1,10 +1,10 @@
 // == main_deposition.cc ==
 // 
-// •¿•ﬂ°º§Œ main program: 
-// monte_carlo.cc §Ú include §π§Î
+// „ÉÄ„Éü„Éº„ÅÆ main program: 
+// monte_carlo.cc „Çí include „Åô„Çã
 
 
-// monte_carlo.cc §«°¢#ifdef  _DEPOSITION_PROGRAM_ §»§π§Î
+// monte_carlo.cc „Åß„ÄÅ#ifdef  _DEPOSITION_PROGRAM_ „Å®„Åô„Çã
 #define _DEPOSITION_PROGRAM_
 
 #include "header_deposition.h"

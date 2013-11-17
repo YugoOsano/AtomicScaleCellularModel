@@ -1,4 +1,4 @@
-// 松本 眞さんの開発した乱数発生のルーチン
+// 譚ｾ譛ｬ 逵槭＆繧薙�ｮ髢狗匱縺励◆荵ｱ謨ｰ逋ｺ逕溘�ｮ繝ｫ繝ｼ繝√Φ
 
 /* A C-program for MT19937: Real number version([0,1)-interval) (1998/4/6) */
 /*   genrand() generates one pseudorandom real number (double) */

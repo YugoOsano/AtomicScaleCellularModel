@@ -24,23 +24,23 @@ int main ()
   time(&computing_start);
   
 
-  //== ¥¯¥é¥¹¤ÎÀ¸À® ===
+  //== ã‚¯ãƒ©ã‚¹ã®ç”Ÿæˆ ===
 
   class Particle_class      Cl_ion(CL_MASS, N_IADF_ARRAY ) ;
   class Neutral_class       Cl_neutral(CL_MASS ) ;
   class Shape_trim_class    Shape  ;		
   class Etch_product_class  SiCl2_neutral(CL_MASS) ;  
 
-  if( ION_INJECT_FLAG == 3 ) //== IADF ÆÉ¤ß¹ş¤ß
+  if( ION_INJECT_FLAG == 3 ) //== IADF èª­ã¿è¾¼ã¿
     Cl_ion.read_angular_df(IADF_FILE) ; 
 
-  //== °ì»şÅª¤Ë»ÈÍÑ¤¹¤ëÊÑ¿ô
+  //== ä¸€æ™‚çš„ã«ä½¿ç”¨ã™ã‚‹å¤‰æ•°
   
   int    flag_out_of_domain , flag_deposition, flag_adsorption;
   int    i_exception_move ,i_exception_reflect ;
   int    i_x, i_z ;
 
-  //== ·×»»¾ò·ï¤Îµ­Ï¿¡¿½ĞÎÏ
+  //== è¨ˆç®—æ¡ä»¶ã®è¨˜éŒ²ï¼å‡ºåŠ›
   ofstream  condition_file(CONDITION_FILE) ;
   ofstream  log_file(YIELD_FILE) ;
   cout  << "Number of ions to be injected: " << N_ION_INJECT 
@@ -59,13 +59,13 @@ int main ()
 		 << "\narguments: ion incident energy: "         << INCIDENT_ENERGY_ION<< endl ;
   
   //*****************************************
-  //----    ¥ë¡¼¥×³«»Ï         --------------
+  //----    ãƒ«ãƒ¼ãƒ—é–‹å§‹         --------------
   //*****************************************
 
   int i_ion = 0 ;
   do
     {
-      //== ¥ë¡¼¥×²ó¿ô¡¢Ã¦Î¥Si¤Î¿ô¤Î½ĞÎÏ¡¢µ­Ï¿
+      //== ãƒ«ãƒ¼ãƒ—å›æ•°ã€è„±é›¢Siã®æ•°ã®å‡ºåŠ›ã€è¨˜éŒ²
       if(i_ion % N_COUT_INTERVAL == 0)
 	{
 	  time(&computing_current);
@@ -79,21 +79,21 @@ int main ()
 		   << Shape.cntr_desorbed_Si << endl ;	  
 	}
       //*****************************************
-      // --        Cl ¥é¥¸¥«¥ë¤ÎÆş¼Í
+      // --        Cl ãƒ©ã‚¸ã‚«ãƒ«ã®å…¥å°„
       //*****************************************
       
 #ifdef _INJECT_CL_RADICAL_
       for (int i_neutral = 0; 
 	   i_neutral < NEUTRAL_ION_RATIO; i_neutral++)
 	{
-	  //--- Æş¼Í ---
+	  //--- å…¥å°„ ---
 	  Cl_neutral.inject_from_top( sqrt(2.0 * INCIDENT_ENERGY_NEUTRAL * 
 					   Q_ELEMENTAL / Cl_neutral.mass) ) ; 
 	  
 	  i_exception_move = 0 ;
 	  while(1) 
 	    {
-	      //--- ÎÎ°èÆâÉô¤Ë¤¢¤Ş¤êÄ¹¤¯¤È¤É¤Ş¤Ã¤Æ¤¤¤ë¾ì¹ç¡¢Îã³°½èÍı¡ÊÎ³»Ò¤ò¾Ãµî¡Ë
+	      //--- é ˜åŸŸå†…éƒ¨ã«ã‚ã¾ã‚Šé•·ãã¨ã©ã¾ã£ã¦ã„ã‚‹å ´åˆã€ä¾‹å¤–å‡¦ç†ï¼ˆç²’å­ã‚’æ¶ˆå»ï¼‰
 	      i_exception_move++ ;
 	      if( i_exception_move > N_CELL_Z * 200 )
 		{
@@ -106,35 +106,35 @@ int main ()
 		   << Cl_neutral.pos_v.z 
 		   << endl ;
 	      */
-	      flag_out_of_domain            // -- ¤Ş¤ºÊÂ¿Ê±¿Æ°
+	      flag_out_of_domain            // -- ã¾ãšä¸¦é€²é‹å‹•
 		= Cl_neutral.move_trans(FREE_FLIGHT_PATH_Si) ;
-	      if (flag_out_of_domain == FALSE) // -- ³°¤Ë½Ğ¤¿¡©
+	      if (flag_out_of_domain == FALSE) // -- å¤–ã«å‡ºãŸï¼Ÿ
 		break ;
 	     
-	      //--- ¥»¥ë¤¬¶õÇò¤Ç¤Ê¤¤¡© ---
+	      //--- ã‚»ãƒ«ãŒç©ºç™½ã§ãªã„ï¼Ÿ ---
 	      if(Shape.put_shape_matrix(Cl_neutral.pos_v.x, 
 					Cl_neutral.pos_v.z ,
 					&i_x, &i_z ) != SHAPE_SPACE)
 		{
 		  flag_adsorption = 
-		    Shape.settle_Cl_into_bareSi(i_x, i_z,  // µÛÃå¤·¤¿¡©
+		    Shape.settle_Cl_into_bareSi(i_x, i_z,  // å¸ç€ã—ãŸï¼Ÿ
 						ADSORPTION_PROBABILITY );
 		  if(flag_adsorption == TRUE )
-		    break;                          // µÛÃå¤·¤¿¤é¥ë¡¼¥×¤ò½Ğ¤ë
+		    break;                          // å¸ç€ã—ãŸã‚‰ãƒ«ãƒ¼ãƒ—ã‚’å‡ºã‚‹
 		  
-		  // ÍğÈ¿¼Í : 
-		  // Ìµ¸Â¥ë¡¼¥×¤ò¤µ¤±¤ë¤¿¤á¤Ë¡¢¥«¥¦¥ó¥¿¤òÍÑ°Õ¤¹¤ë¡£
-		  // Î³»Ò¤ò²¾¤Ë¿Ê¤Ş¤»¤Æ¤ß¤Æ¡¢(pos_v_togo)
-		  // ¤â¤·¿Ê¤ó¤ÀÀè¤¬¶õÇòÉôÊ¬¤Ç¤Ê¤±¤ì¤Ğ¡¢¸µ¤ËÌá¤Ã¤Æ
-		  //     ¤ä¤êÄ¾¤·(50²ó¤Ë¤Ê¤Ã¤¿¤é¤â¤¦¤ä¤á¤ë)
+		  // ä¹±åå°„ : 
+		  // ç„¡é™ãƒ«ãƒ¼ãƒ—ã‚’ã•ã‘ã‚‹ãŸã‚ã«ã€ã‚«ã‚¦ãƒ³ã‚¿ã‚’ç”¨æ„ã™ã‚‹ã€‚
+		  // ç²’å­ã‚’ä»®ã«é€²ã¾ã›ã¦ã¿ã¦ã€(pos_v_togo)
+		  // ã‚‚ã—é€²ã‚“ã å…ˆãŒç©ºç™½éƒ¨åˆ†ã§ãªã‘ã‚Œã°ã€å…ƒã«æˆ»ã£ã¦
+		  //     ã‚„ã‚Šç›´ã—(50å›ã«ãªã£ãŸã‚‰ã‚‚ã†ã‚„ã‚ã‚‹)
 		  i_exception_reflect = 0;
 		  Shape.get_surfacenormal(i_x, i_z) ;
 		reflection:
 		  if( i_exception_reflect > 50 )
 		    break ;
 
-		  Cl_neutral.random_reflection(FALSE, 0.0, 0.0 ) ; // ÍğÈ¿¼Í
-		  // (TRUE,//<-cosine diffusion ¤òÆ³Æş¤¹¤ë¤Èº¸±¦ÈóÂĞ¾Î¤Ë¤Ê¤ë¡§ÅöÌÌ¤Ï»ÈÍÑ¤»¤º
+		  Cl_neutral.random_reflection(FALSE, 0.0, 0.0 ) ; // ä¹±åå°„
+		  // (TRUE,//<-cosine diffusion ã‚’å°å…¥ã™ã‚‹ã¨å·¦å³éå¯¾ç§°ã«ãªã‚‹ï¼šå½“é¢ã¯ä½¿ç”¨ã›ãš
 		  // Shape.surfacenormal_x[i_x][i_z],
 		  // Shape.surfacenormal_x[i_x][i_z]) ;
 		
@@ -150,12 +150,12 @@ int main ()
 		    }
 		}
 	    }
-	}  // === END: Cl ¥é¥¸¥«¥ë¤Î½èÍı 
+	}  // === END: Cl ãƒ©ã‚¸ã‚«ãƒ«ã®å‡¦ç† 
 #endif
 
 
       //*************************************************
-      //---   SiCl2  Æş¼Í ¡ÊION_SiCl2_RATIO²ó¤Ë£±²ó¡Ë
+      //---   SiCl2  å…¥å°„ ï¼ˆION_SiCl2_RATIOå›ã«ï¼‘å›ï¼‰
       //*************************************************
       if( i_ion % ION_SiCl2_RATIO == 0 )
 	{
@@ -165,26 +165,26 @@ int main ()
 	  i_exception_move = 0 ;
 	  while(1) 
 	    {
-	      //--- ÎÎ°èÆâÉô¤Ë¤¢¤Ş¤êÄ¹¤¯¤È¤É¤Ş¤Ã¤Æ¤¤¤ë¾ì¹ç¡¢
-	      //    Îã³°½èÍı¡ÊÎ³»Ò¤ò¾Ãµî¡Ë
+	      //--- é ˜åŸŸå†…éƒ¨ã«ã‚ã¾ã‚Šé•·ãã¨ã©ã¾ã£ã¦ã„ã‚‹å ´åˆã€
+	      //    ä¾‹å¤–å‡¦ç†ï¼ˆç²’å­ã‚’æ¶ˆå»ï¼‰
 	      i_exception_move++ ;
 	      if( i_exception_move > N_CELL_Z * 200 )
 		break ;
 	      
-	      // -- ÊÂ¿Ê±¿Æ°
+	      // -- ä¸¦é€²é‹å‹•
 	      flag_out_of_domain          
 		= SiCl2_neutral.move_trans(FREE_FLIGHT_PATH_Si) ;
-	      if (flag_out_of_domain == FALSE) // -- ³°¤Ë½Ğ¤¿¡©
+	      if (flag_out_of_domain == FALSE) // -- å¤–ã«å‡ºãŸï¼Ÿ
 		break ;
 	      
-	      // -- Î³»Ò¤Î¤¤¤ë¾ì½ê¤Îphase¤ò¼èÆÀ
+	      // -- ç²’å­ã®ã„ã‚‹å ´æ‰€ã®phaseã‚’å–å¾—
 	      SiCl2_neutral.get_position() ;
 	      
-	      // -- ¸ÇÁê¤Ç¤¢¤ì¤Ğ¡¢°ì¤ÄÁ°¤Î¥»¥ëÈÖ¹æ¤ò¼èÆÀ -> deposit
+	      // -- å›ºç›¸ã§ã‚ã‚Œã°ã€ä¸€ã¤å‰ã®ã‚»ãƒ«ç•ªå·ã‚’å–å¾— -> deposit
 	      if(Shape.shape_matrix
 		 [SiCl2_neutral.i_cell_x][SiCl2_neutral.i_cell_z] == SHAPE_Si )
 		{
-		  SiCl2_neutral.get_previous_cell() ; // ¥»¥ëÈÖ¹æ¼èÆÀ
+		  SiCl2_neutral.get_previous_cell() ; // ã‚»ãƒ«ç•ªå·å–å¾—
 		  flag_deposition = 
 		    Shape.deposit_Si( SiCl2_neutral.i_previous_x,     // deposit
 				      SiCl2_neutral.i_previous_z,
@@ -193,11 +193,11 @@ int main ()
 		  if(flag_deposition == TRUE )
 		    break ;  // get out of the loop if deposited
 		  
-		  //ÍğÈ¿¼Í : 
-		  // Ìµ¸Â¥ë¡¼¥×¤ò¤µ¤±¤ë¤¿¤á¤Ë¡¢¥«¥¦¥ó¥¿¤òÍÑ°Õ¤¹¤ë¡£
-		  // Î³»Ò¤ò²¾¤Ë¿Ê¤Ş¤»¤Æ¤ß¤Æ¡¢(pos_v_togo)
-		  // ¤â¤·¿Ê¤ó¤ÀÀè¤¬¶õÇòÉôÊ¬¤Ç¤Ê¤±¤ì¤Ğ¡¢¸µ¤ËÌá¤Ã¤Æ
-		  //     ¤ä¤êÄ¾¤·(50²ó¤Ë¤Ê¤Ã¤¿¤é¤â¤¦¤ä¤á¤ë)
+		  //ä¹±åå°„ : 
+		  // ç„¡é™ãƒ«ãƒ¼ãƒ—ã‚’ã•ã‘ã‚‹ãŸã‚ã«ã€ã‚«ã‚¦ãƒ³ã‚¿ã‚’ç”¨æ„ã™ã‚‹ã€‚
+		  // ç²’å­ã‚’ä»®ã«é€²ã¾ã›ã¦ã¿ã¦ã€(pos_v_togo)
+		  // ã‚‚ã—é€²ã‚“ã å…ˆãŒç©ºç™½éƒ¨åˆ†ã§ãªã‘ã‚Œã°ã€å…ƒã«æˆ»ã£ã¦
+		  //     ã‚„ã‚Šç›´ã—(50å›ã«ãªã£ãŸã‚‰ã‚‚ã†ã‚„ã‚ã‚‹)
 		  i_exception_reflect = 0;
 		  Shape.get_surfacenormal(SiCl2_neutral.i_cell_x, 
 					  SiCl2_neutral.i_cell_z) ;
@@ -206,7 +206,7 @@ int main ()
 		    break ;
 		  
 		  SiCl2_neutral.random_reflection (FALSE, 0.0, 0.0 ) ;
-		  //(TRUE,  // ÍğÈ¿¼Í
+		  //(TRUE,  // ä¹±åå°„
 		  //Shape.surfacenormal_x
 		  //[SiCl2_neutral.i_cell_x][SiCl2_neutral.i_cell_z],
 		  //Shape.surfacenormal_x
@@ -225,8 +225,8 @@ int main ()
 		  
 		} 
 	      
-	    } //=== while loop ½ªÎ»¡Ê£±Î³»Ò¤Îtrajectory¡Ë
-	} // SiCl2 ¤Î½èÍı½ªÎ»	
+	    } //=== while loop çµ‚äº†ï¼ˆï¼‘ç²’å­ã®trajectoryï¼‰
+	} // SiCl2 ã®å‡¦ç†çµ‚äº†	
 
 
 	// == record shape

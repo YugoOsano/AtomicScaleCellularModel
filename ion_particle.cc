@@ -6,8 +6,8 @@
 
 #include "ion_particle.h"
 
-//==  Æş¼Í¥¨¥Í¥ë¥®¡¼¤ËÂĞ¤·¤Æ etch yield ¤òÊÖ¤¹ ==
-//    yield ¤Î·¸¿ô¦Â = C(¢åE - ¢åEth): C = 0.77, Eth = 20.0 
+//==  å…¥å°„ã‚¨ãƒãƒ«ã‚®ãƒ¼ã«å¯¾ã—ã¦ etch yield ã‚’è¿”ã™ ==
+//    yield ã®ä¿‚æ•°Î² = C(âˆšE - âˆšEth): C = 0.77, Eth = 20.0 
 //    *: 0.77 * sqrt(20.0) = 3.44354468534968
 
 inline double yield_beta(double incident_energy)
@@ -20,8 +20,8 @@ inline double yield_beta(double incident_energy)
   else 
     return 0.0 ;
 }
-//== ¥¤¥ª¥ó¤¬È¿¼Í¤·¤¿¾ì¹ç¤Î¥¨¥Ã¥Á¥ó¥°¼ıÎ¨¤Ï Er < Eth ¤Ç¤¢¤ì¤Ğ C(¢åEi - ¢åEth),
-//                                      Er > Eth ¤Ç¤¢¤ì¤Ğ C(¢åEi - ¢åEr)¤È¤¹¤ë
+//== ã‚¤ã‚ªãƒ³ãŒåå°„ã—ãŸå ´åˆã®ã‚¨ãƒƒãƒãƒ³ã‚°åç‡ã¯ Er < Eth ã§ã‚ã‚Œã° C(âˆšEi - âˆšEth),
+//                                      Er > Eth ã§ã‚ã‚Œã° C(âˆšEi - âˆšEr)ã¨ã™ã‚‹
 inline double yield_beta(double incident_energy, double reflected_energy)
 {
   double  tmp ;
@@ -55,7 +55,7 @@ Ion_class::Ion_class(double mass_input,  int flag_boundary_input,
   flag_desorb_Si  = false ;
   flag_reflection = false ;
   ctr_reflection  = 0 ;
-  velocity_file.open(NULL);//== »¶Íğ¸å¤ÎÂ®ÅÙ¤òµ­Ï¿ ==
+  velocity_file.open(NULL);//== æ•£ä¹±å¾Œã®é€Ÿåº¦ã‚’è¨˜éŒ² ==
 
   i_x_etch = 0; i_z_etch = 0 ;
   energy_etch = 0.0 ;
@@ -73,11 +73,11 @@ void Ion_class::inject_iadf(double v )
   flag_contact   = false ; 
   flag_desorb_Si = false ;
 
-  // randomized_distribution   (long int Íğ¿ô¤Î¼ï, int ºî¤ê¤À¤¹Íğ¿ô¤Î¿ô,
-  //   double[] ¥¨¥Í¥ë¥®¡¼  ,double[] Ê¬ÉÛ,
-  //   -> ½ĞÎÏ  double[] (¸µ¤ÎÍğ¿ô), double[] ÆÀ¤é¤ì¤¿Íğ¿ô) 
+  // randomized_distribution   (long int ä¹±æ•°ã®ç¨®, int ä½œã‚Šã ã™ä¹±æ•°ã®æ•°,
+  //   double[] ã‚¨ãƒãƒ«ã‚®ãƒ¼  ,double[] åˆ†å¸ƒ,
+  //   -> å‡ºåŠ›  double[] (å…ƒã®ä¹±æ•°), double[] å¾—ã‚‰ã‚ŒãŸä¹±æ•°) 
   
-  // -- Æ°Åª³ÎÊİ¡ª
+  // -- å‹•çš„ç¢ºä¿ï¼
   double *dummy_array_angle ;
 
   double *randomized_angle_array ;
@@ -94,23 +94,23 @@ void Ion_class::inject_iadf(double v )
 
   //cout << "randomized_angle_array[0]: " << randomized_angle_array[0] << "\n";
 
-  // XºÂÉ¸¤ÏÍğ¿ô¤Ë¤è¤Ã¤Æ·èÄê¤¹¤ë
+  // Xåº§æ¨™ã¯ä¹±æ•°ã«ã‚ˆã£ã¦æ±ºå®šã™ã‚‹
   pos_v.x = RAN0() * SYSTEM_WIDTH_X ; 
   pos_v.y = 0.0 ;
   pos_v.z = 0.0 ;
   
-  // --- Æş¼Í³Ñ¤Ï¤³¤Î»şÅÀ¤Ç·èÄê¤·¤Æ¤¤¤ë(randomized_angle_array)
-  // ¤¬¡¢y ¼´¼ş¤ê¤Î²óÅ¾³Ñ¤ÏÍğ¿ô¤Çºî¤ë 
-  // Æş¼Í³Ñ¦×¡¢²óÅ¾³Ñ¦È¤È¤¹¤ë¤È z = v cos¦×, x = v sin¦×cos¦È, y = v sin¦×sin¦È
+  // --- å…¥å°„è§’ã¯ã“ã®æ™‚ç‚¹ã§æ±ºå®šã—ã¦ã„ã‚‹(randomized_angle_array)
+  // ãŒã€y è»¸å‘¨ã‚Šã®å›è»¢è§’ã¯ä¹±æ•°ã§ä½œã‚‹ 
+  // å…¥å°„è§’Ïˆã€å›è»¢è§’Î¸ã¨ã™ã‚‹ã¨ z = v cosÏˆ, x = v sinÏˆcosÎ¸, y = v sinÏˆsinÎ¸
       
-  // randomized_energy ¤Ï eV ¤ÎÃ±°Ì¤Ê¤Î¤Ç Q_ELEMENTAL ¤ò¤«¤±¤ÆVolt Ã±°Ì¤Ë¤¹¤ë
+  // randomized_energy ã¯ eV ã®å˜ä½ãªã®ã§ Q_ELEMENTAL ã‚’ã‹ã‘ã¦Volt å˜ä½ã«ã™ã‚‹
 
   pos_v.v_r     =  v ; // <--- Absolute velocity
 
   pos_v.v_theta =  2.0 * PI * RAN0() ; 
      
   pos_v.v_psi   = 
-    PI * randomized_angle_array[0] / 180.0 ; // degree -> rad¤Ø´¹»» 
+    PI * randomized_angle_array[0] / 180.0 ; // degree -> radã¸æ›ç®— 
   
   //----
   pos_v.v_x =  //0.0 ;
@@ -127,7 +127,7 @@ void Ion_class::inject_iadf(double v )
   delete [] dummy_array_angle ;
   delete [] randomized_angle_array ;
 
-  //== ¥¨¥Ã¥Á¥ó¥°ÍÑÊÑ¿ô½é´ü²½ ==
+  //== ã‚¨ãƒƒãƒãƒ³ã‚°ç”¨å¤‰æ•°åˆæœŸåŒ– ==
   i_x_etch = 0; i_z_etch = 0 ;   energy_etch = 0.0 ;
   pos_v_etch = pos_v ; 
 
@@ -144,10 +144,10 @@ void Ion_class::record_desorption(Particle_location_velocity_struct pos_v_record
   position_at_desorption  = pos_v_recorded ;
 }
 	
-//== ¥¤¥ª¥ó¤Î¾×ÆÍ¤Ë¤è¤ë¥¨¥Ã¥Á¥ó¥°¤Î½èÍı
-//bug fix:<- pos_v.x ¤È¤·¤Æ¤¤¤¿¤Î¤Ç¡¢·Á¾õ¿ÊÅ¸¤¬ÊÑ¤À¤Ã¤¿:29Aug2004 
+//== ã‚¤ã‚ªãƒ³ã®è¡çªã«ã‚ˆã‚‹ã‚¨ãƒƒãƒãƒ³ã‚°ã®å‡¦ç†
+//bug fix:<- pos_v.x ã¨ã—ã¦ã„ãŸã®ã§ã€å½¢çŠ¶é€²å±•ãŒå¤‰ã ã£ãŸ:29Aug2004 
 //bug fix(*): 28/Nov/2005
-//  ¥í¡¼¥«¥ë¤ÊÆş¼Í³Ñ¤Î·èÄê¤ò¡Ö¸½»şÅÀ¤Ç¤ÎÂ®ÅÙ(pos_v)¡×¤Ç¹Ô¤Ã¤Æ¤¤¤¿
+//  ãƒ­ãƒ¼ã‚«ãƒ«ãªå…¥å°„è§’ã®æ±ºå®šã‚’ã€Œç¾æ™‚ç‚¹ã§ã®é€Ÿåº¦(pos_v)ã€ã§è¡Œã£ã¦ã„ãŸ
 void Ion_class::
 ion_enhanced_etch(class  Shape_trim_class *Shape_trim,
 		  double incident_energy, double reflected_energy,
@@ -157,10 +157,10 @@ ion_enhanced_etch(class  Shape_trim_class *Shape_trim,
   double tmp_beta = 0.0;
   if(FLAG_INCIDENT_ANGLE == true)
     {
-      //== (3rd paper)»ÀÁÇ¤¬µÛÃå¤¹¤ë¤³¤È¤Ë¤è¤ë·Á¾õÉÔ°ÂÄê¤òËÉ¤°¤¿¤á¡¢
-      //   ¥¨¥Ã¥Á¥ó¥°¼ıÎ¨¤òÊ¬»¶¤µ¤»¤ë¡£nearest-neighbor¤Î¥»¥ë¤Ë´Ş¤Ş¤ì¤ë»ÀÁÇ¤Î¿ô¤ò¹ç·×¤·¡¢
-      //   6 ¤Ç³ä¤Ã¤Æcoverage¦¨¤È¤¹¤ë¡£
-      //   ¼ıÎ¨¤Ï Y = ¦¨ Y(SiO2) + (1 - ¦¨)Y(Si)
+      //== (3rd paper)é…¸ç´ ãŒå¸ç€ã™ã‚‹ã“ã¨ã«ã‚ˆã‚‹å½¢çŠ¶ä¸å®‰å®šã‚’é˜²ããŸã‚ã€
+      //   ã‚¨ãƒƒãƒãƒ³ã‚°åç‡ã‚’åˆ†æ•£ã•ã›ã‚‹ã€‚nearest-neighborã®ã‚»ãƒ«ã«å«ã¾ã‚Œã‚‹é…¸ç´ ã®æ•°ã‚’åˆè¨ˆã—ã€
+      //   6 ã§å‰²ã£ã¦coverageÎ˜ã¨ã™ã‚‹ã€‚
+      //   åç‡ã¯ Y = Î˜ Y(SiO2) + (1 - Î˜)Y(Si)
       
       if(FLAG_DISPERSE_OXIDATION == true)
 	{
@@ -191,7 +191,7 @@ ion_enhanced_etch(class  Shape_trim_class *Shape_trim,
       tmp_beta = yield_beta(incident_energy, reflected_energy);
     }
 
-  if(RAN0() < tmp_beta / YIELD_MAX) // <- ²¾ÁÛÎ³»Ò¤ò³ÎÎ¨Åª¤Ë°·¤¦
+  if(RAN0() < tmp_beta / YIELD_MAX) // <- ä»®æƒ³ç²’å­ã‚’ç¢ºç‡çš„ã«æ‰±ã†
     {
       Shape_trim->desorb_Si(i_x, i_z);
       record_desorption(pos_v_recorded, Shape_trim->n_oxygen[i_x][i_z]) ; 
@@ -214,21 +214,21 @@ hardmask_sputter(class  Shape_trim_class *Shape_trim,
     yield_beta(incident_energy, reflected_energy) * 
     etch_yield_angle(Shape_trim->get_incident_angle
 		     (i_x, i_z, pos_v_recorded.v_x, pos_v_recorded.v_z ), 2 ) ; 
-  //etch_yield_angle´Ø¿ô¤ÎºÇ¸å¤Î°ú¿ô¤ò2 ¤È¤¹¤ë¤³¤È¤Ç»À²½Ëì¤Î³ÑÅÙ°ÍÂ¸À­¤¬ÆÀ¤é¤ì¤ë
+  //etch_yield_angleé–¢æ•°ã®æœ€å¾Œã®å¼•æ•°ã‚’2 ã¨ã™ã‚‹ã“ã¨ã§é…¸åŒ–è†œã®è§’åº¦ä¾å­˜æ€§ãŒå¾—ã‚‰ã‚Œã‚‹
  
-  if(RAN0() < tmp_beta / YIELD_MAX) // <- ²¾ÁÛÎ³»Ò¤ò³ÎÎ¨Åª¤Ë°·¤¦
+  if(RAN0() < tmp_beta / YIELD_MAX) // <- ä»®æƒ³ç²’å­ã‚’ç¢ºç‡çš„ã«æ‰±ã†
     {
       Shape_trim->desorb_mask(i_x, i_z);
       record_desorption(pos_v_recorded, Shape_trim->n_oxygen[i_x][i_z]) ; 
     }
 }
 
-//==   ¥Ñ¥¿¡¼¥óÉ½ÌÌ¤ËÅşÃ£¤·¤¿¤«¤É¤¦¤«¤ÎÈ½Äê 
+//==   ãƒ‘ã‚¿ãƒ¼ãƒ³è¡¨é¢ã«åˆ°é”ã—ãŸã‹ã©ã†ã‹ã®åˆ¤å®š 
 bool Ion_class::
 impact_on_surface(class  Shape_trim_class *Shape_trim)
 {
   int i_x, i_z , i_x_particle, i_z_particle ;
-  // -- ¤½¤Î¥»¥ë¤Ë Si ¤¬¤¢¤ì¤Ğ¡¢¾×ÆÍ
+  // -- ãã®ã‚»ãƒ«ã« Si ãŒã‚ã‚Œã°ã€è¡çª
   //  if( Shape.put_shape_matrix(Cl_ion.pos_v.x, 
   //			 Cl_ion.pos_v.z ,
   //			 &i_x, &i_z ) == SHAPE_Si )
@@ -247,22 +247,22 @@ impact_on_surface(class  Shape_trim_class *Shape_trim)
       if(incident_energy <= ENERGY_ION_STOPPING)
 	return true ;
       
-      //== ºÇÉ½ÌÌ¤Ç¤Î¤ß¥¨¥Ã¥Á¥ó¥°½èÍı¤ò¹Ô¤¦¤¿¤á¡¢ÀÜ¿¨¤·¤Æ¤¤¤ë¤«
-      //   ¥Õ¥é¥°¤ÇÈ½Äê
+      //== æœ€è¡¨é¢ã§ã®ã¿ã‚¨ãƒƒãƒãƒ³ã‚°å‡¦ç†ã‚’è¡Œã†ãŸã‚ã€æ¥è§¦ã—ã¦ã„ã‚‹ã‹
+      //   ãƒ•ãƒ©ã‚°ã§åˆ¤å®š
       if(flag_contact == false)
 	{
 	  ion_enhanced_etch(Shape_trim, incident_energy , 0.0,  pos_v, i_x, i_z ) ;
-	  flag_contact = true ; //== ¸ÇÂÎÆâÉô¤Ç¤Î¥¨¥Ã¥Á¥ó¥°¤Ï¤Ê¤· ==
+	  flag_contact = true ; //== å›ºä½“å†…éƒ¨ã§ã®ã‚¨ãƒƒãƒãƒ³ã‚°ã¯ãªã— ==
 	}
 		  
-      // impact parameter ¤ÏÍğ¿ôX¤Ç·èÄê¡§
-      // p = (L/2)¢åX  where  L ¤Ï¸¶»Ò´Öµ÷Î¥
+      // impact parameter ã¯ä¹±æ•°Xã§æ±ºå®šï¼š
+      // p = (L/2)âˆšX  where  L ã¯åŸå­é–“è·é›¢
       p_impact_parameter = (L_INTER_ATOMIC / 2.0) * sqrt(RAN0());
 		  
       // -- collision
       collision_with_solid_atom( p_impact_parameter );
     }
-  // == ¥Ş¥¹¥¯¤Ç¤¢¤ì¤Ğ¡¢break
+  // == ãƒã‚¹ã‚¯ã§ã‚ã‚Œã°ã€break
   else if(Shape_trim->put_shape_matrix(pos_v.x, pos_v.z ,
 				       &i_x, &i_z ) == HARD_MASK )
     {
@@ -272,7 +272,7 @@ impact_on_surface(class  Shape_trim_class *Shape_trim)
   return false ;
 }
 
-//==   ¾å¤ÈÆ±¤¸¤¯¾×ÆÍ¤Î½èÍı¡§Á°Êı»¶Íğ¤Î¤â´Ş¤á¤ë
+//==   ä¸Šã¨åŒã˜ãè¡çªã®å‡¦ç†ï¼šå‰æ–¹æ•£ä¹±ã®ã‚‚å«ã‚ã‚‹
 bool Ion_class::
 impact_scattering(class  Shape_trim_class *Shape_trim,
 		  bool  flag_mask_erosion) 
@@ -282,21 +282,21 @@ impact_scattering(class  Shape_trim_class *Shape_trim,
   double incident_energy ;
   incident_energy = mass * pos_v.v_r * pos_v.v_r /(2.0 * Q_ELEMENTAL) ; 
 
-  // == ¥Ş¥¹¥¯¤Ç¤¢¤ì¤Ğ¡¢break
+  // == ãƒã‚¹ã‚¯ã§ã‚ã‚Œã°ã€break
   if(Shape_trim->put_shape_matrix(pos_v.x, pos_v.z ,
 				  &i_x, &i_z ) == HARD_MASK )
     {
       flag_inside = false ;
       return true ;
     }  
-  // -- ¤½¤Î¥»¥ë¤Ë Si ¤¬¤¢¤ì¤Ğ¡¢¾×ÆÍ
+  // -- ãã®ã‚»ãƒ«ã« Si ãŒã‚ã‚Œã°ã€è¡çª
   else if(Shape_trim->put_shape_matrix(pos_v.x, pos_v.z ,
 				       &i_x, &i_z ) == SHAPE_Si )
     {
-      //¥¨¥Í¥ë¥®¡¼¤¬¤¢¤ëÃÍ¤ò²¼²ó¤Ã¤Æ¤¤¤¿¤é stop
+      //ã‚¨ãƒãƒ«ã‚®ãƒ¼ãŒã‚ã‚‹å€¤ã‚’ä¸‹å›ã£ã¦ã„ãŸã‚‰ stop
       if(incident_energy <= ENERGY_ION_STOPPING)
 	{
-	  //== stop¤·¤¿»şÅÀ¤Ç»ö¸åÅª¤Ë¥¨¥Ã¥Á¥ó¥°¤Î½èÍı¤ò¹Ô¤¦
+	  //== stopã—ãŸæ™‚ç‚¹ã§äº‹å¾Œçš„ã«ã‚¨ãƒƒãƒãƒ³ã‚°ã®å‡¦ç†ã‚’è¡Œã†
 	  ion_enhanced_etch(Shape_trim, energy_etch, 0.0, pos_v_etch,
 			    i_x_etch , i_z_etch ) ;
 	  return true ;
@@ -307,8 +307,8 @@ impact_scattering(class  Shape_trim_class *Shape_trim,
 	  flag_contact = true ; 
 	}
       
-      // impact parameter ¤ÏÍğ¿ôX¤Ç·èÄê¡§
-      // p = (L/2)¢åX  where  L ¤Ï¸¶»Ò´Öµ÷Î¥
+      // impact parameter ã¯ä¹±æ•°Xã§æ±ºå®šï¼š
+      // p = (L/2)âˆšX  where  L ã¯åŸå­é–“è·é›¢
       p_impact_parameter = (L_INTER_ATOMIC / 2.0) * sqrt(RAN0());
       
       // -- collision --
@@ -318,7 +318,7 @@ impact_scattering(class  Shape_trim_class *Shape_trim,
 			    (i_z + 0.5) * L_INTER_ATOMIC,
 			    &incident_energy );
     }
-  // -- ÎÙÀÜ¥»¥ë¤¬ Si or hardmask ¤Î¾ì¹ç
+  // -- éš£æ¥ã‚»ãƒ«ãŒ Si or hardmask ã®å ´åˆ
   else if( Shape_trim->find_solid_nearest_neighbor
 	   (pos_v.x,    pos_v.z ,
 	    pos_v.v_x,  pos_v.v_z ,
@@ -329,7 +329,7 @@ impact_scattering(class  Shape_trim_class *Shape_trim,
 	  record_etch_position(i_x, i_z, incident_energy);
 	  flag_contact = true ; 
 	}
-      // -- collision ¡Ê¼ş´ü¶­³¦¾ò·ï¤ò¹ÍÎ¸¡Ë
+      // -- collision ï¼ˆå‘¨æœŸå¢ƒç•Œæ¡ä»¶ã‚’è€ƒæ…®ï¼‰
       if(i_x_particle == 0 && i_x == N_CELL_X - 1)
 	collision_accurate3D( (- 0.5)     * L_INTER_ATOMIC,
 			      0.5         * L_INTER_ATOMIC,
@@ -363,7 +363,7 @@ impact_scattering(class  Shape_trim_class *Shape_trim,
 			     0.0, pos_v, i_x, i_z);//<-added
 	  flag_contact = true ; 
 	}
-       // -- collision ¡Ê¼ş´ü¶­³¦¾ò·ï¤ò¹ÍÎ¸¡Ë
+       // -- collision ï¼ˆå‘¨æœŸå¢ƒç•Œæ¡ä»¶ã‚’è€ƒæ…®ï¼‰
        if(i_x_particle == 0 && i_x == N_CELL_X - 1)
 	 collision_accurate3D( (- 0.5)     * L_INTER_ATOMIC,
 			       0.5         * L_INTER_ATOMIC,
@@ -385,15 +385,15 @@ impact_scattering(class  Shape_trim_class *Shape_trim,
 	    pos_v.v_x,  pos_v.v_z ,
 	    &i_x, &i_z, &i_x_particle, &i_z_particle) == SHAPE_SPACE )
     {
-      if(flag_contact    == true)//== ¸ÇÂÎÉôÊ¬¤ËÀÜ¿¨¾õÂÖ -> detach¤·¤¿¤³¤È¤ò°ÕÌ£¤¹¤ë
+      if(flag_contact    == true)//== å›ºä½“éƒ¨åˆ†ã«æ¥è§¦çŠ¶æ…‹ -> detachã—ãŸã“ã¨ã‚’æ„å‘³ã™ã‚‹
 	{
-	  flag_reflection = true ; //== Á°Êı»¶Íğ¤¬µ¯¤³¤Ã¤¿¤³¤È¤òµ­Ï¿
+	  flag_reflection = true ; //== å‰æ–¹æ•£ä¹±ãŒèµ·ã“ã£ãŸã“ã¨ã‚’è¨˜éŒ²
 	  //velocity_file << (pos_v.v_psi * 180 / PI - 90.0 ) << "\t" 
 	  //	<< incident_energy / 50.0 << "\n" ;
 
-	  //== ¥¤¥ª¥ó¤¬reflection¤òµ¯¤³¤·¤¿¾ì¹ç¤â»ö¸åÅª¤Ë¥¨¥Ã¥Á¥ó¥°½èÍı¤¹¤ë
-	  //   ¼ıÎ¨¤Ï¥¨¥Í¥ë¥®¡¼ÊÑ²½Ê¬
-	  //  ¡Ê¥¨¥Ã¥Á¥ó¥°¾×ÆÍ»ş¡İ¸½ºß¤ÎEi¡Ë¤Î¤ß¤Ë¤è¤ë¤â¤Î¤È¤¹¤ë
+	  //== ã‚¤ã‚ªãƒ³ãŒreflectionã‚’èµ·ã“ã—ãŸå ´åˆã‚‚äº‹å¾Œçš„ã«ã‚¨ãƒƒãƒãƒ³ã‚°å‡¦ç†ã™ã‚‹
+	  //   åç‡ã¯ã‚¨ãƒãƒ«ã‚®ãƒ¼å¤‰åŒ–åˆ†
+	  //  ï¼ˆã‚¨ãƒƒãƒãƒ³ã‚°è¡çªæ™‚âˆ’ç¾åœ¨ã®Eiï¼‰ã®ã¿ã«ã‚ˆã‚‹ã‚‚ã®ã¨ã™ã‚‹
 	  //ion_enhanced_etch(Shape_trim, energy_etch, 0.0, pos_v_etch,
 	  //	    i_x_etch , i_z_etch ) ;
 	  ion_enhanced_etch(Shape_trim, energy_etch, incident_energy, pos_v_etch,

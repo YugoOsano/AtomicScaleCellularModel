@@ -1,16 +1,16 @@
 // output_particle.cc
 
-// -- Ê£¿ô¤ÎÇÛÎó¤ËÂĞ¤·¤Æ¥Õ¥¡¥¤¥ë½ĞÎÏ¤ò¹Ô¤Ê¤¦ 
-// ¥ª¡¼¥Ğ¡¼¥í¡¼¥É¤·¤ÆÇÛÎó1¤Ä¡¢2¤Ä¡¢3¤Ä¤Î¾ì¹ç¤ËÂĞ±ş
-// output_array( [¥Õ¥¡¥¤¥ëÌ¾] [ÇÛÎó] ... )
+// -- è¤‡æ•°ã®é…åˆ—ã«å¯¾ã—ã¦ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ã‚’è¡Œãªã† 
+// ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰ã—ã¦é…åˆ—1ã¤ã€2ã¤ã€3ã¤ã®å ´åˆã«å¯¾å¿œ
+// output_array( [ãƒ•ã‚¡ã‚¤ãƒ«å] [é…åˆ—] ... )
 
 
 
 #ifndef _FILEIO_PARTICLE_CC_
 
 #include<stdlib.h>
-#include<iostream.h>
-#include<fstream.h>
+#include<iostream>
+#include<fstream>
 #include<string.h>
 
 #include "fileio_particle.h"
@@ -19,23 +19,23 @@
 
 //void output_array(char[],double[], long int ) ;
 
-// X-Y plot ¸ş¤±¡£GNUPLOT¤Ç
+// X-Y plot å‘ã‘ã€‚GNUPLOTã§
 // plot " - " using 1:2 w l
-// ¤È½ĞÎÏ
+// ã¨å‡ºåŠ›
 
 //void output_array(char[],double[],double[], long int );
 
 //----------------------------------------------------
-// ÆşÎÏ
+// å…¥åŠ›
 
 void input_array(char file_name[], 
 		 double  array1[] ,  double array2[],
 		 long int  array_size )
 {
-  ifstream  data_file_input(file_name) ;
+  std::ifstream  data_file_input(file_name) ;
   if(data_file_input.bad())
     {
-      cerr << "Unable to open the file:" << file_name << "\n" ;  
+      std::cerr << "Unable to open the file:" << file_name << "\n" ;  
       exit(8) ;
     }
 
@@ -44,7 +44,7 @@ void input_array(char file_name[],
       data_file_input >> array1[i] >> array2[i];
       if(data_file_input.bad())
 	{
-	  cerr << "Unable to access the file:" 
+	  std::cerr << "Unable to access the file:" 
 	       << file_name << "\n" ;  
 	  exit(8) ;
 	}
@@ -53,22 +53,22 @@ void input_array(char file_name[],
 } 
 
 //---------------------------------------------------
-// ½ĞÎÏ
+// å‡ºåŠ›
 void output_array(char file_name[], double  array1[] , 
 		  long int  array_size )
 {
-  ofstream  data_file(file_name) ;
+  std::ofstream  data_file(file_name) ;
   if(data_file.bad())
     {
-      cerr << "Unable to open the file:" << file_name << "\n" ;  
+      std::cerr << "Unable to open the file:" << file_name << "\n" ;  
       exit(8) ;
     }
   for (int i = 0 ; i < array_size ; i++ )
     {
-      data_file << array1[i] << endl ;
+      data_file << array1[i] << std::endl ;
       if(data_file.bad())
 	{
-	  cerr << "Unable to access the file:" 
+	  std::cerr << "Unable to access the file:" 
 	       << file_name << "\n" ;  
 	  exit(8) ;
 	}
@@ -79,19 +79,19 @@ void output_array(char file_name[], double  array1[] ,
 void output_array(char file_name[], double  array1[] , double  array2[] ,
 		  long int  array_size )
 {
-  ofstream  data_file(file_name) ;
+  std::ofstream  data_file(file_name) ;
   if(data_file.bad())
     {
-      cerr << "Unable to open the file:" << file_name << "\n" ;  
+      std::cerr << "Unable to open the file:" << file_name << "\n" ;  
       exit(8) ;
     }
 
   for (int i = 0 ; i < array_size ; i++ )
     {
-      data_file << array1[i] << "\t" << array2[i] << endl ;
+      data_file << array1[i] << "\t" << array2[i] << std::endl ;
       if(data_file.bad())
 	{
-	  cerr << "Unable to access the file:" 
+	  std::cerr << "Unable to access the file:" 
 	       << file_name << "\n" ;  
 	  exit(8) ;
 	}
@@ -102,19 +102,19 @@ void output_array(char file_name[], double  array1[] , double  array2[] ,
 		  double  array3[] , double  array4[] ,
 		  long int  array_size )
 {
-  ofstream  data_file(file_name) ;
+  std::ofstream  data_file(file_name) ;
   if(data_file.bad())
     {
-      cerr << "Unable to open the file:" << file_name << "\n" ;  
+      std::cerr << "Unable to open the file:" << file_name << "\n" ;  
       exit(8) ;
     }
   for (int i = 0 ; i < array_size ; i++ )
     {
       data_file << array1[i] << "\t" << array2[i]
-		<< "\t" << array3[i] << "\t" << array4[i] << endl ;
+		<< "\t" << array3[i] << "\t" << array4[i] << std::endl ;
       if(data_file.bad())
 	{
-	  cerr << "Unable to access the file:" 
+	  std::cerr << "Unable to access the file:" 
 	       << file_name << "\n" ;  
 	  exit(8) ;
 	}
@@ -128,10 +128,10 @@ void input_array_splot(char file_name[],
 			double **array1, 
 			int  array_size_x, int  array_size_y  )
 {
-  ifstream  data_file2(file_name) ;
+  std::ifstream  data_file2(file_name) ;
   if(data_file2.bad())
     {
-      cerr << "Unable to open the file:" 
+      std::cerr << "Unable to open the file:" 
 	   << file_name << "\n" ;  
       exit(8) ;
     }
@@ -143,7 +143,7 @@ void input_array_splot(char file_name[],
 	  data_file2 >> pos_x >> pos_y >> array1[i_x][i_y] ;
 	  if(data_file2.bad())
 	    {
-	      cerr << "Unable to access the file:" 
+	      std::cerr << "Unable to access the file:" 
 		   << file_name << "\n" ;  
 	      exit(8) ;
 	    }
@@ -155,10 +155,10 @@ void input_array_splot(char file_name[],
 		       int **array1, 
 		       int  array_size_x, int  array_size_y  )
 {
-  ifstream  data_file2(file_name) ;
+  std::ifstream  data_file2(file_name) ;
   if(data_file2.bad())
     {
-      cerr << "Unable to open the file:" 
+      std::cerr << "Unable to open the file:" 
 	   << file_name << "\n" ;  
       exit(8) ;
     }
@@ -170,7 +170,7 @@ void input_array_splot(char file_name[],
 	  data_file2 >> array1[i_x][i_y] ;
 	  if(data_file2.bad())
 	    {
-	      cerr << "Unable to access the file:" 
+	      std::cerr << "Unable to access the file:" 
 		   << file_name << "\n" ;  
 	      exit(8) ;
 	    }
@@ -184,33 +184,33 @@ void output_array_splot(char file_name[],
 			int  array_size_x, int  array_size_y ,
                         double cell_size )
 {
-  ofstream  data_file2(file_name) ;
+  std::ofstream  data_file2(file_name) ;
   if(data_file2.bad())
     {
-      cerr << "Unable to open the file:" 
+      std::cerr << "Unable to open the file:" 
 	   << file_name << "\n" ;  
       exit(8) ;
     }
   double pos_x, pos_y ;
   for(int i_y = 0 ; i_y < array_size_y ; i_y++ )
     {
-      pos_y = (i_y + 0.5) * cell_size ;// --¡¡¥»¥ë¤ÏÃæ±û¤Î°ÌÃÖ¤òºÂÉ¸¤Ë¤È¤ë
+      pos_y = (i_y + 0.5) * cell_size ;// --ã€€ã‚»ãƒ«ã¯ä¸­å¤®ã®ä½ç½®ã‚’åº§æ¨™ã«ã¨ã‚‹
       for (int i_x = 0 ; i_x < array_size_x ; i_x++ )
 	{
           pos_x = (i_x + 0.5) * cell_size ;
 	  data_file2 << pos_x << "\t"
 		     << pos_y << "\t"
-		     << array1[i_x][i_y] << endl ;
+		     << array1[i_x][i_y] << std::endl ;
 	  if(data_file2.bad())
 	    {
-	      cerr << "Unable to access the file:" 
+	      std::cerr << "Unable to access the file:" 
 		   << file_name << "\n" ;  
 	      exit(8) ;
 	    }
 	}
-      data_file2  << endl ;
+      data_file2  << std::endl ;
     }
-  data_file2  << endl ;
+  data_file2  << std::endl ;
 }
 
 void output_array_splot(char file_name[], 
@@ -218,46 +218,46 @@ void output_array_splot(char file_name[],
 			int  array_size_x, int  array_size_y ,
                         double cell_size )
 {
-  ofstream  data_file2(file_name) ;
+  std::ofstream  data_file2(file_name) ;
   if(data_file2.bad())
     {
-      cerr << "Unable to open the file:" 
+      std::cerr << "Unable to open the file:" 
 	   << file_name << "\n" ;  
       exit(8) ;
     }
   double pos_x, pos_y ;
   for(int i_y = 0 ; i_y < array_size_y ; i_y++ )
     {
-      pos_y = (i_y + 0.5) * cell_size ;// --¡¡¥»¥ë¤ÏÃæ±û¤Î°ÌÃÖ¤òºÂÉ¸¤Ë¤È¤ë
+      pos_y = (i_y + 0.5) * cell_size ;// --ã€€ã‚»ãƒ«ã¯ä¸­å¤®ã®ä½ç½®ã‚’åº§æ¨™ã«ã¨ã‚‹
       for (int i_x = 0 ; i_x < array_size_x ; i_x++ )
 	{
           pos_x = (i_x + 0.5) * cell_size ;
 	  data_file2 << pos_x << "\t"
 		     << pos_y << "\t"
-		     << array1[i_x][i_y] << endl ;
+		     << array1[i_x][i_y] << std::endl ;
 	  if(data_file2.bad())
 	    {
-	      cerr << "Unable to access the file:" 
+	      std::cerr << "Unable to access the file:" 
 		   << file_name << "\n" ;  
 	      exit(8) ;
 	    }
 	}
-      data_file2  << endl ;
+      data_file2  << std::endl ;
     }
-  data_file2  << endl ;
+  data_file2  << std::endl ;
 }
 
 
 
-//--- 09/Sep/2004 HDD¤ÎÀáÌó¤Î¤¿¤á x,y ºÂÉ¸¤ò¥×¥í¥Ã¥È¤·¤Ê¤¤´Ø¿ô¤âÍÑ°Õ
+//--- 09/Sep/2004 HDDã®ç¯€ç´„ã®ãŸã‚ x,y åº§æ¨™ã‚’ãƒ—ãƒ­ãƒƒãƒˆã—ãªã„é–¢æ•°ã‚‚ç”¨æ„
 void  output_array_splot(char file_name[], 
 			 int **array1 , 
 			 int  array_size_x, int  array_size_y )
 {
-  ofstream  data_file2(file_name) ;
+  std::ofstream  data_file2(file_name) ;
   if(data_file2.bad())
     {
-      cerr << "Unable to open the file:" 
+      std::cerr << "Unable to open the file:" 
 	   << file_name << "\n" ;  
       exit(8) ;
     }
@@ -266,17 +266,17 @@ void  output_array_splot(char file_name[],
     {
       for (int i_x = 0 ; i_x < array_size_x ; i_x++ )
 	{
-	  data_file2  << array1[i_x][i_y] << endl ;
+	  data_file2  << array1[i_x][i_y] << std::endl ;
 	  if(data_file2.bad())
 	    {
-	      cerr << "Unable to access the file:" 
+	      std::cerr << "Unable to access the file:" 
 		   << file_name << "\n" ;  
 	      exit(8) ;
 	    }
 	}
-      data_file2  << endl ;
+      data_file2  << std::endl ;
     }
-  data_file2  << endl ;
+  data_file2  << std::endl ;
 }
 
 
@@ -299,10 +299,10 @@ void output_array_splot(char file_name[],
 			int  array_size_x, int  array_size_y,
 			double cell_size)
 {
-  ofstream  data_file2(file_name) ;
+  std::ofstream  data_file2(file_name) ;
   if(data_file2.bad())
     {
-      cerr << "Unable to open the file:" 
+      std::cerr << "Unable to open the file:" 
 	   << file_name << "\n" ;  
       exit(8) ;
     }
@@ -315,16 +315,16 @@ void output_array_splot(char file_name[],
 	  y_pos = i_y * cell_size ;
 
 	  data_file2 << x_pos << "\t" << y_pos << "\t" 
-		     << array1[i_x][i_y] << endl ;
+		     << array1[i_x][i_y] << std::endl ;
 	  if(data_file2.bad())
 	    {
-	      cerr << "Unable to access the file:" 
+	      std::cerr << "Unable to access the file:" 
 		   << file_name << "\n" ;  
 	      exit(8) ;
 	    }
 	}
     }
-  data_file2  << endl ;
+  data_file2  << std::endl ;
 }
 */
 //******************************************************************

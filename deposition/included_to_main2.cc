@@ -1,8 +1,8 @@
 // included_to_main2.cc 
-//=== monte_carlo.cc Æâ¤Ç¤Î main ¤Ë¤ª¤±¤ë
+//=== monte_carlo.cc å†…ã§ã® main ã«ãŠã‘ã‚‹
 
 //*************************************************
-//---   etch product  Ã¦Î¥ ¡ÊCl_ion ¤Îflag ¤Ë¤è¤ë¡Ë
+//---   etch product  è„±é›¢ ï¼ˆCl_ion ã®flag ã«ã‚ˆã‚‹ï¼‰
 //*************************************************
 
 if(FLAG_SiCl4_INCLUDED == true &&
@@ -10,7 +10,7 @@ if(FLAG_SiCl4_INCLUDED == true &&
 {
   bool flag_product_diffusion  ;
 
-  //== »ÀÁÇ¤ò´Ş¤à¾ì¹ç: ´ÊÃ±¤Î¤¿¤á SiOCl2¤Î¤ß¤È¤¹¤ë==
+  //== é…¸ç´ ã‚’å«ã‚€å ´åˆ: ç°¡å˜ã®ãŸã‚ SiOCl2ã®ã¿ã¨ã™ã‚‹==
   /*
   if(Cl_ion.n_oxy_desorb_Si >= 1)
     {
@@ -24,7 +24,7 @@ if(FLAG_SiCl4_INCLUDED == true &&
 	SiOCl2_neutral.whole_flight(&Shape, false) ;
     }
   */
-  //else //== SiCl4¤Î¾ì¹ç
+  //else //== SiCl4ã®å ´åˆ
   // {
       flag_product_diffusion =
 	SiCl4_neutral.allocate_on_surface
@@ -36,7 +36,7 @@ if(FLAG_SiCl4_INCLUDED == true &&
 	SiCl4_neutral.whole_flight(&Shape, false) ;
       
       //*************************************************
-      //---   SiCl2  Æş¼Í 
+      //---   SiCl2  å…¥å°„ 
       //*************************************************
       if(FLAG_SiCl2_INCLUDED == true )
 	{
@@ -51,10 +51,10 @@ if(FLAG_SiCl4_INCLUDED == true &&
 	      SiCl2_neutral.add_n_injection();
 	      SiCl2_neutral.whole_flight(&Shape, false) ;
 	      
-	    } // SiCl2 ¤Î½èÍı½ªÎ»
+	    } // SiCl2 ã®å‡¦ç†çµ‚äº†
 	}
       //*************************************************
-      //---   SiCl2O  Æş¼Í 
+      //---   SiCl2O  å…¥å°„ 
       //*************************************************
       if(FLAG_SiOCl2_INCLUDED == true)
 	{
@@ -69,8 +69,8 @@ if(FLAG_SiCl4_INCLUDED == true &&
 		       Q_ELEMENTAL / SiOCl2_neutral.mass) ) ; 
 	      SiOCl2_neutral.add_n_injection();
 	      SiOCl2_neutral.whole_flight(&Shape, false) ;
-	    } // SiOCl2 ¤Î½èÍı½ªÎ»
-	  //=== Æş¼Í¿ô¥«¥¦¥ó¥¿¤Î½ĞÎÏ ===
+	    } // SiOCl2 ã®å‡¦ç†çµ‚äº†
+	  //=== å…¥å°„æ•°ã‚«ã‚¦ãƒ³ã‚¿ã®å‡ºåŠ› ===
 	  if(i_ion % INTERVAL_FILE_OUTPUT == 0 ||
 	     i_ion == N_ION_INJECT )
 	    file_SiOCl2 << SiOCl2_neutral.put_n_injection() << "\n" ;
@@ -78,7 +78,7 @@ if(FLAG_SiCl4_INCLUDED == true &&
 	}
       //    }
 }  
-//=== Æş¼Í¿ô¥«¥¦¥ó¥¿¤Î½ĞÎÏ ===
+//=== å…¥å°„æ•°ã‚«ã‚¦ãƒ³ã‚¿ã®å‡ºåŠ› ===
 if(i_ion % INTERVAL_FILE_OUTPUT == 0 ||
    i_ion == N_ION_INJECT )
 {
@@ -89,13 +89,13 @@ if(i_ion % INTERVAL_FILE_OUTPUT == 0 ||
 }
 
 //*************************************************
-//---   »ÀÁÇ¸¶»Ò  Æş¼Í ¡Ê1/OXYGEN_ION_RATIO²ó¤Ë£±²ó¡Ë
+//---   é…¸ç´ åŸå­  å…¥å°„ ï¼ˆ1/OXYGEN_ION_RATIOå›ã«ï¼‘å›ï¼‰
 //*************************************************
 
 if(FLAG_OXYGEN_INCLUDED == true)
 {
   //if( i_ion % ION_OXYGEN_RATIO == 0 )
-  // ==== f²ó¤Ë1²ó¡Êf¤Ï¾®¿ô¡Ë½èÍı¤ò¹Ô¤¦¤¿¤á¡¢²¼µ­¤Î¤è¤¦¤Ê¼êÂ³¤­¤ò¹Ô¤¦
+  // ==== få›ã«1å›ï¼ˆfã¯å°æ•°ï¼‰å‡¦ç†ã‚’è¡Œã†ãŸã‚ã€ä¸‹è¨˜ã®ã‚ˆã†ãªæ‰‹ç¶šãã‚’è¡Œã†
   while(double(i_ion) * OXYGEN_ION_RATIO > interval_step_oxygen )
     {
       interval_step_oxygen++ ;
@@ -106,23 +106,23 @@ if(FLAG_OXYGEN_INCLUDED == true)
       i_exception_move = 0 ;
       while(1) 
 	{
-	  //--- ÎÎ°èÆâÉô¤Ë¤¢¤Ş¤êÄ¹¤¯¤È¤É¤Ş¤Ã¤Æ¤¤¤ë¾ì¹ç¡¢
-	  //    Îã³°½èÍı¡ÊÎ³»Ò¤ò¾Ãµî¡Ë
+	  //--- é ˜åŸŸå†…éƒ¨ã«ã‚ã¾ã‚Šé•·ãã¨ã©ã¾ã£ã¦ã„ã‚‹å ´åˆã€
+	  //    ä¾‹å¤–å‡¦ç†ï¼ˆç²’å­ã‚’æ¶ˆå»ï¼‰
 	  i_exception_move++ ;
 	  if( i_exception_move > N_CELL_Z * 200 )
 	    break ;
       
-	  // -- ÊÂ¿Ê±¿Æ°
+	  // -- ä¸¦é€²é‹å‹•
 	  
 	  Oxygen_atom.move_trans(FREE_FLIGHT_PATH_Si) ;
-	  if (Oxygen_atom.put_flag_inside() == false) // -- ³°¤Ë½Ğ¤¿¡©
+	  if (Oxygen_atom.put_flag_inside() == false) // -- å¤–ã«å‡ºãŸï¼Ÿ
 	    break ;
       
-	  // -- Î³»Ò¤Î¤¤¤ë¾ì½ê¤Îphase¤ò¼èÆÀ
+	  // -- ç²’å­ã®ã„ã‚‹å ´æ‰€ã®phaseã‚’å–å¾—
 	  Oxygen_atom.get_position() ;
 
 	      
-	  // -- ¶õ´Ö¤Ç¤Ê¤±¤ì¤Ğ¡¢»À²½¡Ê¤â¤·¤¯¤ÏÈ¿¼Í¡Ë¤Î½èÍı¤ò¹Ô¤¦
+	  // -- ç©ºé–“ã§ãªã‘ã‚Œã°ã€é…¸åŒ–ï¼ˆã‚‚ã—ãã¯åå°„ï¼‰ã®å‡¦ç†ã‚’è¡Œã†
 	  if(Shape.shape_matrix
 	     [Oxygen_atom.i_cell_x][Oxygen_atom.i_cell_z] != SHAPE_SPACE )
 	    {
@@ -136,11 +136,11 @@ if(FLAG_OXYGEN_INCLUDED == true)
 		  //  << "\t" << Oxygen_atom.i_previous_z << endl ;
 		  break ;  // get out of the loop if oxidized
 		}
-	      //ÍğÈ¿¼Í : 
-	      // Ìµ¸Â¥ë¡¼¥×¤ò¤µ¤±¤ë¤¿¤á¤Ë¡¢¥«¥¦¥ó¥¿¤òÍÑ°Õ¤¹¤ë¡£
-	      // Î³»Ò¤ò²¾¤Ë¿Ê¤Ş¤»¤Æ¤ß¤Æ¡¢(pos_v_togo)
-	      // ¤â¤·¿Ê¤ó¤ÀÀè¤¬¶õÇòÉôÊ¬¤Ç¤Ê¤±¤ì¤Ğ¡¢¸µ¤ËÌá¤Ã¤Æ
-	      //     ¤ä¤êÄ¾¤·(50²ó¤Ë¤Ê¤Ã¤¿¤é¤â¤¦¤ä¤á¤ë)
+	      //ä¹±åå°„ : 
+	      // ç„¡é™ãƒ«ãƒ¼ãƒ—ã‚’ã•ã‘ã‚‹ãŸã‚ã«ã€ã‚«ã‚¦ãƒ³ã‚¿ã‚’ç”¨æ„ã™ã‚‹ã€‚
+	      // ç²’å­ã‚’ä»®ã«é€²ã¾ã›ã¦ã¿ã¦ã€(pos_v_togo)
+	      // ã‚‚ã—é€²ã‚“ã å…ˆãŒç©ºç™½éƒ¨åˆ†ã§ãªã‘ã‚Œã°ã€å…ƒã«æˆ»ã£ã¦
+	      //     ã‚„ã‚Šç›´ã—(50å›ã«ãªã£ãŸã‚‰ã‚‚ã†ã‚„ã‚ã‚‹)
 	      i_exception_reflect = 0;
 	      Shape.get_surfacenormal(Oxygen_atom.i_cell_x, 
 				      Oxygen_atom.i_cell_z) ;
@@ -149,7 +149,7 @@ if(FLAG_OXYGEN_INCLUDED == true)
 		break ;
 	  
 	      Oxygen_atom.random_reflection //(false, 0.0, 0.0 ) ;
-		(true,  // ÍğÈ¿¼Í
+		(true,  // ä¹±åå°„
 		 Shape.surfacenormal_x
 		 [Oxygen_atom.i_cell_x][Oxygen_atom.i_cell_z],
 		 Shape.surfacenormal_z
@@ -165,8 +165,8 @@ if(FLAG_OXYGEN_INCLUDED == true)
 		  goto reflection_Oxygen ;
 		}
 	    } 
-      	} //=== while loop ½ªÎ»¡Ê£±Î³»Ò¤Îtrajectory¡Ë
-    } // »ÀÁÇ¤Î½èÍı½ªÎ»
+      	} //=== while loop çµ‚äº†ï¼ˆï¼‘ç²’å­ã®trajectoryï¼‰
+    } // é…¸ç´ ã®å‡¦ç†çµ‚äº†
 }
 
 

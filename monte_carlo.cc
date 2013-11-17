@@ -3,12 +3,12 @@
 // -- simplified Monte Carlo simulation of 
 //    low energy ion penetration into solids
 // 
-// p-109¡Á ¤ò»²¾È
+// p-109ã€œ ã‚’å‚ç…§
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <iostream.h>
-#include <fstream.h>
+#include <iostream>
+#include <fstream>
 #include <math.h>
 #include <string.h>
 #include <time.h>
@@ -28,8 +28,8 @@
 #include "common_utils.h"
 
 //------------
-//-- reduced energy ¤ò½ĞÎÏ¤¹¤ë
-// ÆşÎÏ¡§Æş¼Í¥¤¥ª¥ó¡¢¥¿¡¼¥²¥Ã¥È¸ÇÂÎ¡¢Æş¼Í¥¨¥Í¥ë¥®¡¼(eV)
+//-- reduced energy ã‚’å‡ºåŠ›ã™ã‚‹
+// å…¥åŠ›ï¼šå…¥å°„ã‚¤ã‚ªãƒ³ã€ã‚¿ãƒ¼ã‚²ãƒƒãƒˆå›ºä½“ã€å…¥å°„ã‚¨ãƒãƒ«ã‚®ãƒ¼(eV)
 
 double put_reduced_energy(Atom_struct  Ion,   Atom_struct  Solid,
 			  double energy_i ,   double *a_universal );
@@ -37,15 +37,15 @@ double put_reduced_energy(Atom_struct  Ion,   Atom_struct  Solid,
 //--------------------------
 int main(int argc, char *argv[])
 {
-  if(argc >= 2 ) // --- °ú¿ô¤Ï¤¢¤ë¤«¡©
+  if(argc >= 2 ) // --- å¼•æ•°ã¯ã‚ã‚‹ã‹ï¼Ÿ
     {
       NEUTRAL_ION_RATIO   = atof(argv[1]) ;
       INCIDENT_ENERGY_ION = atof(argv[2]) ;
       //YIELD_BETA=0.90537*sqrt(INCIDENT_ENERGY_ION)-4.219450374;
       //YIELD_BETA=0.36*(sqrt( INCIDENT_ENERGY_ION ) - sqrt(10.0));
       YIELD_BETA = 0.77*(sqrt( INCIDENT_ENERGY_ION ) - sqrt(20.0));
-      cout << "YIELD_BETA : " << YIELD_BETA << endl ;
-      //-- ¥Õ¥¡¥¤¥ëÌ¾
+      std::cout << "YIELD_BETA : " << YIELD_BETA << std::endl ;
+      //-- ãƒ•ã‚¡ã‚¤ãƒ«å
       /*sprintf( CL_BOND_FILE,   "%s%seV%sratio",
 	       CL_BOND_FILE ,   argv[2], argv[1]);
       sprintf( SI_MATRIX_FILE, "%s%seV%sratio", 
@@ -63,12 +63,12 @@ int main(int argc, char *argv[])
   sgenrand(RANDOM_NUMBER_SEED) ;
   srand( time(NULL) );
  
-  //== ¥¯¥é¥¹¤ÎÀ¸À® ===
+  //== ã‚¯ãƒ©ã‚¹ã®ç”Ÿæˆ ===
   class Ion_class         Cl_ion(CL_MASS, 0, N_IADF_ARRAY ) ;
   class Neutral_class     Cl_neutral(CL_MASS, 0 ) ;
   class Shape_trim_class  Shape(FLAG_OPEN_SPACE)  ;
 
-  if(FLAG_OPEN_SPACE == true)//== ÊÒÂ¦ open space¤Î¾ì¹ç
+  if(FLAG_OPEN_SPACE == true)//== ç‰‡å´ open spaceã®å ´åˆ
     {
       Cl_ion.set_flag_boundary(SPECULAR_REFLECT) ;
       Cl_neutral.set_flag_boundary(SPECULAR_REFLECT);//NO_PERIODIC) ;
@@ -78,29 +78,29 @@ int main(int argc, char *argv[])
   class Shape_counter_class Neutral_counter ;
   if(FLAG_FLUX_COUNT == true)
     {
-      YIELD_BETA = 0.0 ; //== ¥¨¥Ã¥Á¥ó¥°¤Ï¿ÊÅ¸¤·¤Ê¤¤¤â¤Î¤È¤¹¤ë
-      Ion_counter.allocate_memory(); //== ¥á¥â¥ê³ÎÊİ ==
+      YIELD_BETA = 0.0 ; //== ã‚¨ãƒƒãƒãƒ³ã‚°ã¯é€²å±•ã—ãªã„ã‚‚ã®ã¨ã™ã‚‹
+      Ion_counter.allocate_memory(); //== ãƒ¡ãƒ¢ãƒªç¢ºä¿ ==
       Neutral_counter.allocate_memory();
     }
 
-  if( ION_INJECT_FLAG == 3 ) //== IADF ÆÉ¤ß¹ş¤ß
+  if( ION_INJECT_FLAG == 3 ) //== IADF èª­ã¿è¾¼ã¿
     Cl_ion.read_angular_df(IADF_FILE) ; 
 
-  if(FLAG_INPUT_PROFILE == true) //== ·Á¾õÆÉ¤ß¹ş¤ß ===
+  if(FLAG_INPUT_PROFILE == true) //== å½¢çŠ¶èª­ã¿è¾¼ã¿ ===
     Shape.input_profile(SI_INPUT_FILE, CL_INPUT_FILE ) ;
 
-  //== °ì»şÅª¤Ë»ÈÍÑ¤¹¤ëÊÑ¿ô
+  //== ä¸€æ™‚çš„ã«ä½¿ç”¨ã™ã‚‹å¤‰æ•°
   
   bool   tmp_flag ;
   //  bool   flag_out_of_domain;
   int    i_x, i_z ;
 
-  //int    i_counter ; // -- debug ÍÑ¥«¥¦¥ó¥¿
+  //int    i_counter ; // -- debug ç”¨ã‚«ã‚¦ãƒ³ã‚¿
 
-  //== ·×»»¾ò·ï¤Îµ­Ï¿¡¿½ĞÎÏ
-  ofstream  condition_file(CONDITION_FILE) ;
-  ofstream  log_file(YIELD_FILE) ;
-  cout << "Pattern width(nm): " 
+  //== è¨ˆç®—æ¡ä»¶ã®è¨˜éŒ²ï¼å‡ºåŠ›
+  std::ofstream  condition_file(CONDITION_FILE) ;
+  std::ofstream  log_file(YIELD_FILE) ;
+  std::cout << "Pattern width(nm): " 
        << L_INTER_ATOMIC * (N_RIGHT_MASK - N_LEFT_MASK) * 1.0e+9
        << "\nNumber of ions to be injected: " << N_ION_INJECT 
        << "\nReal time of evolution: "        << REAL_ELAPSED_TIME 
@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
 
 
   //*****************************************
-  //----    ¥ë¡¼¥×³«»Ï         --------------
+  //----    ãƒ«ãƒ¼ãƒ—é–‹å§‹         --------------
   //*****************************************
   
   int i_ion     = 0 ; 
@@ -150,24 +150,24 @@ int main(int argc, char *argv[])
     //for(int i_ion = 1; i_ion <= N_ION_INJECT ; i_ion++)
     {
       //*****************************************
-      //== ¥ë¡¼¥×²ó¿ô¡¢Ã¦Î¥Si¤Î¿ô¤Î½ĞÎÏ¡¢µ­Ï¿
+      //== ãƒ«ãƒ¼ãƒ—å›æ•°ã€è„±é›¢Siã®æ•°ã®å‡ºåŠ›ã€è¨˜éŒ²
       //*****************************************
       if(i_ion % N_COUT_INTERVAL == 0) 
 	{
 	  time(&computing_current);
 	  
-	  cout << "iteration: " << i_ion 
+	  std::cout << "iteration: " << i_ion 
 	       << "\tdesorbed Si: "  << Shape.cntr_desorbed_Si 
 	       << "\tdeposited Si: " << Shape.cntr_deposited_Si
 	       << "\tdesorbed mask: "<< Shape.cntr_desorbed_mask
 	       << "\tcomputing: " 
-	       << difftime(computing_current, computing_start) << endl ;
+	       << difftime(computing_current, computing_start) << std::endl ;
 			 
 	  log_file << i_ion << "\t" << Shape.cntr_desorbed_Si 
-		   << "\t" << Shape.cntr_deposited_Si << endl ;
+		   << "\t" << Shape.cntr_deposited_Si << std::endl ;
 	}
       //*****************************************
-      // --        Cl ¥é¥¸¥«¥ë¤ÎÆş¼Í
+      // --        Cl ãƒ©ã‚¸ã‚«ãƒ«ã®å…¥å°„
       //*****************************************
     
 #ifdef _INJECT_CL_RADICAL_
@@ -179,9 +179,9 @@ int main(int argc, char *argv[])
 				 INCIDENT_ENERGY_NEUTRAL,
 				 FLAG_CHEMICAL_ETCH, YIELD_CHEMICAL) ;
 	  
-	  //== ÊÒÂ¦ open space ¤Î¾ì¹ç¤Î½èÍı 
-	  // neutral/ion ratio ¤ÈÆ±ÍÍ¤Ë¡¢top/side ratio¤ò¸µ¤Ë¤·¤Æ
-	  // ²£Êı¸ş¤«¤é¤ÎÆş¼Í¤ò¹Ô¤¦
+	  //== ç‰‡å´ open space ã®å ´åˆã®å‡¦ç† 
+	  // neutral/ion ratio ã¨åŒæ§˜ã«ã€top/side ratioã‚’å…ƒã«ã—ã¦
+	  // æ¨ªæ–¹å‘ã‹ã‚‰ã®å…¥å°„ã‚’è¡Œã†
 	  // if(FLAG_OPEN_SPACE == true)
 	  //{
 	  //  while(double(i_neutral) * SYSTEM_HEIGHT_Z / SYSTEM_WIDTH_X >
@@ -194,24 +194,24 @@ int main(int argc, char *argv[])
 	  //			 FLAG_CHEMICAL_ETCH, YIELD_CHEMICAL) ;
 	  //	}
 	  // }
-	}  //  === END: Cl ¥é¥¸¥«¥ë¤Î½èÍı 
+	}  //  === END: Cl ãƒ©ã‚¸ã‚«ãƒ«ã®å‡¦ç† 
 #endif
       
       //*****************************************
-      // -- ¥¤¥ª¥óÆş¼Í¡§¤¢¤ë¥¨¥Í¥ë¥®¡¼¤ÇÍ¿¤¨¤Æ¤ä¤Ã¤Æ¡¢
-      //    ¾×ÆÍ¤ò·«¤êÊÖ¤¹¡£¥¨¥Í¥ë¥®¡¼¤¬¤¢¤ë¤·¤­¤¤ÃÍ¤ò²¼²ó¤Ã¤¿¤é
-      //¡¡¡¡¥¹¥È¥Ã¥×¤¹¤ë¡£
-      // ¤â¤·¤¯¤ÏÄ·¤ÍÊÖ¤Ã¤Æ z < 0 ¤È¤Ê¤Ã¤¿¾ì¹ç¤â¥¹¥È¥Ã¥×¡£
+      // -- ã‚¤ã‚ªãƒ³å…¥å°„ï¼šã‚ã‚‹ã‚¨ãƒãƒ«ã‚®ãƒ¼ã§ä¸ãˆã¦ã‚„ã£ã¦ã€
+      //    è¡çªã‚’ç¹°ã‚Šè¿”ã™ã€‚ã‚¨ãƒãƒ«ã‚®ãƒ¼ãŒã‚ã‚‹ã—ãã„å€¤ã‚’ä¸‹å›ã£ãŸã‚‰
+      //ã€€ã€€ã‚¹ãƒˆãƒƒãƒ—ã™ã‚‹ã€‚
+      // ã‚‚ã—ãã¯è·³ã­è¿”ã£ã¦ z < 0 ã¨ãªã£ãŸå ´åˆã‚‚ã‚¹ãƒˆãƒƒãƒ—ã€‚
       //*****************************************
-      // flag ¤Ë¤è¤Ã¤ÆÆş¼Í¤Î¾ò·ï¤òÊÑ¤¨¤ë
-      // 150eV -> m/s ¤ËÊÑ´¹
+      // flag ã«ã‚ˆã£ã¦å…¥å°„ã®æ¡ä»¶ã‚’å¤‰ãˆã‚‹
+      // 150eV -> m/s ã«å¤‰æ›
       
-      // === ÂåÉ½Î³»Ò¿ô¤ò 1/Ymax ÇÜ¤¹¤ë¤Î¤Ç¡¢Ymax²ó·«¤êÊÖ¤¹ ===
+      // === ä»£è¡¨ç²’å­æ•°ã‚’ 1/Ymax å€ã™ã‚‹ã®ã§ã€Ymaxå›ç¹°ã‚Šè¿”ã™ ===
       //i_counter = 0 ; //--debug
       for (int i_virtual_ion = 0; 
 	   i_virtual_ion  < YIELD_MAX_INT; i_virtual_ion++)
 	{
-	  //== ¥¤¥ª¥óÆş¼Í ==
+	  //== ã‚¤ã‚ªãƒ³å…¥å°„ ==
 	  if(ION_INJECT_FLAG == 2 )
 	    Cl_ion.inject_from_center( sqrt(2.0 * INCIDENT_ENERGY_ION * 
 					    Q_ELEMENTAL / Cl_ion.mass) ) ;
@@ -221,21 +221,21 @@ int main(int argc, char *argv[])
 	  else
 	    Cl_ion.inject_from_top( sqrt(2.0 * INCIDENT_ENERGY_ION * 
 					 Q_ELEMENTAL / Cl_ion.mass) ) ;
-	  //cout << Cl_ion.pos_v.x << "\t" << Cl_ion.pos_v.y << "\t"
-	  //  << Cl_ion.pos_v.z << endl ;
-	  Cl_ion.set_flag_reflection(false);//== Á°Êı»¶Íğ¤Îflag¤ò¥ê¥»¥Ã¥È 
+	  //std::cout << Cl_ion.pos_v.x << "\t" << Cl_ion.pos_v.y << "\t"
+	  //  << Cl_ion.pos_v.z << std::endl ;
+	  Cl_ion.set_flag_reflection(false);//== å‰æ–¹æ•£ä¹±ã®flagã‚’ãƒªã‚»ãƒƒãƒˆ 
 	  
 	  while(1) 
 	    {
-	      //-- °ÌÃÖºÂÉ¸¤òµá¤á¤ë¡ÊÎ³»Ò¤Î°ÜÆ°¡Ë
-	      // -- free flight path(L) ¤Ï°ìÄê¤È¸«¤Ê¤¹
+	      //-- ä½ç½®åº§æ¨™ã‚’æ±‚ã‚ã‚‹ï¼ˆç²’å­ã®ç§»å‹•ï¼‰
+	      // -- free flight path(L) ã¯ä¸€å®šã¨è¦‹ãªã™
 	      
 	      Cl_ion.move_trans(FREE_FLIGHT_PATH_Si) ;
 	      
 	      if(Cl_ion.put_flag_inside() == false)
-		break ; // ÎÎ°è¤òÈô¤Ó½Ğ¤·¤¿¾ì¹ç
+		break ; // é ˜åŸŸã‚’é£›ã³å‡ºã—ãŸå ´åˆ
 	      
-	      //==¥Ş¥¹¥¯¤ËÅşÃ£¤·¤¿¾ì¹ç¤â break ==
+	      //==ãƒã‚¹ã‚¯ã«åˆ°é”ã—ãŸå ´åˆã‚‚ break ==
 	      if(Shape.put_shape_matrix(Cl_ion.pos_v.x, 
 					Cl_ion.pos_v.z ,
 					&i_x, &i_z ) == HARD_MASK )
@@ -255,41 +255,41 @@ int main(int argc, char *argv[])
 
 	    } // <- end of while loop
 
-	  Cl_ion.add_ctr_reflection(); //== Á°Êı»¶Íğ¤Î¥«¥¦¥ó¥¿²Ã»» ==
+	  Cl_ion.add_ctr_reflection(); //== å‰æ–¹æ•£ä¹±ã®ã‚«ã‚¦ãƒ³ã‚¿åŠ ç®— ==
 
-	  // ==== ¥¨¥Í¥ë¥®¡¼¤¬¾®¤µ¤¯¤Ê¤Ã¤¿¤È¤³¤í¤¬Si ¸¶»Ò¤Ç¤¢¤ì¤Ğ¤½¤³¤ËÄêÃå
+	  // ==== ã‚¨ãƒãƒ«ã‚®ãƒ¼ãŒå°ã•ããªã£ãŸã¨ã“ã‚ãŒSi åŸå­ã§ã‚ã‚Œã°ãã“ã«å®šç€
 	  if(Cl_ion.put_flag_inside() == true )
 	    {
 	      //***** 02Dec2003 **************
-	      if(RAN0() < 1.0 / YIELD_MAX) //<- µÛÃå¤Ë¤«¤ó¤·¤Æ¤â²¾ÁÛÎ³»Ò¤ò³ÎÎ¨Åª¤Ë°·¤¦
+	      if(RAN0() < 1.0 / YIELD_MAX) //<- å¸ç€ã«ã‹ã‚“ã—ã¦ã‚‚ä»®æƒ³ç²’å­ã‚’ç¢ºç‡çš„ã«æ‰±ã†
 		Shape.adsorb_Cl(i_x, i_z) ;
 
-	      // ºÂÉ¸½ĞÎÏ¡ÊÎÎ°è¤òÈô¤Ó½Ğ¤¿¤â¤Î¤Ç¤Ï¤Ê¤¤¤«¡©¡Ë
-	      //cout << Cl_ion.pos_v.x << "\t"
-	      //<< Cl_ion.pos_v.y << "\t" << Cl_ion.pos_v.z << endl ;
+	      // åº§æ¨™å‡ºåŠ›ï¼ˆé ˜åŸŸã‚’é£›ã³å‡ºãŸã‚‚ã®ã§ã¯ãªã„ã‹ï¼Ÿï¼‰
+	      //std::cout << Cl_ion.pos_v.x << "\t"
+	      //<< Cl_ion.pos_v.y << "\t" << Cl_ion.pos_v.z << std::endl ;
 	    }
 	  
 	  //*************************************************
-	  //---   SiCl2  Æş¼Í ¡ÊION_SiCl2_RATIO²ó¤Ë£±²ó¡Ë
+	  //---   SiCl2  å…¥å°„ ï¼ˆION_SiCl2_RATIOå›ã«ï¼‘å›ï¼‰
 	  //*************************************************
 #ifdef _DEPOSITION_PROGRAM_
 #include "deposition/included_to_main2.cc"  
 #endif
-	}// === for loop  END : ¥¤¥ª¥óÆş¼Í¤Î½èÍı
+	}// === for loop  END : ã‚¤ã‚ªãƒ³å…¥å°„ã®å‡¦ç†
 
       //-- isolation check
-      //Shape.remove_isolated_Si() ; <- ¥³¥á¥ó¥È¥¢¥¦¥È¤·¤Æ¤ª¤¯
+      //Shape.remove_isolated_Si() ; <- ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã—ã¦ãŠã
 
       //****************************
-      //--     ¥Õ¥¡¥¤¥ë½ĞÎÏ
-      //  -> °ì¤Ä¤Î¥»¥ë¤Ë¤ª¤±¤ëCl¤Î¿ô¤È»ÀÁÇ¤Î¿ô¤òÆ±°ì¤Î¥Õ¥¡¥¤¥ë¤Ç
-      //     µ­Ï¿¤·¤¿¤¤¡£-> 10¿Ê¿ô¤Ç½½¤Î°Ì¤ò»ÀÁÇ¤Î¿ô¡¢°ì¤Î°Ì¤òCl¤Î¿ô¤È¤¹¤ë
-      //     -> ¥×¥í¥Ã¥È¤¹¤ëºİ¤Ëmod¤ò¤È¤Ã¤Æ¤½¤ì¤¾¤ì¤Î¿ô¤òÃê½Ğ¤¹¤ë
+      //--     ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›
+      //  -> ä¸€ã¤ã®ã‚»ãƒ«ã«ãŠã‘ã‚‹Clã®æ•°ã¨é…¸ç´ ã®æ•°ã‚’åŒä¸€ã®ãƒ•ã‚¡ã‚¤ãƒ«ã§
+      //     è¨˜éŒ²ã—ãŸã„ã€‚-> 10é€²æ•°ã§åã®ä½ã‚’é…¸ç´ ã®æ•°ã€ä¸€ã®ä½ã‚’Clã®æ•°ã¨ã™ã‚‹
+      //     -> ãƒ—ãƒ­ãƒƒãƒˆã™ã‚‹éš›ã«modã‚’ã¨ã£ã¦ãã‚Œãã‚Œã®æ•°ã‚’æŠ½å‡ºã™ã‚‹
       //****************************
       if(i_ion % INTERVAL_FILE_OUTPUT == 0 ||
 	 i_ion == N_ION_INJECT ||
 	 Shape.flag_get_bottom == true ) 
-	//-- ÄìÌÌ¤ËÅşÃ£¤·¤¿¤é¥Õ¥¡¥¤¥ë½ĞÎÏ¤·¤Æ¥ë¡¼¥×½ªÎ»
+	//-- åº•é¢ã«åˆ°é”ã—ãŸã‚‰ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ã—ã¦ãƒ«ãƒ¼ãƒ—çµ‚äº†
 	{
 	  int tmp;   char OUT1[50] ; 
 	  tmp = sprintf( OUT1, "%s%d.dat", CL_BOND_FILE, i_ion);
@@ -321,7 +321,7 @@ int main(int argc, char *argv[])
 	}
 
       i_ion++ ;
-    }// do loop ½ªÎ»
+    }// do loop çµ‚äº†
   while( i_ion <= N_ION_INJECT &&
 	 Shape.flag_get_bottom != true ) ;
 
@@ -339,12 +339,12 @@ int main(int argc, char *argv[])
       t_loss  = put_energy_loss(Cl, Si, double(i) ,
 				2.0e-10 ,   // impact parameter 
 				&theta_c, &psi ) ;
-      cout << i << "\t" 
-	   << "¦Å(reduced energy): " << epsilon   << "\t"
-             << "¦¨(theta_c): " << theta_c   << "\t" 
-	   << "¦×(psi): " << psi       << "\t"
+      std::cout << i << "\t" 
+	   << "Îµ(reduced energy): " << epsilon   << "\t"
+             << "Î˜(theta_c): " << theta_c   << "\t" 
+	   << "Ïˆ(psi): " << psi       << "\t"
 	   << "T(eV): " << t_loss << "\t" 
-	   << endl ;
+	   << std::endl ;
     }
    */
   return 0;
@@ -352,18 +352,18 @@ int main(int argc, char *argv[])
 }
 
 //------------
-//-- reduced energy ¤ò½ĞÎÏ¤¹¤ë
-// ÆşÎÏ¡§Æş¼Í¥¤¥ª¥ó¡¢¥¿¡¼¥²¥Ã¥È¸ÇÂÎ¡¢Æş¼Í¥¨¥Í¥ë¥®¡¼(eV)
+//-- reduced energy ã‚’å‡ºåŠ›ã™ã‚‹
+// å…¥åŠ›ï¼šå…¥å°„ã‚¤ã‚ªãƒ³ã€ã‚¿ãƒ¼ã‚²ãƒƒãƒˆå›ºä½“ã€å…¥å°„ã‚¨ãƒãƒ«ã‚®ãƒ¼(eV)
 
 double put_reduced_energy(Atom_struct  Ion,   Atom_struct  Solid,
 			  double energy_i ,   double *a_universal )
 {
-  // unversal screening length ¤Î·èÄê
+  // unversal screening length ã®æ±ºå®š
   *a_universal = 0.8853 * BOHR_RADIUS / (pow(Ion.atomic_n,   0.23) +
 					 pow(Solid.atomic_n, 0.23) ) ;
   
-  // Æş¼Í¥¨¥Í¥ë¥®¡¼(eV)¤òÌµ¼¡¸µ²½¤¹¤ë¤¿¤á¤Ë¤Ï¡¢
-  // 4¦Ğ¦Å a_u Ec / (Z1 Z2 e)  ¤È¤¹¤ë¡£
+  // å…¥å°„ã‚¨ãƒãƒ«ã‚®ãƒ¼(eV)ã‚’ç„¡æ¬¡å…ƒåŒ–ã™ã‚‹ãŸã‚ã«ã¯ã€
+  // 4Ï€Îµ a_u Ec / (Z1 Z2 e)  ã¨ã™ã‚‹ã€‚
   // (Ec = E * M2 / (M1 + M2))
   return   
     4.0 * PI * E_PERMITTIVITY * (*a_universal) 

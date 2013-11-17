@@ -10,15 +10,15 @@
 
 double rotating_angle(double x, double y )
 {
-  if(x > 0.0 && y >= 0.0 ) //Âè°ì¾İ¸½
+  if(x > 0.0 && y >= 0.0 ) //ç¬¬ä¸€è±¡ç¾
     {
       return atan(y/x) ;
     }
-  else if(x < 0.0 ) //ÂèÆó¡¢»°¾İ¸½
+  else if(x < 0.0 ) //ç¬¬äºŒã€ä¸‰è±¡ç¾
     {
       return atan(y/x) + PI ;
     }
-  else if(x > 0.0 && y < 0.0) //Âè»Í¾İ¸½
+  else if(x > 0.0 && y < 0.0) //ç¬¬å››è±¡ç¾
     {
       return atan(y/x) + 2.0 * PI ;
     }
@@ -31,20 +31,20 @@ double rotating_angle(double x, double y )
       return 1.5 * PI ;
     }
 
-  // --- ¤³¤Î¥³¡¼¥É¤Ç¤Ï (3/2)¦Ğ¤¬±ôÄ¾¾å¸ş¤­Êı¸ş¤Ë¤Ê¤ë¡£
+  // --- ã“ã®ã‚³ãƒ¼ãƒ‰ã§ã¯ (3/2)Ï€ãŒé‰›ç›´ä¸Šå‘ãæ–¹å‘ã«ãªã‚‹ã€‚
   return 1.5 * PI  ;
 }
 
-//==  -> °ì¤Ä¤Î¥»¥ë¤Ë¤ª¤±¤ëCl¤Î¿ô¤È»ÀÁÇ¤Î¿ô¤òÆ±°ì¤Î¥Õ¥¡¥¤¥ë¤Çµ­Ï¿
+//==  -> ä¸€ã¤ã®ã‚»ãƒ«ã«ãŠã‘ã‚‹Clã®æ•°ã¨é…¸ç´ ã®æ•°ã‚’åŒä¸€ã®ãƒ•ã‚¡ã‚¤ãƒ«ã§è¨˜éŒ²
 
 void  output_cellinfo(int  **n_oxygen, int  **n_Cl,
 		      int i_ion, char filename[], int  n_x,  int  n_z,
 		      double  cell_size ) 
 {
-  int *tmp_matrix[N_CELL_X]; int *p_tmp_matrix; // <- tmp ÊÑ¿ô¤Î³ÎÊİ
+  int *tmp_matrix[N_CELL_X]; int *p_tmp_matrix; // <- tmp å¤‰æ•°ã®ç¢ºä¿
   p_tmp_matrix = new int[N_CELL_X * N_CELL_Z] ;
   
-  for(int i_x = 0; i_x < N_CELL_X ; i_x++) //== ¥á¥â¥ê³ÎÊİ ==
+  for(int i_x = 0; i_x < N_CELL_X ; i_x++) //== ãƒ¡ãƒ¢ãƒªç¢ºä¿ ==
     tmp_matrix[i_x] = p_tmp_matrix + ( i_x * N_CELL_Z ) ;
  
   for(int i_z = 0; i_z < N_CELL_Z ; i_z++)
@@ -62,14 +62,14 @@ void  output_cellinfo(int  **n_oxygen, int  **n_Cl,
   delete [] p_tmp_matrix ;
 }
 
-//== ¥Õ¥¡¥¤¥ëÆşÎÏ ==
+//== ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ› ==
 void  input_cellinfo(int  **n_oxygen, int  **n_Cl,
 		     char filename[] , int  n_x,  int  n_z ) 
 {
-  int *tmp_matrix[N_CELL_X]; int *p_tmp_matrix; // <- tmp ÊÑ¿ô¤Î³ÎÊİ
+  int *tmp_matrix[N_CELL_X]; int *p_tmp_matrix; // <- tmp å¤‰æ•°ã®ç¢ºä¿
   p_tmp_matrix = new int[N_CELL_X * N_CELL_Z] ;
   
-  for(int i_x = 0; i_x < N_CELL_X ; i_x++) //== ¥á¥â¥ê³ÎÊİ ==
+  for(int i_x = 0; i_x < N_CELL_X ; i_x++) //== ãƒ¡ãƒ¢ãƒªç¢ºä¿ ==
     tmp_matrix[i_x] = p_tmp_matrix + ( i_x * N_CELL_Z ) ;
 
   input_array_splot(filename ,

@@ -1,6 +1,6 @@
 // neutral_particle.h
 
-// ÃæÀ­Î³»Ò¤Î¥¯¥é¥¹¡£Particle class ¤ò·Ñ¾µ¤¹¤ë¡£
+// ä¸­æ€§ç²’å­ã®ã‚¯ãƒ©ã‚¹ã€‚Particle class ã‚’ç¶™æ‰¿ã™ã‚‹ã€‚
 
 #ifndef  _NEUTRAL_PARTICLE_H_DEFINED_
 
@@ -9,8 +9,8 @@
 class Neutral_class : public Particle_class
 {
 protected:
-  bool flag_adsorption ; //== µÛÃå¤ò¼¨¤¹¤¿¤á¤Îflag ;
-  int  i_exception_reflect; //== ÍğÈ¿¼Í¤Ë¤ª¤±¤ëÎã³°½èÍı¤Î¤¿¤á¤Î¥«¥¦¥ó¥¿
+  bool flag_adsorption ; //== å¸ç€ã‚’ç¤ºã™ãŸã‚ã®flag ;
+  int  i_exception_reflect; //== ä¹±åå°„ã«ãŠã‘ã‚‹ä¾‹å¤–å‡¦ç†ã®ãŸã‚ã®ã‚«ã‚¦ãƒ³ã‚¿
 
 public:
   //-- constructor 
@@ -18,31 +18,31 @@ public:
   Neutral_class(double mass_input,  int flag_boundary_input);
   ~Neutral_class();
 
-  //-- xºÂÉ¸¤ÏÍğ¿ô¡¢Â®ÅÙ¤Ïx,zÊı¸ş¤ËÍ¿¤¨¤ë
-  // ¡Êy Êı¸ş¤ËÂ®ÅÙ¤òÍ¿¤¨¤ëÉ¬Í×¤Ï¤Ê¤·¡Ë
+  //-- xåº§æ¨™ã¯ä¹±æ•°ã€é€Ÿåº¦ã¯x,zæ–¹å‘ã«ä¸ãˆã‚‹
+  // ï¼ˆy æ–¹å‘ã«é€Ÿåº¦ã‚’ä¸ãˆã‚‹å¿…è¦ã¯ãªã—ï¼‰
 
-  // -- ¸ş¤­¤Ïcosine distribution¤Ç·èÄê
-  //  -> ¤³¤Î¥³¡¼¥É¤Ç¤Ï x¼´Êı¸ş¤¬0¡ë¤Ê¤Î¤Ç¡¢sin¦È
-  // distribution ¤òµá¤á¤ë¤È¡¢[-cos¦È]¦È¡Á0¡ë/ [-cos¦È]180¡ë¡Á 0¡ë
-  // 0¡Á1¤ÎÍğ¿ôR ¤ËÂĞ¤·¤Æ
+  // -- å‘ãã¯cosine distributionã§æ±ºå®š
+  //  -> ã“ã®ã‚³ãƒ¼ãƒ‰ã§ã¯ xè»¸æ–¹å‘ãŒ0Â°ãªã®ã§ã€sinÎ¸
+  // distribution ã‚’æ±‚ã‚ã‚‹ã¨ã€[-cosÎ¸]Î¸ã€œ0Â°/ [-cosÎ¸]180Â°ã€œ 0Â°
+  // 0ã€œ1ã®ä¹±æ•°R ã«å¯¾ã—ã¦
   // acos(1-2R)
 
-  // ÆşÎÏ¡§ÊÂ¿ÊÂ®ÅÙ
+  // å…¥åŠ›ï¼šä¸¦é€²é€Ÿåº¦
   void inject_from_top( double v ) ;
 
-  //-- ±¦Â¦¤«¤é¤ÎÆş¼Í
+  //-- å³å´ã‹ã‚‰ã®å…¥å°„
   void inject_from_right_side(double v) ;
   
   //==================================
   // 06 Aug 2004
-  // ***  substrate surface ¤Ë¤ª¤±¤ëÍğÈ¿¼Í
-  // monte_carlo.cc ¤Îmain Æâ¤Ç¹Ô¤Ã¤Æ¤¤¤¿¤¬¡¢¤³¤Î¥¯¥é¥¹Æâ¤Ç
-  // ¹Ô¤¦¤è¤¦¤Ë refactoring 
+  // ***  substrate surface ã«ãŠã‘ã‚‹ä¹±åå°„
+  // monte_carlo.cc ã®main å†…ã§è¡Œã£ã¦ã„ãŸãŒã€ã“ã®ã‚¯ãƒ©ã‚¹å†…ã§
+  // è¡Œã†ã‚ˆã†ã« refactoring 
  
 
   //=================================
-  // ÃæÀ­Î³»Ò¤ÎÆş¼Í¤«¤éÊü½Ğ¡¢µÛÃå¤Ş¤Ç
-  // ÆşÎÏ¡§Æş¼ÍÊı¸ş¡§ÎÎ°è¾åÉô(false)¡¿±¦Â¦(true)
+  // ä¸­æ€§ç²’å­ã®å…¥å°„ã‹ã‚‰æ”¾å‡ºã€å¸ç€ã¾ã§
+  // å…¥åŠ›ï¼šå…¥å°„æ–¹å‘ï¼šé ˜åŸŸä¸Šéƒ¨(false)ï¼å³å´(true)
   void all_process(class Shape_trim_class    *Shape,
 		   class Shape_counter_class *Neutral_counter,
 		   bool   flag_inject_from_side ,
